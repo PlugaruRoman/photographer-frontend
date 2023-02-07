@@ -69,11 +69,7 @@ const Register: React.FC = () => {
           style={{ maxWidth: 600, marginTop: "40px" }}
           validateMessages={validateMessages}
         >
-          <Form.Item
-            name={["user", "name"]}
-            label="Name"
-            rules={[{ required: true }]}
-          >
+          <Form.Item name={["user", "name"]} label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item

@@ -1,12 +1,7 @@
 import React from "react";
-import { Avatar, Layout, Menu, MenuProps, Space, theme } from "antd";
+import { Avatar, Layout, Menu, MenuProps, theme } from "antd";
 import Link from "next/link";
-import {
-  UserOutlined,
-  VideoCameraOutlined,
-  DeleteOutlined,
-  EditOutlined,
-} from "@ant-design/icons";
+import { UserOutlined, VideoCameraOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 
 const { Header, Content, Footer } = Layout;
@@ -23,12 +18,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       {
         key: String(10),
         icon: React.createElement(UserOutlined),
-        label: <Link href={"/users"}>User</Link>,
+        label: <Link href={"/edit"}>User</Link>,
       },
       {
         key: String(11),
         icon: React.createElement(VideoCameraOutlined),
-        label: <Link href={"/users"}>Video</Link>,
+        label: <Link href={"/addphoto"}>Add Photo</Link>,
       },
       {
         key: String(12),
@@ -41,7 +36,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         label: <Link href={"/users"}>Delete User</Link>,
       },
     ],
-    []
+    [],
   );
 
   const item = React.useMemo(
@@ -54,6 +49,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         key: 2,
         label: <Link href={"/users"}>Users</Link>,
       },
+    ],
+    [],
+  );
+
+  const itemRight = React.useMemo(
+    () => [
       !user
         ? {
             key: 3,
@@ -74,14 +75,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           }
         : null,
     ],
-    [user, onClickLogOut]
+    [user, onClickLogOut],
   );
 
   const [collapsed, setCollapsed] = React.useState(false);
-
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
 
   return (
     <Layout>
@@ -114,35 +111,24 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               }}
             />
 
-            <span style={{ marginLeft: "10px", color: "#ffffff" }}>
-              {!collapsed && user}
-            </span>
+            <span style={{ marginLeft: "10px", color: "#ffffff" }}>{!collapsed && user}</span>
           </div>
-          <Menu
-            theme="dark"
-            defaultSelectedKeys={["1"]}
-            mode="inline"
-            items={siderItems}
-          />
+          <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline" items={siderItems} />
         </Layout.Sider>
       )}
 
       <Layout>
-        <Header
-          style={{ position: "sticky", top: 0, zIndex: 2, width: "100%" }}
-        >
+        <Header style={{ position: "sticky", top: 0, zIndex: 2, width: "100%" }}>
           <div className="logo" />
           <Menu
             theme="dark"
             mode="horizontal"
-            items={item}
+            items={[...item, ...itemRight]}
             defaultSelectedKeys={["1"]}
           />
         </Header>
         <Content>{children}</Content>
-        <Footer style={{ textAlign: "center" }}>
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+        <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>
   );

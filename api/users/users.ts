@@ -25,5 +25,5 @@ export interface Results<T> {
 
 export const UsersService = {
   getUsers: async ({ queryKey: [, params] }: $Object): Promise<any> =>
-    axios.get(`http://localhost:1337/api/users`).then((data) => data.data),
+    axios.get(`/api/users`).then((data) => data.data),
 };

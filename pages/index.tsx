@@ -1,12 +1,9 @@
-import { ImageService } from "@/api/imagePath/image";
 import Head from "next/head";
 import Image from "next/image";
 import React from "react";
 import { QueryClient, dehydrate, useQuery } from "react-query";
 
 const Home: React.FC = () => {
-  const { data, isLoading } = useQuery("images", ImageService.getImage);
-  console.log(data);
   return (
     <>
       <Head>
@@ -26,26 +23,10 @@ const Home: React.FC = () => {
           alignItems: "center",
         }}
       >
-        <Image
-          src={"http://localhost:1337/uploads/image"}
-          width={400}
-          height={500}
-          alt="image"
-        />
+        home page
       </main>
     </>
   );
 };
 
 export default Home;
-
-export const getServerSideProps = async () => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery("all-users", ImageService.getImage);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};

@@ -1,15 +1,6 @@
 import { Avatar, Card, Image } from "antd";
 import React, { useState } from "react";
-import {
-  UserOutlined,
-  PictureOutlined,
-  IdcardOutlined,
-} from "@ant-design/icons";
-
-const contentList: Record<string, React.ReactNode> = {
-  tab1: <p>content1</p>,
-  tab2: <p>content2</p>,
-};
+import { UserOutlined, PictureOutlined, IdcardOutlined } from "@ant-design/icons";
 
 interface UsersCardProps {
   id: number;

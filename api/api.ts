@@ -1,5 +1,5 @@
 import $axios from "axios";
 
-export const axios = $axios.create();
-
-axios.defaults.baseURL = process.env.REACT_APP_BASE_API;
+export const axios = $axios.create({
+  baseURL: process.env.NEXT_PUBLIC_FS_URL,
+});
