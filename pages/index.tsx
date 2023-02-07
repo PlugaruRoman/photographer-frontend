@@ -1,29 +1,12 @@
+import { ImageService } from "@/api/imagePath/image";
 import Head from "next/head";
+import Image from "next/image";
 import React from "react";
-import { useQuery } from "react-query";
-
-import { UsersService } from "@/api/users/users";
-import { UserCard } from "@/components/UserCard/UserCard";
-import { useAuth } from "@/contextes/AuthContext/useAuth";
-import { Spin } from "antd";
+import { QueryClient, dehydrate, useQuery } from "react-query";
 
 const Home: React.FC = () => {
-  const [params, setParams] = React.useState<string | null>("");
-  const { user } = useAuth();
-
-  React.useEffect(() => {
-    const params = localStorage.getItem("Token");
-    setParams(params);
-  }, []);
-
-  const { data, isLoading } = useQuery(
-    ["all-users", params],
-    UsersService.getUsers,
-    {
-      select: (res) => res.data,
-    }
-  );
-
+  const { data, isLoading } = useQuery("images", ImageService.getImage);
+  console.log(data);
   return (
     <>
       <Head>
@@ -43,16 +26,26 @@ const Home: React.FC = () => {
           alignItems: "center",
         }}
       >
-        {isLoading ? (
-          <Spin tip="Loading" size="large" />
-        ) : user ? (
-          data.map((user: any) => <UserCard info={user} key={user.id} />)
-        ) : (
-          []
-        )}
+        <Image
+          src={"http://localhost:1337/uploads/image"}
+          width={400}
+          height={500}
+          alt="image"
+        />
       </main>
     </>
   );
 };
 
 export default Home;
+
+export const getServerSideProps = async () => {
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery("all-users", ImageService.getImage);
+
+  return {
+    props: {
+      dehydratedState: dehydrate(queryClient),
+    },
+  };
+};

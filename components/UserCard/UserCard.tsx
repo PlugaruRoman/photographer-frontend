@@ -84,7 +84,7 @@ export const UserCard: React.FC<UserCardProps> = (info) => {
 
   return (
     <Card
-      style={{ width: "80%", margin: "20px auto" }}
+      style={{ width: "80%", margin: "20px auto", height: "270px" }}
       tabList={tabListNoTitle}
       activeTabKey={activeTabKey}
       tabBarExtraContent={<a href="#">More</a>}
