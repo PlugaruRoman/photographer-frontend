@@ -6,7 +6,10 @@ import { UserCard } from "@/components/UserCard/UserCard";
 import { Spin } from "antd";
 
 const Users: React.FC = () => {
-  const { data, isLoading } = useQuery("all-users", UsersService.getUsers);
+  const {
+    data: { data },
+    isLoading,
+  } = useQuery("all-users", UsersService.getUsers);
 
   return (
     <>
@@ -30,7 +33,7 @@ const Users: React.FC = () => {
         {isLoading ? (
           <Spin tip="Loading" size="large" />
         ) : (
-          data.map((user: any) => <UserCard info={user} key={user.id} />)
+          data.map((user: any) => <UserCard info={user.attributes} key={user.id} />)
         )}
       </main>
     </>

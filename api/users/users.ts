@@ -25,5 +25,23 @@ export interface Results<T> {
 
 export const UsersService = {
   getUsers: async ({ queryKey: [, params] }: $Object): Promise<any> =>
-    axios.get(`/api/users`).then((data) => data.data),
+    axios.get(`/api/cards`).then((data) => data.data),
+  getCities: async ({ queryKey: [, params] }: $Object): Promise<any> =>
+    axios.get(`/api/cities`).then((data) => data.data),
+  getPhoto: async ({ queryKey: [, params] }: $Object): Promise<any> =>
+    axios.get(`/api/upload/files/`).then((data) => data.data),
+  updateUsers: async (data: any) =>
+    axios.post(`/api/cards`, {
+      data,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("Token"),
+      },
+    }),
+  uploadPhotos: async (data: any) =>
+    axios.post(`/api/cards`, {
+      data,
+      headers: {
+        Authorization: "Bearer " + localStorage.getItem("Token"),
+      },
+    }),
 };

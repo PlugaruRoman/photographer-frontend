@@ -18,17 +18,15 @@ const Login: React.FC = () => {
     setUser(values.username);
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log("Failed:", errorInfo);
-  };
-
   const { mutate } = useMutation(AuthService.loginUser, {
     onSuccess: (res) => {
+      localStorage.setItem("user", res.config.data);
+      localStorage.setItem("Token", res.data.jwt);
+
       notification.success({
         message: "Successfully",
       });
-      localStorage.setItem("user", res.config.data);
-      localStorage.setItem("Token", res.data.jwt);
+
       router.push("/");
     },
     onError: (e) => {
@@ -62,7 +60,6 @@ const Login: React.FC = () => {
           style={{ maxWidth: 600, marginTop: "40px" }}
           initialValues={{ remember: true }}
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
         >
           <Form.Item

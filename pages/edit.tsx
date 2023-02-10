@@ -1,6 +1,7 @@
+import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useMutation } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import {
   Button,
   Form,
@@ -14,6 +15,7 @@ import {
 } from "antd";
 import { AuthService } from "@/api/auth/auth";
 import TextArea from "antd/es/input/TextArea";
+import { UsersService } from "@/api/users/users";
 
 const fileList: UploadFile[] = [
   {
@@ -36,34 +38,61 @@ const fileList: UploadFile[] = [
   },
 ];
 
-const selectItems = [
-  {
-    value: "City 1",
-    label: "City 1",
-  },
-  {
-    value: "City 2",
-    label: "City 2",
-  },
-  {
-    value: "City 3",
-    label: "City 3",
-  },
-  {
-    value: "City 4",
-    label: "City 4",
-  },
-  {
-    value: "City 5",
-    label: "City 5",
-  },
-  {
-    value: "City 6",
-    label: "City 6",
-  },
-];
+const data = {
+  "Anenii Noi": "Anenii Noi",
+  Bălți: "Bălți",
+  Basarabeasca: "Basarabeasca",
+  Bender: "Bender",
+  Briceni: "Briceni",
+  Cahul: "Cahul",
+  Calarasi: "Calarasi",
+  Cantemir: "Cantemir",
+  Căușeni: "Căușeni",
+  Chișinău: "Chișinău",
+  Cimișlia: "Cimișlia",
+  Criuleni: "Criuleni",
+  Dondușeni: "Dondușeni",
+  Drochia: "Drochia",
+  Dubăsari: "Dubăsari",
+  Edineț: "Edineț",
+  Florești: "Florești",
+  Fălești: "Fălești",
+  Gagauzia: "Gagauzia",
+  Glodeni: "Glodeni",
+  Hîncești: "Hîncești",
+  Ialoveni: "Ialoveni",
+  Leova: "Leova",
+  Nisporeni: "Nisporeni",
+  Ocnița: "Ocnița",
+  Orhei: "Orhei",
+  Rezina: "Rezina",
+  Rîbnița: "Rîbnița",
+  Sîngerei: "Sîngerei",
+  Soroca: "Soroca",
+  Strășeni: "Strășeni",
+  Șoldănești: "Șoldănești",
+  Taraclia: "Taraclia",
+  Telenești: "Telenești",
+  Ungheni: "Ungheni",
+  Slobozia: "Slobozia",
+  "Ștefan Vodă": "Ștefan Vodă",
+  Tighina: "Tighina",
+  Tiraspol: "Tiraspol",
+};
 
 const EditUser: React.FC = () => {
+  // const {
+  //   data: { data },
+  //   isLoading,
+  // } = useQuery("all-cities", UsersService.getCities, {
+  //   onSuccess: (data) => setOptions(data[0].attributes.cities),
+  // });
+
+  const selectItems = [...Object.keys(data)].map((i) => ({
+    value: i,
+    label: i,
+  }));
+
   const router = useRouter();
 
   const layout = {
@@ -83,27 +112,34 @@ const EditUser: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    // mutate({
-    //   username: values.user.name,
-    //   email: values.user.email,
-    //   password: values.user.password,
-    // });
-    console.log(values);
+    mutate({
+      firstname: values.user.firstname,
+      lastname: values.user.lastname,
+      company: values.user.company,
+      city: values.user.city,
+      price: values.user.price,
+      about: values.user.about,
+      phone: values.user.phone,
+      facebook: values.user.facebook,
+      instagram: values.user.instagram,
+      twitter: values.user.twitter,
+      web: values.user.web,
+    });
   };
 
-  // const { mutate } = useMutation(AuthService.createUser, {
-  //   onSuccess: () => {
-  //     notification.success({
-  //       message: "Successfully",
-  //     }),
-  //       router.push("/login");
-  //   },
-  //   onError: (e: any) => {
-  //     notification.error({
-  //       message: e.message,
-  //     });
-  //   },
-  // });
+  const { mutate } = useMutation(UsersService.updateUsers, {
+    onSuccess: () => {
+      notification.success({
+        message: "Successfully",
+      }),
+        router.push("/users");
+    },
+    onError: (e: any) => {
+      notification.error({
+        message: e.message,
+      });
+    },
+  });
 
   return (
     <>
@@ -129,22 +165,14 @@ const EditUser: React.FC = () => {
           validateMessages={validateMessages}
         >
           <div style={{ display: "flex" }}>
-            <Form.Item
-              name={["user", "first-name"]}
-              label="First Name"
-              rules={[{ required: true }]}
-            >
+            <Form.Item name={["user", "firstname"]} label="First Name" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item name={["user", "last-name"]} label="Last Name" rules={[{ required: true }]}>
+            <Form.Item name={["user", "lastname"]} label="Last Name" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
           </div>
-          <Form.Item
-            name={["user", "company-name"]}
-            label="Company Name"
-            rules={[{ required: true }]}
-          >
+          <Form.Item name={["user", "company"]} label="Company Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
           <Form.Item label="City" name={["user", "city"]}>
@@ -153,7 +181,9 @@ const EditUser: React.FC = () => {
               style={{ width: 200 }}
               placeholder="Search to Select"
               optionFilterProp="children"
-              filterOption={(input, option) => (option?.label ?? "").includes(input)}
+              filterOption={(input, option) =>
+                (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+              }
               filterSort={(optionA, optionB) =>
                 (optionA?.label ?? "")
                   .toLowerCase()
@@ -171,10 +201,7 @@ const EditUser: React.FC = () => {
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <div className="social network">
               <Form.Item label="Phone" name={["user", "phone"]}>
-                <Input.Group compact>
-                  <Input style={{ width: "23%" }} placeholder="+373" />
-                  <Input style={{ width: "50%" }} />
-                </Input.Group>
+                <Input prefix="+373" />
               </Form.Item>
               <h3>Social Network</h3>
               <Form.Item label={"Facebook"} name={["user", "facebook"]}>

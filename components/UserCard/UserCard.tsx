@@ -1,24 +1,50 @@
 import { Avatar, Card, Image } from "antd";
 import React, { useState } from "react";
 import { UserOutlined, PictureOutlined, IdcardOutlined } from "@ant-design/icons";
+import { useQuery } from "react-query";
+import { UsersService } from "@/api/users/users";
 
-interface UsersCardProps {
-  id: number;
-  username: string;
-  email: string;
-  provider: string;
-  confirmed: boolean;
-  blocked: boolean;
+interface UsersCard {
   createdAt: string;
   updatedAt: string;
+  publishedAt: string;
+  about: string;
+  city: string;
+  company: string;
+  facebook: string;
+  firstname: string;
+  instagram: string;
+  lastname: string;
+  phone: string;
+  price: number;
+  twitter: string;
+  web: string;
+  photo: any;
 }
 
 interface UserCardProps {
-  info: UsersCardProps;
+  info: UsersCard;
 }
 
-export const UserCard: React.FC<UserCardProps> = (info) => {
+export const UserCard: React.FC<UserCardProps> = ({ info }) => {
   const [activeTabKey, setActiveTabKey] = useState<string>("user");
+
+  const { data, isLoading } = useQuery("all-photo", UsersService.getPhoto);
+
+  const images = React.useMemo(() => {
+    return (
+      data &&
+      data.map((img: any) => (
+        <Image
+          key={img.id}
+          alt={img.alternativeText}
+          width={100}
+          height={100}
+          src={`http://localhost:1337${img.url}`}
+        />
+      ))
+    );
+  }, [data]);
 
   const onTabChange = (key: string) => {
     setActiveTabKey(key);
@@ -30,7 +56,7 @@ export const UserCard: React.FC<UserCardProps> = (info) => {
       tab: (
         <>
           <Avatar shape="square" size={64} icon={<UserOutlined />} />
-          <p>{info.info.username}</p>
+          <p>{info.firstname + " " + info.lastname}</p>
         </>
       ),
     },
@@ -39,7 +65,7 @@ export const UserCard: React.FC<UserCardProps> = (info) => {
       tab: (
         <>
           <Avatar shape="square" size={64} icon={<PictureOutlined />} />
-          <p>Pictures</p>
+          <p>Photo</p>
         </>
       ),
     },
@@ -55,22 +81,9 @@ export const UserCard: React.FC<UserCardProps> = (info) => {
   ];
 
   const contentListNoTitle: Record<string, React.ReactNode> = {
-    user: <p>{info.info.username}</p>,
-    pictures: (
-      <Image.PreviewGroup>
-        <Image
-          alt="image"
-          width={100}
-          src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"
-        />
-        <Image
-          alt="image"
-          width={100}
-          src="https://gw.alipayobjects.com/zos/antfincdn/aPkFc8Sj7n/method-draw-image.svg"
-        />
-      </Image.PreviewGroup>
-    ),
-    about: <p>{info.info.email}</p>,
+    user: <p>{info.company}</p>,
+    pictures: <Image.PreviewGroup>{images}</Image.PreviewGroup>,
+    about: <p>{info.about}</p>,
   };
 
   return (
