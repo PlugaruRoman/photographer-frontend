@@ -1,7 +1,17 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { Button, Form, Input, Select, Switch, Upload, UploadFile, notification } from "antd";
+import {
+  Button,
+  Form,
+  Input,
+  InputNumber,
+  Select,
+  Switch,
+  Upload,
+  UploadFile,
+  notification,
+} from "antd";
 import { AuthService } from "@/api/auth/auth";
 import TextArea from "antd/es/input/TextArea";
 
@@ -28,27 +38,27 @@ const fileList: UploadFile[] = [
 
 const selectItems = [
   {
-    value: "1",
+    value: "City 1",
     label: "City 1",
   },
   {
-    value: "2",
+    value: "City 2",
     label: "City 2",
   },
   {
-    value: "3",
+    value: "City 3",
     label: "City 3",
   },
   {
-    value: "4",
+    value: "City 4",
     label: "City 4",
   },
   {
-    value: "5",
+    value: "City 5",
     label: "City 5",
   },
   {
-    value: "6",
+    value: "City 6",
     label: "City 6",
   },
 ];
@@ -73,26 +83,27 @@ const EditUser: React.FC = () => {
   };
 
   const onFinish = (values: any) => {
-    mutate({
-      username: values.user.name,
-      email: values.user.email,
-      password: values.user.password,
-    });
+    // mutate({
+    //   username: values.user.name,
+    //   email: values.user.email,
+    //   password: values.user.password,
+    // });
+    console.log(values);
   };
 
-  const { mutate } = useMutation(AuthService.createUser, {
-    onSuccess: () => {
-      notification.success({
-        message: "Successfully",
-      }),
-        router.push("/login");
-    },
-    onError: (e: any) => {
-      notification.error({
-        message: e.message,
-      });
-    },
-  });
+  // const { mutate } = useMutation(AuthService.createUser, {
+  //   onSuccess: () => {
+  //     notification.success({
+  //       message: "Successfully",
+  //     }),
+  //       router.push("/login");
+  //   },
+  //   onError: (e: any) => {
+  //     notification.error({
+  //       message: e.message,
+  //     });
+  //   },
+  // });
 
   return (
     <>
@@ -152,13 +163,19 @@ const EditUser: React.FC = () => {
             />
           </Form.Item>
           <Form.Item label="Price per hour" name={["user", "price"]}>
-            <Input prefix="$" suffix="USD" />
+            <InputNumber prefix="$" defaultValue={"0"} />
           </Form.Item>
           <Form.Item label="TextArea" name={["user", "about"]}>
             <TextArea rows={4} />
           </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
             <div className="social network">
+              <Form.Item label="Phone" name={["user", "phone"]}>
+                <Input.Group compact>
+                  <Input style={{ width: "23%" }} placeholder="+373" />
+                  <Input style={{ width: "50%" }} />
+                </Input.Group>
+              </Form.Item>
               <h3>Social Network</h3>
               <Form.Item label={"Facebook"} name={["user", "facebook"]}>
                 <Input />
