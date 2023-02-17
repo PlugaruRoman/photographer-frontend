@@ -1,77 +1,98 @@
 import React from "react";
-import { Avatar, Layout, Menu, MenuProps, theme } from "antd";
 import Link from "next/link";
-import { UserOutlined, VideoCameraOutlined, DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import { Avatar, Layout, Menu, MenuProps } from "antd";
+
+import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
+import LoginModal from "../molecules/LoginModal/LoginModal";
+import RegisterModal from "../molecules/RegisterModal/RegisterModal";
 
 const { Header, Content, Footer } = Layout;
 
 interface MainLayoutProps {
-  children: any;
+  children: JSX.Element;
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { user, onClickLogOut } = useAuth();
+  const { pathname } = useRouter();
+
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpenRegister, setIsModalOpenRegister] = React.useState(false);
+
+  const showModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+
+  const showModalRegister = () => {
+    setIsModalOpenRegister(true);
+  };
+
+  const handleCancelRegister = () => {
+    setIsModalOpenRegister(false);
+  };
 
   const siderItems: MenuProps["items"] = React.useMemo(
     () => [
       {
         key: String(10),
         icon: React.createElement(UserOutlined),
-        label: <Link href={"/edit"}>User</Link>,
+        label: <Link href={"/edit-user"}>User</Link>,
       },
       {
         key: String(11),
         icon: React.createElement(VideoCameraOutlined),
-        label: <Link href={"/addphoto"}>Add Photo</Link>,
+        label: <Link href={"/add-photo"}>Add Photo</Link>,
       },
       {
         key: String(12),
         icon: React.createElement(EditOutlined),
-        label: <Link href={"/users"}>Edit User</Link>,
-      },
-      {
-        key: String(13),
-        icon: React.createElement(DeleteOutlined),
-        label: <Link href={"/users"}>Delete User</Link>,
+        label: <Link href={"/photographers"}>Edit User</Link>,
       },
     ],
     [],
   );
 
-  const item = React.useMemo(
-    () => [
-      {
-        key: 1,
-        label: <Link href={"/"}>Home</Link>,
-      },
-      {
-        key: 2,
-        label: <Link href={"/users"}>Users</Link>,
-      },
-    ],
-    [],
-  );
+  const item = [
+    {
+      key: "/",
+      label: <Link href={`/`}>Home</Link>,
+    },
+    {
+      key: "/photographers",
+      label: <Link href={"/photographers"}>Photographers</Link>,
+    },
+  ];
 
   const itemRight = React.useMemo(
     () => [
       !user
         ? {
-            key: 3,
-            label: <Link href={"/login"}>Login</Link>,
+            key: "/login",
+            label: <div onClick={showModal}>Login</div>,
           }
         : null,
       user
         ? null
         : {
-            key: 4,
-            label: <Link href={"/register"}>Register</Link>,
+            key: "/register",
+            label: <div onClick={showModalRegister}>Register</div>,
           },
 
       user
         ? {
-            key: 6,
-            label: <div onClick={onClickLogOut}>Logout</div>,
+            key: "logout",
+            label: (
+              <div onClick={onClickLogOut}>
+                <span style={{ marginRight: "10px" }}>Logout</span>
+                <LoginOutlined />
+              </div>
+            ),
           }
         : null,
     ],
@@ -87,6 +108,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           style={{
             height: "100vh",
             position: "sticky",
+            background: "#262B31",
             left: 0,
             top: 0,
             bottom: 0,
@@ -107,28 +129,74 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             <Avatar
               icon={<UserOutlined />}
               style={{
-                backgroundColor: "#f56a00",
+                backgroundColor: "#70CF97",
               }}
             />
 
-            <span style={{ marginLeft: "10px", color: "#ffffff" }}>{!collapsed && user}</span>
+            <span style={{ marginLeft: "10px", color: "#ffff" }}>{!collapsed && user}</span>
           </div>
-          <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline" items={siderItems} />
+          <Menu style={{ backgroundColor: "#262B31" }} mode="inline" items={siderItems} />
         </Layout.Sider>
       )}
 
       <Layout>
-        <Header style={{ position: "sticky", top: 0, zIndex: 2, width: "100%" }}>
-          <div className="logo" />
+        <Header
+          style={{
+            position: "sticky",
+            top: 0,
+            zIndex: 2,
+            width: "100%",
+            display: "flex",
+            justifyContent: "space-between",
+            background: "#262B31",
+          }}
+        >
           <Menu
-            theme="dark"
+            selectedKeys={[pathname]}
             mode="horizontal"
-            items={[...item, ...itemRight]}
-            defaultSelectedKeys={["1"]}
+            items={item}
+            activeKey={pathname}
+            style={{
+              width: "100%",
+              color: "#d9d9d9",
+              background: "#262B31",
+            }}
+          />
+
+          <div
+            style={{
+              color: "#d9d9d9",
+              background: "#262B31",
+            }}
+          >
+            LOGO
+          </div>
+          <Menu
+            mode="horizontal"
+            items={itemRight}
+            selectedKeys={[pathname]}
+            activeKey={pathname ? pathname : ""}
+            style={{
+              width: "100%",
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "flex-end",
+              color: "#d9d9d9",
+              background: "#262B31",
+            }}
           />
         </Header>
+        {isModalOpen && <LoginModal handleCancel={handleCancel} isModalOpen={isModalOpen} />}
+        {isModalOpenRegister && (
+          <RegisterModal
+            handleCancelRegister={handleCancelRegister}
+            isModalOpenRegister={isModalOpenRegister}
+          />
+        )}
         <Content>{children}</Content>
-        <Footer style={{ textAlign: "center" }}>Ant Design ©2023 Created by Ant UED</Footer>
+        <Footer style={{ textAlign: "center", background: "#262B31", color: "white" }}>
+          Ant Design ©2023 Created by Ant UED
+        </Footer>
       </Layout>
     </Layout>
   );

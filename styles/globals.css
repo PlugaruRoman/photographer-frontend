@@ -76,3 +76,106 @@ h6 {
   font-size: inherit;
   font-weight: 400;
 }
+
+.ant-image .ant-image-img {
+  width: 300px;
+  object-fit: scale-down;
+}
+
+.image-container {
+  position: relative;
+  height: 100vh;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ant-menu-item-selected {
+  color: #ffffff !important;
+}
+
+.ant-menu > .ant-menu-item:hover {
+  color: #ffffff !important;
+}
+
+.ant-menu > .ant-menu-item-selected::after {
+  border-bottom: 2px solid #ffffff !important;
+  border-bottom-color: #ffffff !important;
+}
+
+.ant-menu > .ant-menu-item:hover::after {
+  border-bottom: 2px solid #ffffff !important;
+  border-bottom-color: #ffffff !important;
+}
+.ant-menu-light .ant-menu-item-selected {
+  background-color: red;
+}
+
+.ant-modal .ant-modal-content {
+  background: #262b31;
+  color: #ffffffff;
+}
+.ant-modal .ant-modal-title {
+  color: #ffffffff;
+}
+.ant-modal .ant-modal-header {
+  color: #ffffffff;
+  background: #262b31;
+}
+
+.ant-form-item .ant-form-item-label > label {
+  color: white;
+}
+
+.ant-modal .ant-modal-close {
+  color: white;
+}
+
+.ant-menu-light .ant-menu-item-selected {
+  background-color: #70cf97;
+}
+
+.ant-layout .ant-layout-sider-trigger {
+  background: #70cf97;
+}
+.ant-menu-light.ant-menu-inline .ant-menu-item {
+  color: white;
+}
+
+.ant-modal .ant-modal-close:hover {
+  color: #ea6042;
+}
+
+.ant-menu-light.ant-menu-inline-collapsed .ant-menu-item {
+  color: white;
+}
+
+.ant-btn.ant-btn-lg:hover {
+  color: #70cf97;
+  border-color: #70cf97;
+  box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

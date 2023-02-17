@@ -1,7 +1,6 @@
+import MainCarousel from "@/components/organism/MainCarousel/MainCarousel";
 import Head from "next/head";
-import Image from "next/image";
 import React from "react";
-import { QueryClient, dehydrate, useQuery } from "react-query";
 
 const Home: React.FC = () => {
   return (
@@ -12,18 +11,8 @@ const Home: React.FC = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main
-        style={{
-          padding: "30px 0px 30px 0px",
-          backgroundColor: "#d9d9d9",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        home page
+      <main>
+        <MainCarousel />
       </main>
     </>
   );
