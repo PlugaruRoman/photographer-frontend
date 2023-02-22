@@ -17,7 +17,7 @@ const MainCarousel: React.FC = () => {
         justify={"center"}
         align={"middle"}
         style={{
-          zIndex: 10,
+          zIndex: 1,
           position: "absolute",
           top: "50%",
           right: "50%",
@@ -27,7 +27,7 @@ const MainCarousel: React.FC = () => {
         }}
       >
         <Col span={24}>
-          <Space size={"large"} direction="vertical">
+          <Space style={{ margin: "0 auto" }} size={"large"} direction="vertical">
             <h1 style={{ color: "white", fontSize: "30px" }}>
               Welcome to our app - find the perfect photographer for your event effortlessly
             </h1>
@@ -37,7 +37,7 @@ const MainCarousel: React.FC = () => {
           </Space>
         </Col>
       </Row>
-      <Carousel pauseOnHover={false} autoplay effect="fade">
+      <Carousel dots={false} pauseOnHover={false} autoplay effect="fade">
         {images.map((image, index) => (
           <div className="image-container" key={index}>
             <Image width={1000} height={600} alt={String(index)} src={image} />

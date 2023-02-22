@@ -24,7 +24,6 @@ export interface PhotographersProps {
                   phone: string;
                   facebook: string;
                   instagram: string;
-                  twitter: string | any;
                   web: string;
                   createdAt: string;
                   updatedAt: string;

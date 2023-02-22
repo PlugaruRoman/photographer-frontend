@@ -167,7 +167,7 @@ const EditUser: React.FC = () => {
               <Form.Item label="Phone" name={["user", "phone"]}>
                 <Input prefix="+373" />
               </Form.Item>
-              <h3>Social Network</h3>
+
               <Form.Item label={"Facebook"} name={["user", "facebook"]}>
                 <Input placeholder="https://www.facebook.com/user" />
               </Form.Item>

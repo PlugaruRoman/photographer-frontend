@@ -144,7 +144,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           style={{
             position: "sticky",
             top: 0,
-            zIndex: 2,
+            zIndex: 3,
             width: "100%",
             display: "flex",
             justifyContent: "space-between",

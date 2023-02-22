@@ -11,7 +11,6 @@ export interface IPhotographerCard {
   lastname: string;
   phone: string;
   price: number;
-  twitter: string;
   web: string;
   photo: any;
 }

@@ -1,14 +1,12 @@
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useMutation, useQuery } from "react-query";
-import { Button, Form, Input, Select, Modal, Upload, notification } from "antd";
-import { AuthService } from "@/api/auth/auth";
 import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
-
+import Head from "next/head";
+import { useMutation, useQuery } from "react-query";
+import { Button, Form, Modal, Upload, notification } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
+import { PlusOutlined } from "@ant-design/icons";
 import type { UploadFile } from "antd/es/upload/interface";
 import Image from "next/image";
+
 import { PhotographersService } from "@/api/photographers/photographers";
 
 const getBase64 = (file: RcFile): Promise<string> =>
@@ -47,30 +45,17 @@ const AddPhoto: React.FC = () => {
     </div>
   );
 
-  const router = useRouter();
-
-  const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-  };
-
-  const validateMessages = {
-    required: "${label} is required!",
-    types: {
-      email: "${label} is not a valid email!",
-      number: "${label} is not a valid number!",
-    },
-    number: {
-      range: "${label} must be between ${min} and ${max}",
-    },
-  };
-
-  const onFinish = (values: any) => {
-    mutate({
-      fileList,
+  const onFinish = () => {
+    const formData = new FormData();
+    fileList.forEach((file) => {
+      formData.append("files", file.originFileObj as RcFile);
+      formData.append("ref", "myContentType");
+      formData.append("field", "photo");
     });
+
+    mutate(formData);
   };
-  const { data, isLoading } = useQuery("all-image", PhotographersService.getPhoto2);
+
   const { mutate } = useMutation(PhotographersService.uploadPhoto, {
     onSuccess: () => {
       notification.success({
@@ -101,13 +86,7 @@ const AddPhoto: React.FC = () => {
         }}
       >
         <h1 style={{ margin: "0 auto", fontSize: "30px", color: "white" }}>Add Photo</h1>
-        <Form
-          {...layout}
-          name="edit-user"
-          onFinish={onFinish}
-          style={{ margin: "40px auto" }}
-          validateMessages={validateMessages}
-        >
+        <Form name="edit-user" onFinish={onFinish} style={{ margin: "40px auto", padding: "20px" }}>
           <Form.Item name={["user", "Photo"]}>
             <Upload
               action="http://localhost:3000/"
@@ -116,13 +95,13 @@ const AddPhoto: React.FC = () => {
               onPreview={handlePreview}
               onChange={handleChange}
             >
-              {fileList.length >= 10 ? null : uploadButton}
+              {fileList.length >= 12 ? null : uploadButton}
             </Upload>
             <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
               <Image alt="example" width={470} height={300} src={previewImage} />
             </Modal>
           </Form.Item>
-          <Button type="primary" htmlType="submit">
+          <Button type="default" size="large" htmlType="submit">
             Submit
           </Button>
         </Form>

@@ -37,27 +37,26 @@ export const PhotographersService = {
         Authorization: "Bearer " + localStorage.getItem("Token"),
       },
     }),
-  uploadPhotos: async (data: any) =>
-    axios.post(`/api/photographers`, {
-      data,
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("Token"),
-      },
-    }),
 
-  uploadPhoto: async (data: any) =>
-    axios.post(`/api/upload`, {
-      data,
+  uploadPhoto: async (formData: FormData) => {
+    return axios.post(`/api/upload`, formData, {
       headers: {
-        Authorization: "Bearer " + localStorage.getItem("Token"),
+        "Content-Type": "multipart/form-data",
       },
-    }),
+    });
+  },
+
   getPhoto2: async ({ queryKey: [, params] }: $Object): Promise<any> =>
     axios.get(`/api/imgs`).then((data) => data.data),
 };
 
 export const attachments = {
   upload: async <T = FormData, R = any>(bodyData: T) => {
-    await axios.post<T, AxiosResponse<R>>(`/api/upload`, bodyData);
+    await axios.post<T, AxiosResponse<R>>(`/api/upload`, {
+      bodyData,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
   },
 };

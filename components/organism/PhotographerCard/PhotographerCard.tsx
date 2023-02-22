@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Link from "next/link";
-import { Avatar, Card, Image } from "antd";
+import { Avatar, Card, Col, Image, Row, Space } from "antd";
 import {
   UserOutlined,
   PictureOutlined,
@@ -9,7 +9,7 @@ import {
   MoreOutlined,
   InstagramOutlined,
   PhoneOutlined,
-  DollarCircleTwoTone,
+  DollarCircleFilled,
 } from "@ant-design/icons";
 
 import { PhotographersService } from "@/api/photographers/photographers";
@@ -81,10 +81,16 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
   const contentListNoTitle: Record<string, React.ReactNode> = {
     user: (
       <>
-        <div style={{ fontSize: "20px" }}>studio: {info.company}</div>
-        <div style={{ fontSize: "25px" }}>city: {info.city}</div>
-        <Card style={{ width: 200 }}>
-          <h3 style={{ fontSize: "20px" }}> Social Network</h3>
+        <Space size={"large"}>
+          <div style={{ fontSize: "25px" }}>{info.city}</div>
+          <span style={{ fontSize: "25px" }}>{info.company}</span>
+        </Space>
+
+        <Space
+          style={{ position: "absolute", right: 25, top: "50%" }}
+          direction="vertical"
+          size="small"
+        >
           {info.facebook ? (
             <a target="_blank" href={info.facebook} rel="noreferrer">
               <FacebookFilled style={{ fontSize: "50px", color: "#4267B2" }} />
@@ -92,6 +98,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
           ) : (
             ""
           )}
+
           {info.instagram ? (
             <a target="_blank" href={`//${info.instagram}`} rel="noreferrer">
               <InstagramOutlined
@@ -104,25 +111,43 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
           ) : (
             ""
           )}
-        </Card>
 
-        {info.phone ? (
-          <PhoneOutlined onClick={showModal} style={{ fontSize: "40px", color: "#4267B2" }} />
-        ) : (
-          ""
-        )}
+          {info.phone ? (
+            <PhoneOutlined onClick={showModal} style={{ fontSize: "50px", color: "#4267B2" }} />
+          ) : (
+            ""
+          )}
+        </Space>
+
+        <Row>
+          <Col span={16}>
+            <span style={{ fontSize: "15px" }}>{info.about}</span>
+          </Col>
+        </Row>
         {info.price ? (
-          <div style={{ display: "flex", alignItems: "center" }}>
-            <div style={{ marginRight: "5px" }}>price: {info.price}</div>
-            <DollarCircleTwoTone style={{ fontSize: "20px", color: "#4267B2" }} />
+          <div style={{ display: "flex", alignItems: "center", position: "absolute", bottom: 5 }}>
+            <div style={{ marginRight: "5px", fontSize: "35px" }}>{info.price}</div>
+            <DollarCircleFilled style={{ fontSize: "35px", color: "#70cf97" }} />
+            <span style={{ marginLeft: "5px", fontSize: "25px" }}>Per hour</span>
           </div>
         ) : (
           ""
         )}
-        <div>{info.web}</div>
-        <div>
-          <span>About me :</span> <span>{info.about}</span>
-        </div>
+        <a
+          target="_blank"
+          href={info.web}
+          className="web-link"
+          style={{
+            fontSize: "25px",
+            position: "absolute",
+            bottom: 14,
+            right: 125,
+            color: "#d9d9d9",
+          }}
+          rel="noreferrer"
+        >
+          {info.web}
+        </a>
       </>
     ),
     pictures: (
@@ -148,15 +173,19 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       <Card
         style={{
           width: "80%",
+          height: "431px",
           margin: "20px auto",
-          height: "350px",
           color: "white",
           background: "linear-gradient(110.83deg, #23282E -2.21%, #2A3139 104.21%)",
         }}
         tabList={tabListNoTitle}
         activeTabKey={activeTabKey}
         tabBarExtraContent={
-          <Link href={"/photographers/photographer/" + id} style={{ color: "#ffffff" }}>
+          <Link
+            href={"/photographers/photographer/" + id}
+            className="web-link"
+            style={{ color: "#d9d9d9", fontSize: "15px" }}
+          >
             <span>More Info</span>
             <MoreOutlined />
           </Link>

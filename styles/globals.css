@@ -179,3 +179,14 @@ h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+a.web-link:hover {
+  color: white !important;
+}
+
+.ant-upload.ant-upload-select {
+  color: white;
+}
+.ant-upload.ant-upload-select:hover {
+  color: #70cf97;
+}
