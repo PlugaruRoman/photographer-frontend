@@ -6,19 +6,9 @@ const Photographer: React.FC = () => {
       <Head>
         <title>User Page</title>
       </Head>
-      <div
-        style={{
-          padding: "30px 0px 30px 0px",
-          background: "#1B2026",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
+      <main className="main-page">
         <div>User Page</div>
-      </div>
+      </main>
     </>
   );
 };

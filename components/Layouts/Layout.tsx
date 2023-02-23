@@ -1,9 +1,9 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Avatar, Layout, Menu, MenuProps } from "antd";
-
+import { Avatar, Layout, Menu, MenuProps, Space } from "antd";
 import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "@ant-design/icons";
+
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
 import RegisterModal from "../molecules/RegisterModal/RegisterModal";
@@ -40,17 +40,17 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const siderItems: MenuProps["items"] = React.useMemo(
     () => [
       {
-        key: String(10),
+        key: "/edit-user",
         icon: React.createElement(UserOutlined),
         label: <Link href={"/edit-user"}>User</Link>,
       },
       {
-        key: String(11),
+        key: "/add-photo",
         icon: React.createElement(VideoCameraOutlined),
         label: <Link href={"/add-photo"}>Add Photo</Link>,
       },
       {
-        key: String(12),
+        key: "/photographers",
         icon: React.createElement(EditOutlined),
         label: <Link href={"/photographers"}>Edit User</Link>,
       },
@@ -105,85 +105,41 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     <Layout>
       {user && (
         <Layout.Sider
-          style={{
-            height: "100vh",
-            position: "sticky",
-            background: "#262B31",
-            left: 0,
-            top: 0,
-            bottom: 0,
-          }}
+          className="main-layout__sider"
           collapsible
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}
         >
-          <div
-            style={{
-              height: 32,
-              margin: 16,
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-            }}
-          >
-            <Avatar
-              icon={<UserOutlined />}
-              style={{
-                backgroundColor: "#70CF97",
-              }}
-            />
-
-            <span style={{ marginLeft: "10px", color: "#ffff" }}>{!collapsed && user}</span>
-          </div>
-          <Menu style={{ backgroundColor: "#262B31" }} mode="inline" items={siderItems} />
+          <Space size="middle" className="main-layout__user">
+            <Avatar className="main-layout__avatar" icon={<UserOutlined />} />
+            <span className="main-layout__username">{!collapsed && user}</span>
+          </Space>
+          <Menu
+            className="main-layout__menu"
+            mode="inline"
+            items={siderItems}
+            selectedKeys={[pathname]}
+          />
         </Layout.Sider>
       )}
 
       <Layout>
-        <Header
-          style={{
-            position: "sticky",
-            top: 0,
-            zIndex: 3,
-            width: "100%",
-            display: "flex",
-            justifyContent: "space-between",
-            background: "#262B31",
-          }}
-        >
+        <Header className="header">
           <Menu
+            className="header-menu"
             selectedKeys={[pathname]}
             mode="horizontal"
             items={item}
             activeKey={pathname}
-            style={{
-              width: "100%",
-              color: "#d9d9d9",
-              background: "#262B31",
-            }}
           />
 
-          <div
-            style={{
-              color: "#d9d9d9",
-              background: "#262B31",
-            }}
-          >
-            LOGO
-          </div>
+          <div>LOGO</div>
           <Menu
             mode="horizontal"
+            className="header-menu__right"
             items={itemRight}
             selectedKeys={[pathname]}
             activeKey={pathname ? pathname : ""}
-            style={{
-              width: "100%",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "flex-end",
-              color: "#d9d9d9",
-              background: "#262B31",
-            }}
           />
         </Header>
         {isModalOpen && <LoginModal handleCancel={handleCancel} isModalOpen={isModalOpen} />}
@@ -194,9 +150,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           />
         )}
         <Content>{children}</Content>
-        <Footer style={{ textAlign: "center", background: "#262B31", color: "white" }}>
-          Ant Design ©2023 Created by Ant UED
-        </Footer>
+        <Footer className="footer">Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>
     </Layout>
   );

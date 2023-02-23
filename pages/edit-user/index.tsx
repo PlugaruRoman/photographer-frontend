@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { Button, Form, Input, InputNumber, Select, notification } from "antd";
+import { Button, Form, Input, InputNumber, Select, Space, notification } from "antd";
 
 import { PhotographersService } from "@/api/photographers/photographers";
 
@@ -56,11 +56,6 @@ const EditUser: React.FC = () => {
     label: i,
   }));
 
-  const layout = {
-    labelCol: { span: 8 },
-    wrapperCol: { span: 16 },
-  };
-
   const validateMessages = {
     required: "${label} is required!",
     types: {
@@ -70,22 +65,6 @@ const EditUser: React.FC = () => {
     number: {
       range: "${label} must be between ${min} and ${max}",
     },
-  };
-
-  const onFinish = (values: any) => {
-    mutate({
-      firstname: values.user.firstname,
-      lastname: values.user.lastname,
-      company: values.user.company,
-      city: values.user.city,
-      price: values.user.price,
-      about: values.user.about,
-      phone: values.user.phone,
-      facebook: values.user.facebook,
-      instagram: values.user.instagram,
-      twitter: values.user.twitter,
-      web: values.user.web,
-    });
   };
 
   const { mutate } = useMutation(PhotographersService.updatePhotographers, {
@@ -102,88 +81,91 @@ const EditUser: React.FC = () => {
     },
   });
 
+  const onFinish = (values: any) => {
+    mutate({
+      firstname: values.user.firstname,
+      lastname: values.user.lastname,
+      company: values.user.company,
+      city: values.user.city,
+      price: values.user.price,
+      about: values.user.about,
+      phone: values.user.phone,
+      facebook: values.user.facebook,
+      instagram: values.user.instagram,
+      web: values.user.web,
+    });
+  };
+
   return (
     <>
       <Head>
         <title>Edit User</title>
       </Head>
-      <div
-        style={{
-          padding: "30px 0px 30px 0px",
-          background: "#1B2026",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <h1 style={{ margin: "0 auto", fontSize: "30px", color: "white" }}>
-          Create Photographer Profile
-        </h1>
-        <Form
-          {...layout}
-          name="edit-user"
-          onFinish={onFinish}
-          style={{ maxWidth: 600, marginTop: "40px" }}
-          validateMessages={validateMessages}
-        >
-          <div style={{ display: "flex" }}>
+
+      <main className="main-page">
+        <Space direction="vertical" align="center" size="large">
+          <h1 className="title">Create Photographer Profile</h1>
+
+          <Form name="edit-user" onFinish={onFinish} validateMessages={validateMessages}>
             <Form.Item name={["user", "firstname"]} label="First Name" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
-            <Form.Item name={["user", "lastname"]} label="Last Name" rules={[{ required: true }]}>
+
+            <Form.Item name={["user", "lastname"]} label="Last Name">
               <Input />
             </Form.Item>
-          </div>
-          <Form.Item name={["user", "company"]} label="Studio">
-            <Input />
-          </Form.Item>
-          <Form.Item label="City" name={["user", "city"]}>
-            <Select
-              showSearch
-              style={{ width: 200 }}
-              placeholder="Search to Select"
-              optionFilterProp="children"
-              filterOption={(input, option) =>
-                (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-              }
-              filterSort={(optionA, optionB) =>
-                (optionA?.label ?? "")
-                  .toLowerCase()
-                  .localeCompare((optionB?.label ?? "").toLowerCase())
-              }
-              options={selectItems}
-            />
-          </Form.Item>
-          <Form.Item label="Price per hour" name={["user", "price"]}>
-            <InputNumber prefix="$" defaultValue={"0"} />
-          </Form.Item>
-          <Form.Item label="About me info" name={["user", "about"]}>
-            <Input.TextArea rows={4} />
-          </Form.Item>
-          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-            <div className="social network">
-              <Form.Item label="Phone" name={["user", "phone"]}>
-                <Input prefix="+373" />
-              </Form.Item>
 
-              <Form.Item label={"Facebook"} name={["user", "facebook"]}>
-                <Input placeholder="https://www.facebook.com/user" />
-              </Form.Item>
-              <Form.Item label={"Instagram"} name={["user", "instagram"]}>
-                <Input placeholder="www.instagram.com/user" />
-              </Form.Item>
-            </div>
-            <Form.Item label={"web"} name={["user", "web"]}>
+            <Form.Item name={["user", "company"]} label="Studio">
+              <Input />
+            </Form.Item>
+
+            <Form.Item name={["user", "city"]} label="City">
+              <Select
+                showSearch
+                placeholder="Search City"
+                optionFilterProp="children"
+                filterOption={(input, option) =>
+                  (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                }
+                filterSort={(optionA, optionB) =>
+                  (optionA?.label ?? "")
+                    .toLowerCase()
+                    .localeCompare((optionB?.label ?? "").toLowerCase())
+                }
+                options={selectItems}
+              />
+            </Form.Item>
+
+            <Form.Item name={["user", "price"]} label="Price per hour">
+              <InputNumber prefix="$" defaultValue={"0"} />
+            </Form.Item>
+
+            <Form.Item name={["user", "about"]} label="About me info">
+              <Input.TextArea rows={4} />
+            </Form.Item>
+
+            <Form.Item name={["user", "phone"]} label="Phone">
+              <Input prefix="+373" />
+            </Form.Item>
+
+            <Form.Item name={["user", "facebook"]} label={"Facebook"}>
+              <Input placeholder="https://www.facebook.com/user" />
+            </Form.Item>
+
+            <Form.Item name={["user", "instagram"]} label={"Instagram"}>
+              <Input placeholder="www.instagram.com/user" />
+            </Form.Item>
+
+            <Form.Item name={["user", "web"]} label={"web"}>
               <Input placeholder="www.user-website.com" />
             </Form.Item>
+
             <Button size="large" type="default" htmlType="submit">
               Submit
             </Button>
-          </Form.Item>
-        </Form>
-      </div>
+          </Form>
+        </Space>
+      </main>
     </>
   );
 };

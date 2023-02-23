@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import Head from "next/head";
-import { useMutation, useQuery } from "react-query";
-import { Button, Form, Modal, Upload, notification } from "antd";
-import type { RcFile, UploadProps } from "antd/es/upload";
-import { PlusOutlined } from "@ant-design/icons";
-import type { UploadFile } from "antd/es/upload/interface";
 import Image from "next/image";
+import { useMutation } from "react-query";
+import { Button, Form, Modal, Space, Upload, notification } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import type { RcFile, UploadProps } from "antd/es/upload";
+import type { UploadFile } from "antd/es/upload/interface";
 
 import { PhotographersService } from "@/api/photographers/photographers";
 
@@ -18,10 +18,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
   });
 
 const AddPhoto: React.FC = () => {
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState("");
-  const [previewTitle, setPreviewTitle] = useState("");
-  const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [previewOpen, setPreviewOpen] = React.useState(false);
+  const [previewImage, setPreviewImage] = React.useState("");
+  const [previewTitle, setPreviewTitle] = React.useState("");
+  const [fileList, setFileList] = React.useState<UploadFile[]>([]);
 
   const handleCancel = () => setPreviewOpen(false);
 
@@ -29,7 +29,6 @@ const AddPhoto: React.FC = () => {
     if (!file.url && !file.preview) {
       file.preview = await getBase64(file.originFileObj as RcFile);
     }
-
     setPreviewImage(file.url || (file.preview as string));
     setPreviewOpen(true);
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1));
@@ -41,7 +40,7 @@ const AddPhoto: React.FC = () => {
   const uploadButton = (
     <div>
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>Upload</div>
+      <div>Upload</div>
     </div>
   );
 
@@ -74,38 +73,32 @@ const AddPhoto: React.FC = () => {
       <Head>
         <title>Add Photo</title>
       </Head>
-      <div
-        style={{
-          padding: "30px 0px 30px 0px",
-          background: "#1B2026",
-          minHeight: "100vh",
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <h1 style={{ margin: "0 auto", fontSize: "30px", color: "white" }}>Add Photo</h1>
-        <Form name="edit-user" onFinish={onFinish} style={{ margin: "40px auto", padding: "20px" }}>
-          <Form.Item name={["user", "Photo"]}>
-            <Upload
-              action="http://localhost:3000/"
-              listType="picture-card"
-              fileList={fileList}
-              onPreview={handlePreview}
-              onChange={handleChange}
-            >
-              {fileList.length >= 12 ? null : uploadButton}
-            </Upload>
-            <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-              <Image alt="example" width={470} height={300} src={previewImage} />
-            </Modal>
-          </Form.Item>
-          <Button type="default" size="large" htmlType="submit">
-            Submit
-          </Button>
-        </Form>
-      </div>
+
+      <main className="main-page">
+        <Space direction="vertical" align="center" size="large">
+          <h1 className="title">Add Photo</h1>
+
+          <Form name="upload-photo" onFinish={onFinish}>
+            <Form.Item name={["user", "Photo"]}>
+              <Upload
+                action="http://localhost:3000/"
+                listType="picture-card"
+                fileList={fileList}
+                onPreview={handlePreview}
+                onChange={handleChange}
+              >
+                {fileList.length >= 12 ? null : uploadButton}
+              </Upload>
+              <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+                <Image alt="image" width={470} height={300} src={previewImage} />
+              </Modal>
+            </Form.Item>
+            <Button type="default" size="large" htmlType="submit">
+              Submit
+            </Button>
+          </Form>
+        </Space>
+      </main>
     </>
   );
 };

@@ -1,0 +1,60 @@
+.main-layout__sider.ant-layout-sider {
+  height: 100vh;
+  position: sticky;
+  background: #262b31;
+  left: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.main-layout__user {
+  margin-left: 20px;
+  padding: 15px;
+}
+.main-layout__avatar {
+  background: #70cf97;
+}
+
+.main-layout__username {
+  color: #ffff;
+}
+
+.main-layout__menu {
+  background-color: #262b31;
+}
+
+.header.ant-layout-header {
+  position: sticky;
+  top: 0;
+  z-index: 3;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: #262b31;
+}
+
+.header-menu.ant-menu {
+  width: 100%;
+  color: #d9d9d9;
+  background: #262b31;
+}
+.header-menu__right.ant-menu {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  color: #d9d9d9;
+  background: #262b31;
+}
+
+.ant-menu-light {
+  background-color: inherit;
+  color: inherit;
+  border-bottom: none;
+}
+
+.footer.ant-layout-footer {
+  text-align: center;
+  background-color: #262b31;
+  color: white;
+}

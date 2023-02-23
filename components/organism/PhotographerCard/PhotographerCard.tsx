@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useQuery } from "react-query";
 import Link from "next/link";
 import { Avatar, Card, Col, Image, Row, Space } from "antd";
@@ -22,8 +22,8 @@ interface PhotographerCardProps {
 }
 
 export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) => {
-  const [activeTabKey, setActiveTabKey] = useState<string>("user");
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [activeTabKey, setActiveTabKey] = React.useState<string>("user");
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const showModal = () => {
     setIsModalOpen(true);
@@ -35,6 +35,10 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
 
   const handleCancel = () => {
     setIsModalOpen(false);
+  };
+
+  const onTabChange = (key: string) => {
+    setActiveTabKey(key);
   };
 
   const { data } = useQuery("all-photo", PhotographersService.getPhoto);
@@ -52,10 +56,6 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       ))
     );
   }, [data]);
-
-  const onTabChange = (key: string) => {
-    setActiveTabKey(key);
-  };
 
   const tabListNoTitle = [
     {

@@ -3,8 +3,10 @@ import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 
 import { MainLayout } from "@/components/Layouts/Layout";
 import { AuthProvider } from "@/contextes/AuthContext/AuthProvider";
-import "@/styles/globals.css";
+
 import { ConfigProvider } from "antd";
+
+import "../styles/index.scss";
 
 const queryClient = new QueryClient({
   defaultOptions: {

@@ -1,7 +1,8 @@
+import React from "react";
+import Head from "next/head";
+
 import HomePageGallery from "@/components/organism/HomePageGallery/HomePageGallery";
 import MainCarousel from "@/components/organism/MainCarousel/MainCarousel";
-import Head from "next/head";
-import React from "react";
 
 const Home: React.FC = () => {
   return (

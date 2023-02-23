@@ -77,6 +77,21 @@ h6 {
   font-weight: 400;
 }
 
+.main-page {
+  padding: 30px 0px 30px 0px;
+  background: #1b2026;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.title {
+  font-size: 30px;
+  color: white;
+}
+
 .ant-image .ant-image-img {
   width: 300px;
   object-fit: scale-down;
