@@ -18,6 +18,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { user, onClickLogOut } = useAuth();
   const { pathname } = useRouter();
 
+  const [collapsed, setCollapsed] = React.useState(false);
   const [isModalOpen, setIsModalOpen] = React.useState(false);
   const [isModalOpenRegister, setIsModalOpenRegister] = React.useState(false);
 
@@ -88,18 +89,16 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         ? {
             key: "logout",
             label: (
-              <div onClick={onClickLogOut}>
-                <span style={{ marginRight: "10px" }}>Logout</span>
+              <Space onClick={onClickLogOut}>
+                <span>Logout</span>
                 <LoginOutlined />
-              </div>
+              </Space>
             ),
           }
         : null,
     ],
     [user, onClickLogOut],
   );
-
-  const [collapsed, setCollapsed] = React.useState(false);
 
   return (
     <Layout>

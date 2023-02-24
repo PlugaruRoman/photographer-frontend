@@ -1,8 +1,9 @@
 import { PhotographersService } from "@/api/photographers/photographers";
-import { Avatar, Col, Image, Row, Space } from "antd";
+import { Avatar, Row, Space } from "antd";
 import { useQuery } from "react-query";
 import { UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
+import Image from "next/image";
 
 const HomePageGallery: React.FC = () => {
   const { data } = useQuery("all-photo", PhotographersService.getPhoto);
@@ -35,20 +36,22 @@ const HomePageGallery: React.FC = () => {
       >
         {data &&
           data.map((img: any) => (
-            <div key={img.id} style={{ position: "relative" }}>
-              <Link
-                href="/photographers/photographer/1"
-                style={{ position: "absolute", zIndex: 2, cursor: "pointer" }}
-              >
-                <Avatar size={44} icon={<UserOutlined />} />
-                <span style={{ color: "white" }}>User Name</span>
-              </Link>
+            <div className="home-page__images" key={img.id}>
+              <Space className="home-page__users">
+                <Link style={{ position: "relative" }} href="/photographers/1">
+                  <Avatar size={44} icon={<UserOutlined />} />
+                  <span style={{ color: "white" }}>User Name</span>
+                </Link>
+              </Space>
               <Image
-                style={{ position: "relative" }}
-                key={img.id}
-                alt={img.alternativeText}
-                height={"100%"}
+                placeholder="blur"
+                alt={img.name}
+                className="imagine"
+                width={320}
+                height={300}
+                blurDataURL={`http://localhost:1337${img.url}`}
                 src={`http://localhost:1337${img.url}`}
+                sizes="(max-width: 500px) 100px"
               />
             </div>
           ))}

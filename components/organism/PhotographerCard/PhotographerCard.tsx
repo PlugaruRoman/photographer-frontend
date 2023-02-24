@@ -92,7 +92,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
           size="small"
         >
           {info.facebook ? (
-            <a target="_blank" href={info.facebook} rel="noreferrer">
+            <a target="_blank" href={`//${info.facebook}`} rel="noreferrer">
               <FacebookFilled style={{ fontSize: "50px", color: "#4267B2" }} />
             </a>
           ) : (
@@ -135,7 +135,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
         )}
         <a
           target="_blank"
-          href={info.web}
+          href={`http://${info.web}`}
           className="web-link"
           style={{
             fontSize: "25px",
@@ -151,20 +151,16 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       </>
     ),
     pictures: (
-      <Image.PreviewGroup>
-        {
-          <div
-            style={{
-              height: "250px",
-              display: "flex",
-              flexDirection: "row",
-              overflowX: "auto",
-            }}
-          >
-            {images}
-          </div>
-        }
-      </Image.PreviewGroup>
+      <div
+        style={{
+          height: "250px",
+          display: "flex",
+          flexDirection: "row",
+          overflowX: "auto",
+        }}
+      >
+        <Image.PreviewGroup>{images}</Image.PreviewGroup>
+      </div>
     ),
   };
 
@@ -182,7 +178,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
         activeTabKey={activeTabKey}
         tabBarExtraContent={
           <Link
-            href={"/photographers/photographer/" + id}
+            href={`/photographers/${id}/`}
             className="web-link"
             style={{ color: "#d9d9d9", fontSize: "15px" }}
           >

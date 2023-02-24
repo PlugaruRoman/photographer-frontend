@@ -6,8 +6,12 @@ import { Button, Form, Modal, Space, Upload, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
+import { redirect } from "next/navigation";
+import { NextResponse } from "next/server";
+import Router from "next/router";
 
 import { PhotographersService } from "@/api/photographers/photographers";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -17,7 +21,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
+let token: string | null = "";
+
 const AddPhoto: React.FC = () => {
+  const { user } = useAuth();
   const [previewOpen, setPreviewOpen] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState("");
   const [previewTitle, setPreviewTitle] = React.useState("");
@@ -43,6 +50,10 @@ const AddPhoto: React.FC = () => {
       <div>Upload</div>
     </div>
   );
+
+  React.useEffect(() => {
+    if (!localStorage.getItem("Token")) Router.push("/");
+  }, [user]);
 
   const onFinish = () => {
     const formData = new FormData();
@@ -75,29 +86,42 @@ const AddPhoto: React.FC = () => {
       </Head>
 
       <main className="main-page">
-        <Space direction="vertical" align="center" size="large">
-          <h1 className="title">Add Photo</h1>
+        {user && (
+          <Space direction="vertical" align="center" size="large">
+            <h1 className="title">Add Photo</h1>
 
-          <Form name="upload-photo" onFinish={onFinish}>
-            <Form.Item name={["user", "Photo"]}>
-              <Upload
-                action="http://localhost:3000/"
-                listType="picture-card"
-                fileList={fileList}
-                onPreview={handlePreview}
-                onChange={handleChange}
-              >
-                {fileList.length >= 12 ? null : uploadButton}
-              </Upload>
-              <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-                <Image alt="image" width={470} height={300} src={previewImage} />
-              </Modal>
-            </Form.Item>
-            <Button type="default" size="large" htmlType="submit">
-              Submit
-            </Button>
-          </Form>
-        </Space>
+            <Form name="upload-photo" onFinish={onFinish}>
+              <Form.Item name={["user", "Photo"]}>
+                <Upload
+                  action="http://localhost:3000/"
+                  listType="picture-card"
+                  fileList={fileList}
+                  onPreview={handlePreview}
+                  onChange={handleChange}
+                >
+                  {fileList.length >= 12 ? null : uploadButton}
+                </Upload>
+                <Modal
+                  open={previewOpen}
+                  title={previewTitle}
+                  footer={null}
+                  onCancel={handleCancel}
+                >
+                  <Image
+                    alt="image"
+                    width={470}
+                    placeholder="blur"
+                    height={300}
+                    src={previewImage}
+                  />
+                </Modal>
+              </Form.Item>
+              <Button type="default" size="large" htmlType="submit">
+                Submit
+              </Button>
+            </Form>
+          </Space>
+        )}
       </main>
     </>
   );

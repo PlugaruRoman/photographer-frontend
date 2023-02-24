@@ -30,7 +30,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
 
       handleCancel();
     },
-    onError: (e) => {
+    onError: () => {
       notification.error({
         message: "Error!",
         description: `The username or password is incorrect`,
@@ -40,7 +40,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
 
   return (
     <Modal title="Sign in" open={isModalOpen} footer={null} onCancel={handleCancel}>
-      <Row style={{ height: "200px" }} justify={"center"} align={"middle"}>
+      <Row justify={"center"} align={"middle"}>
         <Col span={24}>
           <Form
             name="basic"

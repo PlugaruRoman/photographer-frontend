@@ -205,3 +205,29 @@ a.web-link:hover {
 .ant-upload.ant-upload-select:hover {
   color: #70cf97;
 }
+
+.home-page__images {
+  position: relative;
+}
+
+.home-page__images:hover {
+  cursor: pointer;
+  .home-page__users {
+    opacity: 1;
+  }
+}
+
+.home-page__users {
+  position: absolute;
+  top: 40%;
+  right: 50%;
+  margin-right: -50px;
+  z-index: 2;
+  text-align: center;
+  opacity: 0;
+  transition: all 0.2s ease-in-out;
+}
+
+.imagine {
+  object-fit: cover;
+}

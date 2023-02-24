@@ -26,6 +26,8 @@ export interface Results<T> {
 export const PhotographersService = {
   getPhotographers: async ({ queryKey: [, params] }: $Object): Promise<any> =>
     axios.get(`/api/photographers`).then((data) => data.data),
+  getPhotographer: async ({ queryKey: [, params] }: $Object): Promise<any> =>
+    axios.get(`/api/photographers/${params}`).then((data) => data.data),
   getCities: async ({ queryKey: [, params] }: $Object): Promise<any> =>
     axios.get(`/api/cities`).then((data) => data.data),
   getPhoto: async ({ queryKey: [, params] }: $Object): Promise<any> =>

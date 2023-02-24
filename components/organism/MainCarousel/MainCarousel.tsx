@@ -40,7 +40,7 @@ const MainCarousel: React.FC = () => {
       <Carousel dots={false} pauseOnHover={false} autoplay effect="fade">
         {images.map((image, index) => (
           <div className="image-container" key={index}>
-            <Image width={1000} height={600} alt={String(index)} src={image} />
+            <Image placeholder="blur" width={1000} height={600} alt={String(index)} src={image} />
           </div>
         ))}
       </Carousel>

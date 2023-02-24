@@ -1,10 +1,11 @@
 import React from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import Router, { useRouter } from "next/router";
 import { useMutation } from "react-query";
 import { Button, Form, Input, InputNumber, Select, Space, notification } from "antd";
 
 import { PhotographersService } from "@/api/photographers/photographers";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
 
 const data = {
   "Anenii Noi": "Anenii Noi",
@@ -50,6 +51,7 @@ const data = {
 
 const EditUser: React.FC = () => {
   const router = useRouter();
+  const { user } = useAuth();
 
   const selectItems = [...Object.keys(data)].map((i) => ({
     value: i,
@@ -66,6 +68,10 @@ const EditUser: React.FC = () => {
       range: "${label} must be between ${min} and ${max}",
     },
   };
+
+  React.useEffect(() => {
+    if (!localStorage.getItem("Token")) Router.push("/");
+  }, [user]);
 
   const { mutate } = useMutation(PhotographersService.updatePhotographers, {
     onSuccess: () => {
@@ -103,68 +109,74 @@ const EditUser: React.FC = () => {
       </Head>
 
       <main className="main-page">
-        <Space direction="vertical" align="center" size="large">
-          <h1 className="title">Create Photographer Profile</h1>
+        {user && (
+          <Space direction="vertical" align="center" size="large">
+            <h1 className="title">Create Photographer Profile</h1>
 
-          <Form name="edit-user" onFinish={onFinish} validateMessages={validateMessages}>
-            <Form.Item name={["user", "firstname"]} label="First Name" rules={[{ required: true }]}>
-              <Input />
-            </Form.Item>
+            <Form name="edit-user" onFinish={onFinish} validateMessages={validateMessages}>
+              <Form.Item
+                name={["user", "firstname"]}
+                label="First Name"
+                rules={[{ required: true }]}
+              >
+                <Input />
+              </Form.Item>
 
-            <Form.Item name={["user", "lastname"]} label="Last Name">
-              <Input />
-            </Form.Item>
+              <Form.Item name={["user", "lastname"]} label="Last Name">
+                <Input />
+              </Form.Item>
 
-            <Form.Item name={["user", "company"]} label="Studio">
-              <Input />
-            </Form.Item>
+              <Form.Item name={["user", "company"]} label="Studio">
+                <Input />
+              </Form.Item>
 
-            <Form.Item name={["user", "city"]} label="City">
-              <Select
-                showSearch
-                placeholder="Search City"
-                optionFilterProp="children"
-                filterOption={(input, option) =>
-                  (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-                }
-                filterSort={(optionA, optionB) =>
-                  (optionA?.label ?? "")
-                    .toLowerCase()
-                    .localeCompare((optionB?.label ?? "").toLowerCase())
-                }
-                options={selectItems}
-              />
-            </Form.Item>
+              <Form.Item name={["user", "city"]} label="City">
+                <Select
+                  showSearch
+                  placeholder="Search City"
+                  optionFilterProp="children"
+                  filterOption={(input, option) =>
+                    (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                  }
+                  filterSort={(optionA, optionB) =>
+                    (optionA?.label ?? "")
+                      .toLowerCase()
+                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                  }
+                  options={selectItems}
+                />
+              </Form.Item>
 
-            <Form.Item name={["user", "price"]} label="Price per hour">
-              <InputNumber prefix="$" defaultValue={"0"} />
-            </Form.Item>
+              <Form.Item name={["user", "price"]} label="Price per hour">
+                <InputNumber prefix="$" defaultValue={"0"} />
+              </Form.Item>
 
-            <Form.Item name={["user", "about"]} label="About me info">
-              <Input.TextArea rows={4} />
-            </Form.Item>
+              <Form.Item name={["user", "about"]} label="About me info">
+                <Input.TextArea rows={4} />
+              </Form.Item>
 
-            <Form.Item name={["user", "phone"]} label="Phone">
-              <Input prefix="+373" />
-            </Form.Item>
+              <Form.Item name={["user", "phone"]} label="Phone">
+                <Input prefix="+373" />
+              </Form.Item>
 
-            <Form.Item name={["user", "facebook"]} label={"Facebook"}>
-              <Input placeholder="https://www.facebook.com/user" />
-            </Form.Item>
+              <Form.Item name={["user", "facebook"]} label={"Facebook"}>
+                <Input placeholder="https://www.facebook.com/user" />
+              </Form.Item>
 
-            <Form.Item name={["user", "instagram"]} label={"Instagram"}>
-              <Input placeholder="www.instagram.com/user" />
-            </Form.Item>
+              <Form.Item name={["user", "instagram"]} label={"Instagram"}>
+                <Input placeholder="www.instagram.com/user" />
+              </Form.Item>
 
-            <Form.Item name={["user", "web"]} label={"web"}>
-              <Input placeholder="www.user-website.com" />
-            </Form.Item>
+              <Form.Item name={["user", "web"]} label={"web"}>
+                <Input placeholder="www.user-website.com" />
+              </Form.Item>
 
-            <Button size="large" type="default" htmlType="submit">
-              Submit
-            </Button>
-          </Form>
-        </Space>
+              <Button size="large" type="default" htmlType="submit">
+                Submit
+              </Button>
+            </Form>
+          </Space>
+        )}
       </main>
     </>
   );
