@@ -1,60 +1,43 @@
-import { PhotographersService } from "@/api/photographers/photographers";
-import { Avatar, Row, Space } from "antd";
-import { useQuery } from "react-query";
-import { UserOutlined } from "@ant-design/icons";
 import Link from "next/link";
 import Image from "next/image";
+import { useQuery } from "react-query";
+import { Avatar, Space } from "antd";
+import { UserOutlined } from "@ant-design/icons";
+
+import { PhotographersService } from "@/api/photographers/photographers";
 
 const HomePageGallery: React.FC = () => {
-  const { data } = useQuery("all-photo", PhotographersService.getPhoto);
+  const { data, isLoading } = useQuery("all-photo", PhotographersService.getPhoto);
 
   return (
-    <Space
-      size={"large"}
-      style={{
-        padding: "30px 0px 30px 0px",
-        background: "#1B2026",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Row>
-        <h1 style={{ color: "white", fontSize: "25px" }}>
-          The best wedding and family photos of the week
-        </h1>
-      </Row>
-      <Space
-        style={{
-          width: "100%",
-          flexWrap: "wrap",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        {data &&
-          data.map((img: any) => (
-            <div className="home-page__images" key={img.id}>
-              <Space className="home-page__users">
-                <Link style={{ position: "relative" }} href="/photographers/1">
-                  <Avatar size={44} icon={<UserOutlined />} />
-                  <span style={{ color: "white" }}>User Name</span>
+    <Space size="large" align="center" direction="vertical" className="home-gallery">
+      <h1 className="title">The best wedding and family photos of the week</h1>
+
+      <Space size="large" wrap align="center" className="space-justify__center">
+        {isLoading
+          ? "Loading..."
+          : data.map((img: any) => (
+              <div className="home-page__images" key={img.id}>
+                <div className="home-page__users">
+                  <Link href="/photographers/10">
+                    <Avatar size={64} icon={<UserOutlined />} />
+                    <span className="gallery-user">User Name</span>
+                  </Link>
+                </div>
+                <Link href="/photographers/10">
+                  <Image
+                    placeholder="blur"
+                    alt={img.name}
+                    className="imagine"
+                    width={320}
+                    height={300}
+                    blurDataURL={`http://localhost:1337${img.url}`}
+                    src={`http://localhost:1337${img.url}`}
+                    sizes="(max-width: 500px) 100px"
+                  />
                 </Link>
-              </Space>
-              <Image
-                placeholder="blur"
-                alt={img.name}
-                className="imagine"
-                width={320}
-                height={300}
-                blurDataURL={`http://localhost:1337${img.url}`}
-                src={`http://localhost:1337${img.url}`}
-                sizes="(max-width: 500px) 100px"
-              />
-            </div>
-          ))}
+              </div>
+            ))}
       </Space>
     </Space>
   );

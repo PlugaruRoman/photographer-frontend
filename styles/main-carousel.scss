@@ -1,0 +1,15 @@
+.main-carousel__content {
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+  color: white;
+  font-size: 24px;
+}
+
+.image-container {
+  position: relative;
+  height: 100vh;
+}

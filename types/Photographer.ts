@@ -13,4 +13,5 @@ export interface IPhotographerCard {
   price: number;
   web: string;
   photo: any;
+  user: string;
 }

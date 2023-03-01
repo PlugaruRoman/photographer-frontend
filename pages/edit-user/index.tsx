@@ -99,6 +99,7 @@ const EditUser: React.FC = () => {
       facebook: values.user.facebook,
       instagram: values.user.instagram,
       web: values.user.web,
+      user: user,
     });
   };
 

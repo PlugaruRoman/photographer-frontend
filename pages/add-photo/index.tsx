@@ -1,14 +1,12 @@
 import React from "react";
 import Head from "next/head";
 import Image from "next/image";
+import Router from "next/router";
 import { useMutation } from "react-query";
 import { Button, Form, Modal, Space, Upload, notification } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
-import { redirect } from "next/navigation";
-import { NextResponse } from "next/server";
-import Router from "next/router";
 
 import { PhotographersService } from "@/api/photographers/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
@@ -20,8 +18,6 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onload = () => resolve(reader.result as string);
     reader.onerror = (error) => reject(error);
   });
-
-let token: string | null = "";
 
 const AddPhoto: React.FC = () => {
   const { user } = useAuth();

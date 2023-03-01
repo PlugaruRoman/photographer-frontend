@@ -19,15 +19,15 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { pathname } = useRouter();
 
   const [collapsed, setCollapsed] = React.useState(false);
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [isModalOpenLogin, setIsModalOpenLogin] = React.useState(false);
   const [isModalOpenRegister, setIsModalOpenRegister] = React.useState(false);
 
-  const showModal = () => {
-    setIsModalOpen(true);
+  const showModalLogin = () => {
+    setIsModalOpenLogin(true);
   };
 
-  const handleCancel = () => {
-    setIsModalOpen(false);
+  const handleCancelLogin = () => {
+    setIsModalOpenLogin(false);
   };
 
   const showModalRegister = () => {
@@ -75,7 +75,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       !user
         ? {
             key: "/login",
-            label: <div onClick={showModal}>Login</div>,
+            label: <div onClick={showModalLogin}>Login</div>,
           }
         : null,
       user
@@ -141,7 +141,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             activeKey={pathname ? pathname : ""}
           />
         </Header>
-        {isModalOpen && <LoginModal handleCancel={handleCancel} isModalOpen={isModalOpen} />}
+        {isModalOpenLogin && (
+          <LoginModal handleCancel={handleCancelLogin} isModalOpen={isModalOpenLogin} />
+        )}
         {isModalOpenRegister && (
           <RegisterModal
             handleCancelRegister={handleCancelRegister}
