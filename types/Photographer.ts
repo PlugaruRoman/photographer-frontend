@@ -14,4 +14,5 @@ export interface IPhotographerCard {
   web: string;
   photo: any;
   user: string;
+  email: string;
 }

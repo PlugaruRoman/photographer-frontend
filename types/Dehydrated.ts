@@ -18,6 +18,7 @@ export interface IDehydrated {
                 facebook: string;
                 instagram: string;
                 web: string;
+                email: string;
                 createdAt: string;
                 updatedAt: string;
                 publishedAt: string;

@@ -100,6 +100,7 @@ const EditUser: React.FC = () => {
       instagram: values.user.instagram,
       web: values.user.web,
       user: user,
+      email: values.user.email,
     });
   };
 
@@ -109,7 +110,7 @@ const EditUser: React.FC = () => {
         <title>Edit User</title>
       </Head>
 
-      <main className="main-page">
+      <section className="section">
         {user && (
           <Space direction="vertical" align="center" size="large">
             <h1 className="title">Create Photographer Profile</h1>
@@ -124,6 +125,10 @@ const EditUser: React.FC = () => {
               </Form.Item>
 
               <Form.Item name={["user", "lastname"]} label="Last Name">
+                <Input />
+              </Form.Item>
+
+              <Form.Item name={["user", "email"]} label="Email">
                 <Input />
               </Form.Item>
 
@@ -178,7 +183,7 @@ const EditUser: React.FC = () => {
             </Form>
           </Space>
         )}
-      </main>
+      </section>
     </>
   );
 };

@@ -1,10 +1,9 @@
 import type { AppProps } from "next/app";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { ConfigProvider } from "antd";
 
 import { MainLayout } from "@/components/Layouts/Layout";
 import { AuthProvider } from "@/contextes/AuthContext/AuthProvider";
-
-import { ConfigProvider } from "antd";
 
 import "../styles/index.scss";
 

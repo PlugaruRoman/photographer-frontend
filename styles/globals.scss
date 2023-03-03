@@ -77,7 +77,7 @@ h6 {
   font-weight: 400;
 }
 
-.main-page {
+.section {
   padding: 30px 0px 30px 0px;
   background: #1b2026;
   min-height: 100vh;
@@ -194,10 +194,6 @@ h6 {
   background: #555;
 }
 
-a.web-link:hover {
-  color: white !important;
-}
-
 .ant-upload.ant-upload-select {
   color: white;
 }
@@ -211,4 +207,8 @@ a.web-link:hover {
 
 .ant-card-head {
   border-bottom: none !important;
+}
+
+.ant-modal-title {
+  padding-bottom: 20px;
 }

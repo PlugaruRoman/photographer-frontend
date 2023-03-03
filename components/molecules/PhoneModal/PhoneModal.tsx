@@ -36,8 +36,8 @@ const PhoneModal: React.FC<PhoneModalProps> = ({ info, handleOk, isModalOpen, ha
         onOk={handleOk}
       >
         <Space size={"large"} direction="vertical">
-          <p style={{ fontSize: "20px" }}>{info.city}</p>
-          <p style={{ fontSize: "17px" }}>+373{info.phone}</p>
+          <p>{info.city}</p>
+          <p>+373{info.phone}</p>
           <p>Let the photographer know you found it on</p>
           <p>You can also send a private message to the photographer</p>
         </Space>

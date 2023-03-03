@@ -43,13 +43,12 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
 
   return (
     <Modal title="Sign up" open={isModalOpenRegister} footer={null} onCancel={handleCancelRegister}>
-      <Row style={{ height: "250px" }} justify={"center"} align={"middle"}>
+      <Row justify={"center"} align={"middle"}>
         <Col span={24}>
           <Form
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 16 }}
             name="basic"
-            style={{ width: "100%", background: "#262B31" }}
             onFinish={onFinish}
             validateMessages={validateMessages}
             autoComplete="off"

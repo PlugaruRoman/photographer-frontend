@@ -10,14 +10,7 @@ import type { UploadFile } from "antd/es/upload/interface";
 
 import { PhotographersService } from "@/api/photographers/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-
-const getBase64 = (file: RcFile): Promise<string> =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
+import { getBase64 } from "@/utils/getbase";
 
 const AddPhoto: React.FC = () => {
   const { user } = useAuth();
@@ -81,7 +74,7 @@ const AddPhoto: React.FC = () => {
         <title>Add Photo</title>
       </Head>
 
-      <main className="main-page">
+      <section className="section">
         {user && (
           <Space direction="vertical" align="center" size="large">
             <h1 className="title">Add Photo</h1>
@@ -118,7 +111,7 @@ const AddPhoto: React.FC = () => {
             </Form>
           </Space>
         )}
-      </main>
+      </section>
     </>
   );
 };

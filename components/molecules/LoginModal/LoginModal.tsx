@@ -46,7 +46,6 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
             name="basic"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 16 }}
-            style={{ width: "100%", background: "#262B31" }}
             onFinish={onFinish}
             autoComplete="off"
           >

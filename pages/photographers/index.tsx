@@ -19,11 +19,11 @@ const Photographers: React.FC<PhotographersProps> = ({ dehydratedState }) => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="main-page">
+      <section className="section">
         {dehydratedState.queries[0].state.data.data.map((user: any) => (
           <PhotographerCard info={user.attributes} id={user.id} key={user.id} />
         ))}
-      </main>
+      </section>
     </>
   );
 };
