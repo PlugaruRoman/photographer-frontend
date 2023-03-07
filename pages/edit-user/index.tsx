@@ -2,7 +2,18 @@ import React from "react";
 import Head from "next/head";
 import Router, { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { Button, Form, Input, InputNumber, Select, Space, notification } from "antd";
+import {
+  Button,
+  Col,
+  Form,
+  Input,
+  InputNumber,
+  Progress,
+  Row,
+  Select,
+  Space,
+  notification,
+} from "antd";
 
 import { PhotographersService } from "@/api/photographers/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
@@ -50,6 +61,7 @@ const data = {
 };
 
 const EditUser: React.FC = () => {
+  const [progress, setProgress] = React.useState(0);
   const router = useRouter();
   const { user } = useAuth();
 
@@ -57,6 +69,15 @@ const EditUser: React.FC = () => {
     value: i,
     label: i,
   }));
+
+  const onValuesChange = (changedValues: any, allValues: any) => {
+    const numInputs = Object.keys(allValues.user).length;
+    const numFilledInputs = Object.values(allValues.user).filter(
+      (value) => value !== undefined && value !== "",
+    ).length;
+    const newProgress = Math.floor((numFilledInputs / numInputs) * 100);
+    setProgress(newProgress);
+  };
 
   const validateMessages = {
     required: "${label} is required!",
@@ -112,74 +133,90 @@ const EditUser: React.FC = () => {
 
       <section className="section">
         {user && (
-          <Space direction="vertical" align="center" size="large">
+          <Space className="edit-user" direction="vertical" align="center" size="large">
             <h1 className="title">Create Photographer Profile</h1>
 
-            <Form name="edit-user" onFinish={onFinish} validateMessages={validateMessages}>
-              <Form.Item
-                name={["user", "firstname"]}
-                label="First Name"
-                rules={[{ required: true }]}
-              >
-                <Input />
-              </Form.Item>
+            <h3 className="edit-user__text">
+              <Progress className="edit-user__progress" percent={progress} />
+              It is not obligatory to fill in all fields. Take the opportunity to fill in as many
+              fields as possible and increase your chances of finding the right clients.
+            </h3>
+            <Form
+              name="edit-user"
+              onValuesChange={onValuesChange}
+              onFinish={onFinish}
+              validateMessages={validateMessages}
+            >
+              <Row wrap justify="space-between">
+                <Col className="form-block">
+                  <Form.Item name={["user", "firstname"]} rules={[{ required: true }]}>
+                    <Input placeholder="First name" />
+                  </Form.Item>
 
-              <Form.Item name={["user", "lastname"]} label="Last Name">
-                <Input />
-              </Form.Item>
+                  <Form.Item name={["user", "lastname"]} rules={[{ required: true }]}>
+                    <Input placeholder="Last name" />
+                  </Form.Item>
 
-              <Form.Item name={["user", "email"]} label="Email">
-                <Input />
-              </Form.Item>
+                  <Form.Item name={["user", "email"]} rules={[{ required: true }]}>
+                    <Input placeholder="email" />
+                  </Form.Item>
 
-              <Form.Item name={["user", "company"]} label="Studio">
-                <Input />
-              </Form.Item>
+                  <Form.Item name={["user", "phone"]}>
+                    <Input prefix="+373" placeholder="Phone number" />
+                  </Form.Item>
 
-              <Form.Item name={["user", "city"]} label="City">
-                <Select
-                  showSearch
-                  placeholder="Search City"
-                  optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
-                  }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
-                  }
-                  options={selectItems}
-                />
-              </Form.Item>
+                  <Form.Item name={["user", "city"]} rules={[{ required: true }]}>
+                    <Select
+                      showSearch
+                      placeholder="Search City"
+                      optionFilterProp="children"
+                      filterOption={(input, option) =>
+                        (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                      }
+                      filterSort={(optionA, optionB) =>
+                        (optionA?.label ?? "")
+                          .toLowerCase()
+                          .localeCompare((optionB?.label ?? "").toLowerCase())
+                      }
+                      options={selectItems}
+                    />
+                  </Form.Item>
+                </Col>
+                <Col className="form-block">
+                  <Form.Item name={["user", "company"]} label="Studio">
+                    <Input />
+                  </Form.Item>
 
-              <Form.Item name={["user", "price"]} label="Price per hour">
-                <InputNumber prefix="$" defaultValue={"0"} />
-              </Form.Item>
+                  <Form.Item name={["user", "price"]} label="Price per hour">
+                    <InputNumber prefix="$" defaultValue={"0"} />
+                  </Form.Item>
 
-              <Form.Item name={["user", "about"]} label="About me info">
-                <Input.TextArea rows={4} />
-              </Form.Item>
+                  <Form.Item name={["user", "about"]} label="About me info">
+                    <Input.TextArea rows={6} />
+                  </Form.Item>
+                </Col>
+                <Col className="form-block">
+                  <Form.Item name={["user", "facebook"]} label={"Facebook"}>
+                    <Input placeholder="https://www.facebook.com/user" />
+                  </Form.Item>
 
-              <Form.Item name={["user", "phone"]} label="Phone">
-                <Input prefix="+373" />
-              </Form.Item>
+                  <Form.Item name={["user", "instagram"]} label={"Instagram"}>
+                    <Input placeholder="www.instagram.com/user" />
+                  </Form.Item>
 
-              <Form.Item name={["user", "facebook"]} label={"Facebook"}>
-                <Input placeholder="https://www.facebook.com/user" />
-              </Form.Item>
-
-              <Form.Item name={["user", "instagram"]} label={"Instagram"}>
-                <Input placeholder="www.instagram.com/user" />
-              </Form.Item>
-
-              <Form.Item name={["user", "web"]} label={"web"}>
-                <Input placeholder="www.user-website.com" />
-              </Form.Item>
-
-              <Button size="large" type="default" htmlType="submit">
-                Submit
-              </Button>
+                  <Form.Item name={["user", "web"]} label={"web"}>
+                    <Input placeholder="www.user-website.com" />
+                  </Form.Item>
+                  <Button
+                    style={{ marginTop: "70px" }}
+                    size="large"
+                    type="default"
+                    htmlType="submit"
+                  >
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </Space>
         )}

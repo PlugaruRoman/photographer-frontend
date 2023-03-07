@@ -12,7 +12,6 @@ const HomePageGallery: React.FC = () => {
   return (
     <Space size="large" align="center" direction="vertical" className="home-gallery">
       <h1 className="title">The best wedding and family photos of the week</h1>
-
       <Space size="large" wrap align="center" className="space-justify__center">
         {isLoading
           ? "Loading..."

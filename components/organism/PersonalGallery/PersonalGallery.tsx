@@ -1,25 +1,28 @@
+import React from "react";
 import { useQuery } from "react-query";
-import { Button, Space, Image } from "antd";
+import { Space, Image, Segmented } from "antd";
 
 import { PhotographersService } from "@/api/photographers/photographers";
+import { SegmentedValue } from "antd/es/segmented";
 
 const PersonalGallery: React.FC = () => {
-  const { data, isLoading } = useQuery("all-photo", PhotographersService.getPhoto);
+  const { data, isLoading } = useQuery("theme-photo", PhotographersService.getPhoto);
+  const [segmented, setSegmented] = React.useState("Couples");
+
+  const onChange = (value: SegmentedValue) => {
+    setSegmented(value.toString());
+  };
 
   return (
     <Space size="large" align="center" direction="vertical" className="home-gallery">
-      <Space size="large">
-        <Button size="large" type="default">
-          Couples
-        </Button>
-        <Button size="large" type="default">
-          Weeding
-        </Button>
-        <Button size="large" type="default">
-          Family
-        </Button>
-      </Space>
-      <h1 className="title">The best wedding and family photos of the week</h1>
+      <Segmented
+        onChange={onChange}
+        value={segmented}
+        size="large"
+        options={["Couples", "Wedding", "Family"]}
+      />
+
+      <h1 className="title">Photography of a {segmented}: 6 100 MDL per hour minimum 1 hour</h1>
 
       <Space size="large" wrap align="center" className="space-justify__center">
         {isLoading

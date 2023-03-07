@@ -2,8 +2,6 @@ import React from "react";
 import Head from "next/head";
 import { QueryClient, dehydrate } from "react-query";
 import { GetServerSidePropsContext } from "next";
-import { Avatar, Badge } from "antd";
-import { UserOutlined } from "@ant-design/icons";
 
 import { PhotographersService } from "@/api/photographers/photographers";
 
@@ -25,9 +23,6 @@ const Photographer: React.FC<PhotographerProps> = ({ dehydratedState }) => {
       </Head>
 
       <section className="section">
-        <Badge.Ribbon color="gold" text="Pro">
-          <Avatar shape="square" size={164} icon={<UserOutlined />} />
-        </Badge.Ribbon>
         <PhotographerMain user={user.attributes} />
         <PersonalGallery />
       </section>

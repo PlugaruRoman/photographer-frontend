@@ -18,6 +18,7 @@ import {
 import { PhotographersService } from "@/api/photographers/photographers";
 import PhoneModal from "../../molecules/PhoneModal/PhoneModal";
 import { IPhotographerCard } from "@/types/Photographer";
+import Chat from "../Chat/Chat";
 
 interface PhotographerCardProps {
   info: IPhotographerCard;
@@ -166,6 +167,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
         <div>- utilizarea luminii suplimentare;</div>
       </>
     ),
+    chat: <Chat />,
   };
 
   const extraContent = (
