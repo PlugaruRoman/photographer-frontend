@@ -1,89 +1,77 @@
 .photographer-card {
-  width: 80%;
+  max-width: 1200px;
   height: 431px;
-  margin: 20px auto;
   color: #ffffffff;
   background: linear-gradient(110.83deg, #23282e -2.21%, #2a3139 104.21%);
-}
-
-.avatar-card {
-  color: #d9d9d9;
-}
-
-.info-city {
-  font-size: 25px;
-}
-.info-company {
-  font-size: 25px;
-}
-
-.photographer-card__content {
-  position: absolute;
-  right: 15px;
-  top: 50%;
-}
-
-.card-facebook {
-  font-size: 50px;
-  color: #4267b2;
-}
-
-.card-instagram {
-  color: #8a3ab9;
-  font-size: 50px;
-}
-.card-phone {
-  font-size: 50px;
-  color: #4267b2;
-}
-
-.info-about {
-  font-size: 15px;
-}
-
-.info-price__block {
-}
-.info-price {
-  font-size: 25px;
-}
-.info-price__icon {
-  font-size: 35px;
-  color: #70cf97;
-}
-.info-price__hour {
-  font-size: 25px;
-}
-.info-web {
-  font-size: 25px;
-  color: #d9d9d9;
-}
-
-.info-email {
-  font-size: 25px;
-}
-
-.bottom-card {
-  position: absolute;
-  bottom: 10px;
-  justify-content: space-between;
-  width: 90%;
-}
-
-.info-web:hover {
-  color: white !important;
-}
-
-.card-photo {
-  height: 250px;
-  display: flex;
-  flex-direction: row;
-  overflow-x: auto;
-}
-
-.more-info {
-  color: #d9d9d9;
-  font-size: 15px;
-  &:hover {
-    color: #ffffff;
+  &__avatar-text {
+    color: #d9d9d9;
+    text-align: center;
   }
+  &__icon {
+    font-size: 100px;
+    color: #ffffffff;
+  }
+  &__info-city {
+    font-size: 25px;
+  }
+  &__info-company {
+    font-size: 25px;
+  }
+  &__info-email {
+    font-size: 25px;
+  }
+  &__info-about {
+    font-size: 15px;
+  }
+
+  &__price {
+    font-size: 25px;
+  }
+  &__price-icon {
+    font-size: 35px;
+    color: #70cf97;
+  }
+  &__price-hour {
+    font-size: 25px;
+  }
+  &__info-web {
+    font-size: 25px;
+    color: #d9d9d9;
+    &:hover {
+      color: white !important;
+    }
+  }
+
+  &__facebook {
+    font-size: 50px;
+    color: #4267b2;
+  }
+
+  &__instagram {
+    color: #8a3ab9;
+    font-size: 50px;
+  }
+  &__phone {
+    font-size: 50px;
+    color: #4267b2;
+  }
+
+  &__photo {
+    height: 250px;
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  &__more-info {
+    color: #d9d9d9;
+    font-size: 15px;
+    &:hover {
+      color: #ffffff;
+    }
+  }
+}
+
+.ant-image .ant-image-img {
+  width: 300px;
+  object-fit: scale-down;
 }

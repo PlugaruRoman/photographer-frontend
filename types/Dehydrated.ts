@@ -1,3 +1,5 @@
+import { IPhotographerCard } from "./Photographer";
+
 export interface IDehydrated {
   mutations: any[];
   queries: [
@@ -7,22 +9,7 @@ export interface IDehydrated {
           data: [
             {
               id: number;
-              attributes: {
-                about: string;
-                firstname: string;
-                lastname: string;
-                company: string;
-                city: string;
-                price: number;
-                phone: string;
-                facebook: string;
-                instagram: string;
-                web: string;
-                email: string;
-                createdAt: string;
-                updatedAt: string;
-                publishedAt: string;
-              };
+              attributes: IPhotographerCard;
             },
           ];
           meta: {
@@ -60,21 +47,7 @@ export interface IDehydratedSingle {
         data: {
           data: {
             id: number;
-            attributes: {
-              about: string;
-              firstname: string;
-              lastname: string;
-              company: string;
-              city: string;
-              price: number;
-              phone: string;
-              facebook: string;
-              instagram: string;
-              web: string;
-              createdAt: string;
-              updatedAt: string;
-              publishedAt: string;
-            };
+            attributes: IPhotographerCard;
           };
 
           meta: {

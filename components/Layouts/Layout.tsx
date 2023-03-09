@@ -7,6 +7,7 @@ import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
 import RegisterModal from "../molecules/RegisterModal/RegisterModal";
+import { Auth, NavItems } from "@/types/enums";
 
 const { Header, Content, Footer } = Layout;
 
@@ -41,19 +42,19 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const siderItems: MenuProps["items"] = React.useMemo(
     () => [
       {
-        key: "/edit-user",
-        icon: React.createElement(UserOutlined),
-        label: <Link href={"/edit-user"}>User</Link>,
+        key: NavItems.CREATE_PROFILE,
+        icon: <UserOutlined />,
+        label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
       },
       {
-        key: "/add-photo",
-        icon: React.createElement(VideoCameraOutlined),
-        label: <Link href={"/add-photo"}>Add Photo</Link>,
+        key: NavItems.UPLOAD_PHOTO,
+        icon: <VideoCameraOutlined />,
+        label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
       },
       {
-        key: "/photographers",
-        icon: React.createElement(EditOutlined),
-        label: <Link href={"/photographers"}>Edit User</Link>,
+        key: NavItems.ADD_PACKAGES,
+        icon: <EditOutlined />,
+        label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
       },
     ],
     [],
@@ -61,12 +62,12 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   const item = [
     {
-      key: "/",
-      label: <Link href={`/`}>Home</Link>,
+      key: NavItems.HOME,
+      label: <Link href={NavItems.HOME}>Home</Link>,
     },
     {
-      key: "/photographers",
-      label: <Link href={"/photographers"}>Photographers</Link>,
+      key: NavItems.PHOTOGRAPHERS,
+      label: <Link href={NavItems.PHOTOGRAPHERS}>Photographers</Link>,
     },
   ];
 
@@ -74,23 +75,23 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     () => [
       !user
         ? {
-            key: "/login",
-            label: <div onClick={showModalLogin}>Login</div>,
+            key: Auth.LOGIN,
+            label: <div onClick={showModalLogin}>{Auth.LOGIN}</div>,
           }
         : null,
       user
         ? null
         : {
-            key: "/register",
-            label: <div onClick={showModalRegister}>Register</div>,
+            key: Auth.REGISTER,
+            label: <div onClick={showModalRegister}>{Auth.REGISTER}</div>,
           },
 
       user
         ? {
-            key: "logout",
+            key: Auth.LOGOUT,
             label: (
               <Space onClick={onClickLogOut}>
-                <span>Logout</span>
+                <span>{Auth.LOGOUT}</span>
                 <LoginOutlined />
               </Space>
             ),
@@ -104,7 +105,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     <Layout>
       {user && (
         <Layout.Sider
-          className="main-layout__sider"
+          className="main-layout"
           collapsible
           collapsed={collapsed}
           onCollapse={(value) => setCollapsed(value)}

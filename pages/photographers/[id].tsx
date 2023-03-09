@@ -4,10 +4,10 @@ import { QueryClient, dehydrate } from "react-query";
 import { GetServerSidePropsContext } from "next";
 
 import { PhotographersService } from "@/api/photographers/photographers";
-
 import { IDehydratedSingle } from "@/types/Dehydrated";
 import PersonalGallery from "@/components/organism/PersonalGallery/PersonalGallery";
 import PhotographerMain from "@/components/organism/PhotographerMain/PhotographerMain";
+import { Space } from "antd";
 
 interface PhotographerProps {
   dehydratedState: IDehydratedSingle;
@@ -19,12 +19,14 @@ const Photographer: React.FC<PhotographerProps> = ({ dehydratedState }) => {
   return (
     <>
       <Head>
-        <title>User Page</title>
+        <title>Photographer</title>
       </Head>
 
       <section className="section">
-        <PhotographerMain user={user.attributes} />
-        <PersonalGallery />
+        <Space direction="vertical" size="large">
+          <PhotographerMain user={user.attributes} />
+          <PersonalGallery />
+        </Space>
       </section>
     </>
   );

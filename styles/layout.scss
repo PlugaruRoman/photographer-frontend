@@ -1,4 +1,4 @@
-.main-layout__sider.ant-layout-sider {
+.main-layout.ant-layout-sider {
   height: 100vh;
   position: sticky;
   background: #262b31;
@@ -11,6 +11,7 @@
   margin-left: 20px;
   padding: 15px;
 }
+
 .main-layout__avatar {
   background: #70cf97;
 }

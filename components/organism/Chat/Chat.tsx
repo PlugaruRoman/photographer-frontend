@@ -13,26 +13,20 @@ const Chat: React.FC = () => {
   };
 
   return (
-    <div className="chat">
-      <ul className="chat-display">
+    <div className="card-chat">
+      <ul className="card-chat__display">
         {messages.map((message, index) => (
-          <li className="message" key={index}>
+          <li className="card-chat__message" key={index}>
             <Space size="middle">
               <Avatar size="large" icon={<UserOutlined />} />
-              <span className="chat-message">{message}</span>
+              <span className="card-chat__message-text">{message}</span>
             </Space>
           </li>
         ))}
       </ul>
-      <Form
-        className="chat-flex"
-        autoComplete="off"
-        form={form}
-        name="basic"
-        onFinish={onClickSend}
-      >
+      <Form autoComplete="off" form={form} name="basic" onFinish={onClickSend}>
         <Space.Compact block size="large">
-          <Form.Item className="message-input" name="message">
+          <Form.Item className="card-chat__input" name="message">
             <Input autoFocus placeholder="Type your message here..." />
           </Form.Item>
 

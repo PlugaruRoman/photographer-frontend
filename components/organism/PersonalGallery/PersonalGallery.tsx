@@ -6,7 +6,7 @@ import { PhotographersService } from "@/api/photographers/photographers";
 import { SegmentedValue } from "antd/es/segmented";
 
 const PersonalGallery: React.FC = () => {
-  const { data, isLoading } = useQuery("theme-photo", PhotographersService.getPhoto);
+  const { data, isLoading } = useQuery("theme-photo", PhotographersService.getCardPhoto);
   const [segmented, setSegmented] = React.useState("Couples");
 
   const onChange = (value: SegmentedValue) => {

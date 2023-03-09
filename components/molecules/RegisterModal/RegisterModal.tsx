@@ -2,6 +2,7 @@ import React from "react";
 import { useMutation } from "react-query";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth/auth";
+import { IRegisterInputs } from "@/types/Register";
 
 interface RegisterModalProps {
   handleCancelRegister: any;
@@ -19,11 +20,11 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
     },
   };
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: IRegisterInputs) => {
     mutate({
-      username: values.user.name,
-      email: values.user.email,
-      password: values.user.password,
+      username: values.name,
+      email: values.email,
+      password: values.password,
     });
   };
 
@@ -53,12 +54,12 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             validateMessages={validateMessages}
             autoComplete="off"
           >
-            <Form.Item name={["user", "name"]} label="Name" rules={[{ required: true }]}>
+            <Form.Item name={"name"} label="Name" rules={[{ required: true }]}>
               <Input />
             </Form.Item>
             <Form.Item
               label="Password"
-              name={["user", "password"]}
+              name={"password"}
               rules={[
                 {
                   required: true,
@@ -70,11 +71,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             >
               <Input.Password />
             </Form.Item>
-            <Form.Item
-              name={["user", "email"]}
-              label="Email"
-              rules={[{ type: "email", required: true }]}
-            >
+            <Form.Item name={"email"} label="Email" rules={[{ type: "email", required: true }]}>
               <Input />
             </Form.Item>
 

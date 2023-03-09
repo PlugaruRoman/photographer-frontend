@@ -3,6 +3,7 @@ import { useMutation } from "react-query";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth/auth";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
+import { ILoginInputs } from "@/types/Login";
 
 interface LoginModalProps {
   handleCancel: any;
@@ -12,7 +13,7 @@ interface LoginModalProps {
 const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) => {
   const { setUser } = useAuth();
 
-  const onFinish = (values: any) => {
+  const onFinish = (values: ILoginInputs) => {
     mutate({
       identifier: values.username,
       password: values.password,
@@ -43,7 +44,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
       <Row justify={"center"} align={"middle"}>
         <Col span={24}>
           <Form
-            name="basic"
+            name="login"
             labelCol={{ span: 5 }}
             wrapperCol={{ span: 16 }}
             onFinish={onFinish}

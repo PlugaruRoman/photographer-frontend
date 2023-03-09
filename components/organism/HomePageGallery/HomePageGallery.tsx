@@ -7,7 +7,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { PhotographersService } from "@/api/photographers/photographers";
 
 const HomePageGallery: React.FC = () => {
-  const { data, isLoading } = useQuery("all-photo", PhotographersService.getPhoto);
+  const { data, isLoading } = useQuery("all-photo", PhotographersService.getCardPhoto);
 
   return (
     <Space size="large" align="center" direction="vertical" className="home-gallery">
@@ -16,18 +16,17 @@ const HomePageGallery: React.FC = () => {
         {isLoading
           ? "Loading..."
           : data.map((img: any) => (
-              <div className="home-page__images" key={img.id}>
-                <div className="home-page__users">
-                  <Link href="/photographers/10">
+              <div className="home-gallery__images" key={img.id}>
+                <Space size="large" className="home-gallery__users">
+                  <Link href="/photographers/15">
                     <Avatar size={64} icon={<UserOutlined />} />
-                    <span className="gallery-user">User Name</span>
+                    <span className="home-gallery__user">User Name</span>
                   </Link>
-                </div>
-                <Link href="/photographers/10">
+                </Space>
+                <Link href="/photographers/15">
                   <Image
                     placeholder="blur"
                     alt={img.name}
-                    className="imagine"
                     width={320}
                     height={300}
                     blurDataURL={`http://localhost:1337${img.url}`}

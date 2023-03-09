@@ -5,6 +5,7 @@ import { QueryClient, dehydrate } from "react-query";
 import { PhotographersService } from "@/api/photographers/photographers";
 import { PhotographerCard } from "@/components/organism/PhotographerCard/PhotographerCard";
 import { IDehydrated } from "@/types/Dehydrated";
+import { Space } from "antd";
 
 interface PhotographersProps {
   dehydratedState: IDehydrated;
@@ -20,9 +21,11 @@ const Photographers: React.FC<PhotographersProps> = ({ dehydratedState }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="section">
-        {dehydratedState.queries[0].state.data.data.map((user: any) => (
-          <PhotographerCard info={user.attributes} id={user.id} key={user.id} />
-        ))}
+        <Space size="large" direction="vertical">
+          {dehydratedState.queries[0].state.data.data.map((user: any) => (
+            <PhotographerCard info={user.attributes} id={user.id} key={user.id} />
+          ))}
+        </Space>
       </section>
     </>
   );

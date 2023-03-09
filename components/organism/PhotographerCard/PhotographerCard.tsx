@@ -1,12 +1,10 @@
 import React from "react";
 import { useQuery } from "react-query";
-import Link from "next/link";
 import { Avatar, Card, Col, Image, Row, Space } from "antd";
 import {
   UserOutlined,
   PictureOutlined,
   FacebookFilled,
-  MoreOutlined,
   InstagramOutlined,
   PhoneOutlined,
   DollarCircleFilled,
@@ -17,12 +15,20 @@ import {
 
 import { PhotographersService } from "@/api/photographers/photographers";
 import PhoneModal from "../../molecules/PhoneModal/PhoneModal";
-import { IPhotographerCard } from "@/types/Photographer";
+import ExtraContent from "./molecules/ExtraContent/ExtraContent";
 import Chat from "../Chat/Chat";
+import { IPhotographerCard } from "@/types/Photographer";
 
 interface PhotographerCardProps {
   info: IPhotographerCard;
   id: number;
+}
+
+export enum TabListNoTitle {
+  USER = "UserOutlined",
+  PHOTO = "PictureOutlined",
+  PACKAGES = "DropboxOutlined",
+  CHAT = "WechatOutlined",
 }
 
 export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) => {
@@ -45,9 +51,9 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
     setActiveTabKey(key);
   };
 
-  const { data = [] } = useQuery("all-photo", PhotographersService.getPhoto);
+  const { data = [] } = useQuery("card-photo", PhotographersService.getCardPhoto);
 
-  const images = React.useMemo(() => {
+  const photo = React.useMemo(() => {
     return data.map((img: any) => (
       <Image
         key={img.id}
@@ -63,8 +69,8 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       key: "user",
       tab: (
         <>
-          <Avatar shape="square" size={100} icon={<UserOutlined color="black" />} />
-          <p className="avatar-card">{info.firstname + " " + info.lastname}</p>
+          <UserOutlined className="photographer-card__icon" />
+          <p className="photographer-card__avatar-text">{info.firstname + " " + info.lastname}</p>
         </>
       ),
     },
@@ -72,8 +78,8 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       key: "pictures",
       tab: (
         <>
-          <Avatar shape="square" size={100} icon={<PictureOutlined />} />
-          <p className="avatar-card">Photo</p>
+          <PictureOutlined className="photographer-card__icon" />
+          <p className="photographer-card__avatar-text">Photo</p>
         </>
       ),
     },
@@ -81,8 +87,8 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       key: "packages",
       tab: (
         <>
-          <Avatar shape="square" size={100} icon={<DropboxOutlined />} />
-          <p className="avatar-card">Service packages</p>
+          <DropboxOutlined className="photographer-card__icon" />
+          <p className="photographer-card__avatar-text">Service packages</p>
         </>
       ),
     },
@@ -90,8 +96,8 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       key: "chat",
       tab: (
         <>
-          <Avatar shape="square" size={100} icon={<WechatOutlined />} />
-          <p className="avatar-card">Chat</p>
+          <WechatOutlined className="photographer-card__icon" />
+          <p className="photographer-card__avatar-text">Chat</p>
         </>
       ),
     },
@@ -100,82 +106,73 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
   const contentListNoTitle: Record<string, React.ReactNode> = {
     user: (
       <>
-        <Space size={"large"}>
-          <div className="info-city">{info.city}</div>
-          <span className="info-company">{info.company}</span>
-        </Space>
+        <Row wrap justify="space-between">
+          <Space size="large">
+            <div className="photographer-card__info-city">{info.city}</div>
+            <span className="photographer-card__info-company">{info.company}</span>
+          </Space>
 
-        <Space className="photographer-card__content" direction="vertical" size="small">
-          {info.facebook && (
-            <a target="_blank" href={`//${info.facebook}`} rel="noreferrer">
-              <FacebookFilled className="card-facebook" />
-            </a>
+          {info.email && (
+            <div className="photographer-card__info-email">
+              <MailOutlined /> <span>{info.email}</span>
+            </div>
           )}
 
-          {info.instagram && (
-            <a target="_blank" href={`//${info.instagram}`} rel="noreferrer">
-              <InstagramOutlined className="card-instagram" />
-            </a>
-          )}
-
-          {info.phone && <PhoneOutlined onClick={showModal} className="card-phone" />}
-        </Space>
-
-        <Row>
-          <Col span={16}>
-            <span className="info-about">{info.about}</span>
+          <Col span={20}>
+            <span className="photographer-card__info-about">{info.about}</span>
           </Col>
-        </Row>
-        <Space size="large" className="bottom-card">
+
+          <Space direction="vertical" size="small">
+            {info.facebook && (
+              <a target="_blank" href={`//${info.facebook}`} rel="noreferrer">
+                <FacebookFilled className="photographer-card__facebook" />
+              </a>
+            )}
+
+            {info.instagram && (
+              <a target="_blank" href={`//${info.instagram}`} rel="noreferrer">
+                <InstagramOutlined className="photographer-card__instagram" />
+              </a>
+            )}
+
+            {info.phone && (
+              <PhoneOutlined onClick={showModal} className="photographer-card__phone" />
+            )}
+          </Space>
+
           {info.price && (
-            <Space align="center" className="info-price__block">
-              <div className="info-price">{info.price}</div>
-              <DollarCircleFilled className="info-price__icon" />
-              <span className="info-price__hour">Per hour</span>
+            <Space align="center">
+              <div className="photographer-card__price">{info.price}</div>
+              <DollarCircleFilled className="photographer-card__price-icon" />
+              <span className="photographer-card__price-hour">Per hour</span>
             </Space>
           )}
 
           {info.web && (
-            <a target="_blank" href={`http://${info.web}`} className="info-web" rel="noreferrer">
+            <a
+              target="_blank"
+              href={`http://${info.web}`}
+              className="photographer-card__info-web"
+              rel="noreferrer"
+            >
               {info.web}
             </a>
           )}
-
-          {info.email && (
-            <div className="info-email">
-              <MailOutlined /> <span>{info.email}</span>
-            </div>
-          )}
-        </Space>
+        </Row>
       </>
     ),
     pictures: (
-      <div className="card-photo">
-        <Image.PreviewGroup>{images}</Image.PreviewGroup>
+      <div className="photographer-card__photo">
+        <Image.PreviewGroup>{photo}</Image.PreviewGroup>
       </div>
     ),
     packages: (
       <>
-        <div>- 3 pachete diverse perfecte pentru orice eveniment</div>
-        <div>- consultație care să vă ajute la organizarea evenimentului;</div>
-        <div>- consultație care să vă ajute la organizarea evenimentului;</div>
-        <div>- foto/video de la îmbrăcatul mirilor până la tortul mirilor.</div>
-        <div>- prelucrarea și montarea întregului material;</div>
-        <div>- înscrierea întregului material pe stick-uri memorie USB + cutie personalizata;</div>
-        <div>- durata întregului film 1,5-2 ore + rezumatul nuntii 3-5 minute;</div>
-        <div>- imprimare a 10 fotografii;</div>
-        <div>- utilizarea luminii suplimentare;</div>
+        <div>packages</div>
       </>
     ),
     chat: <Chat />,
   };
-
-  const extraContent = (
-    <Link href={`/photographers/${id}/`} className="more-info">
-      <span>More Info</span>
-      <MoreOutlined />
-    </Link>
-  );
 
   return (
     <>
@@ -183,7 +180,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
         className="photographer-card"
         tabList={tabListNoTitle}
         activeTabKey={activeTabKey}
-        tabBarExtraContent={extraContent}
+        tabBarExtraContent={<ExtraContent id={id} />}
         onTabChange={onTabChange}
       >
         {contentListNoTitle[activeTabKey]}
