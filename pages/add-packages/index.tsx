@@ -4,6 +4,7 @@ import Router from "next/router";
 import { Space } from "antd";
 
 import { useAuth } from "@/contextes/AuthContext/useAuth";
+import PackagesForm from "@/components/organism/PackagesForm/PackagesForm";
 
 const AddPackages: React.FC = () => {
   const { user } = useAuth();
@@ -21,7 +22,7 @@ const AddPackages: React.FC = () => {
       <section className="section">
         {user && (
           <Space direction="vertical" align="center" size="large">
-            <h2 className="title">Add Packages</h2>
+            <PackagesForm />
           </Space>
         )}
       </section>

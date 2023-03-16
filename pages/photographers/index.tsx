@@ -22,6 +22,7 @@ const Photographers: React.FC<PhotographersProps> = ({ dehydratedState }) => {
       </Head>
       <section className="section">
         <Space size="large" direction="vertical">
+          <h1 className="title">Picture Perfect: A Directory of Top Photographers</h1>
           {dehydratedState.queries[0].state.data.data.map((user: any) => (
             <PhotographerCard info={user.attributes} id={user.id} key={user.id} />
           ))}

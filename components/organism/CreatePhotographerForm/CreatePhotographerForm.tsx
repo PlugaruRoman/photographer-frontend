@@ -25,8 +25,8 @@ const CreatePhotographerForm: React.FC = () => {
   const { user } = useAuth();
 
   const onValuesChange = (_: any, allValues: any) => {
-    const numInputs = Object.keys(allValues.user).length;
-    const numFilledInputs = Object.values(allValues.user).filter(
+    const numInputs = Object.values(allValues).length;
+    const numFilledInputs = Object.values(allValues).filter(
       (value) => value !== undefined && value !== "",
     ).length;
     const newProgress = Math.floor((numFilledInputs / numInputs) * 100);

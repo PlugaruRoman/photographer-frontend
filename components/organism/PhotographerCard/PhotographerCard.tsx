@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "react-query";
-import { Avatar, Card, Col, Image, Row, Space } from "antd";
+import { Card, Col, Image, Row, Space } from "antd";
 import {
   UserOutlined,
   PictureOutlined,
@@ -18,6 +18,7 @@ import PhoneModal from "../../molecules/PhoneModal/PhoneModal";
 import ExtraContent from "./molecules/ExtraContent/ExtraContent";
 import Chat from "../Chat/Chat";
 import { IPhotographerCard } from "@/types/Photographer";
+import { PackagesService } from "@/api/offer/offer";
 
 interface PhotographerCardProps {
   info: IPhotographerCard;
@@ -52,6 +53,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
   };
 
   const { data = [] } = useQuery("card-photo", PhotographersService.getCardPhoto);
+  const { data: packages = [], isLoading } = useQuery("card-packages", PackagesService.getPackages);
 
   const photo = React.useMemo(() => {
     return data.map((img: any) => (
@@ -102,7 +104,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       ),
     },
   ];
-
+  console.log(packages);
   const contentListNoTitle: Record<string, React.ReactNode> = {
     user: (
       <>
@@ -168,7 +170,15 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
     ),
     packages: (
       <>
-        <div>packages</div>
+        {!isLoading
+          ? Object.values(packages.data[0].attributes)
+              .map((packages: any, i) => (
+                <div className="photographer-card__packages" key={i}>{`${
+                  i - 2
+                } : ${packages}`}</div>
+              ))
+              .slice(3)
+          : "No packages"}
       </>
     ),
     chat: <Chat />,

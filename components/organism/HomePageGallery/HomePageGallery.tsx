@@ -10,7 +10,7 @@ const HomePageGallery: React.FC = () => {
   const { data, isLoading } = useQuery("all-photo", PhotographersService.getCardPhoto);
 
   return (
-    <Space size="large" align="center" direction="vertical" className="home-gallery">
+    <Space size="large" className="home-gallery">
       <h1 className="title">The best wedding and family photos of the week</h1>
       <Space size="large" wrap align="center" className="space-justify__center">
         {isLoading
