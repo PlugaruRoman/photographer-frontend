@@ -13,12 +13,12 @@ import {
   MailOutlined,
 } from "@ant-design/icons";
 
-import { PhotographersService } from "@/api/photographers/photographers";
+import { PhotographersService } from "@/api/photographers";
 import PhoneModal from "../../molecules/PhoneModal/PhoneModal";
 import ExtraContent from "./molecules/ExtraContent/ExtraContent";
 import Chat from "../Chat/Chat";
 import { IPhotographerCard } from "@/types/Photographer";
-import { PackagesService } from "@/api/offer/offer";
+import { PackagesService } from "@/api/offer";
 
 interface PhotographerCardProps {
   info: IPhotographerCard;
@@ -104,7 +104,7 @@ export const PhotographerCard: React.FC<PhotographerCardProps> = ({ info, id }) 
       ),
     },
   ];
-  console.log(packages);
+
   const contentListNoTitle: Record<string, React.ReactNode> = {
     user: (
       <>

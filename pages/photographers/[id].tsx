@@ -3,7 +3,7 @@ import Head from "next/head";
 import { QueryClient, dehydrate } from "react-query";
 import { GetServerSidePropsContext } from "next";
 
-import { PhotographersService } from "@/api/photographers/photographers";
+import { PhotographersService } from "@/api/photographers";
 import { IDehydratedSingle } from "@/types/Dehydrated";
 import PersonalGallery from "@/components/organism/PersonalGallery/PersonalGallery";
 import PhotographerMain from "@/components/organism/PhotographerMain/PhotographerMain";

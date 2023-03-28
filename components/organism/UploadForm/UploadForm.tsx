@@ -4,7 +4,7 @@ import { Button, Form, Image, Modal, Spin, Upload, notification } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
 
-import { UploadService } from "@/api/upload/upload";
+import { UploadService } from "@/api/upload";
 import { UploadButton } from "./molecules/UploadButton/UploadButton";
 import { getBase64 } from "@/utils/getbase";
 

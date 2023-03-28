@@ -1,4 +1,4 @@
-import { axios } from "../api";
+import { axios } from "./api";
 
 export const UploadService = {
   uploadPhoto: async (formData: FormData) => {

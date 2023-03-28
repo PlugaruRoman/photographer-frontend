@@ -2,7 +2,7 @@ import React from "react";
 import { useQuery } from "react-query";
 import { Space, Image, Segmented } from "antd";
 
-import { PhotographersService } from "@/api/photographers/photographers";
+import { PhotographersService } from "@/api/photographers";
 import { SegmentedValue } from "antd/es/segmented";
 
 const PersonalGallery: React.FC = () => {

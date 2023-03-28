@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 import { QueryClient, dehydrate } from "react-query";
 
-import { PhotographersService } from "@/api/photographers/photographers";
+import { PhotographersService } from "@/api/photographers";
 import { PhotographerCard } from "@/components/organism/PhotographerCard/PhotographerCard";
 import { IDehydrated } from "@/types/Dehydrated";
 import { Space } from "antd";

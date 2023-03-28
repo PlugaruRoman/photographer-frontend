@@ -4,7 +4,7 @@ import { useQuery } from "react-query";
 import { Avatar, Space } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
-import { PhotographersService } from "@/api/photographers/photographers";
+import { PhotographersService } from "@/api/photographers";
 
 const HomePageGallery: React.FC = () => {
   const { data, isLoading } = useQuery("all-photo", PhotographersService.getCardPhoto);

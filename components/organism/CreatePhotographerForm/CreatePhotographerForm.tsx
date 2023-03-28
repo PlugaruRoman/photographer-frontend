@@ -14,9 +14,9 @@ import {
   notification,
 } from "antd";
 
-import { PhotographersService } from "@/api/photographers/photographers";
+import { PhotographersService } from "@/api/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-import { CitiesService } from "@/api/cities/cities";
+import { CitiesService } from "@/api/cities";
 import { IPhotographerForm } from "@/types/Photographer";
 
 const CreatePhotographerForm: React.FC = () => {

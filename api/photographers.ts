@@ -1,4 +1,4 @@
-import { axios } from "../api";
+import { axios } from "./api";
 import { $Object } from "@/types/Object";
 
 export const PhotographersService = {

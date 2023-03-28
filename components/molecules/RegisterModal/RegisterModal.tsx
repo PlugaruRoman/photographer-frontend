@@ -1,7 +1,7 @@
 import React from "react";
 import { useMutation } from "react-query";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
-import { AuthService } from "@/api/auth/auth";
+import { AuthService } from "@/api/auth";
 import { IRegisterInputs } from "@/types/Register";
 
 interface RegisterModalProps {
