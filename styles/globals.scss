@@ -112,7 +112,9 @@ h6 {
   border-bottom: 2px solid #ffffff !important;
   border-bottom-color: #ffffff !important;
 }
-
+.ant-modal {
+  top: 35%;
+}
 .ant-modal .ant-modal-content {
   background: #262b31;
   color: #ffffffff;

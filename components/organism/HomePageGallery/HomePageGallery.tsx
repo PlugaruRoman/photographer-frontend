@@ -15,7 +15,7 @@ const HomePageGallery: React.FC = () => {
       <Space size="large" wrap align="center" className="space-justify__center">
         {isLoading
           ? "Loading..."
-          : data.map((img: any) => (
+          : data?.map((img: any) => (
               <div className="home-gallery__images" key={img.id}>
                 <Space size="large" className="home-gallery__users">
                   <Link href="/photographers/15">
