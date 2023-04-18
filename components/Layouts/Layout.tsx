@@ -1,13 +1,15 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Avatar, Layout, Menu, MenuProps, Space } from "antd";
+import { Avatar, Layout, Menu, MenuProps, Space, notification } from "antd";
 import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "@ant-design/icons";
 
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
 import RegisterModal from "../molecules/RegisterModal/RegisterModal";
 import { Auth, NavItems } from "@/types/enums";
+import { useMutation } from "react-query";
+import { AuthService } from "@/api/auth";
 
 const { Header, Content, Footer } = Layout;
 
@@ -16,7 +18,7 @@ interface MainLayoutProps {
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const { user, onClickLogOut } = useAuth();
+  const { user } = useAuth();
   const { pathname } = useRouter();
 
   const [collapsed, setCollapsed] = React.useState(false);
@@ -38,6 +40,25 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const handleCancelRegister = () => {
     setIsModalOpenRegister(false);
   };
+
+  const { mutate } = useMutation(AuthService.logoutUser, {
+    onSuccess: (res) => {
+      // localStorage.setItem("user", res.config.data);
+      // localStorage.setItem("Token", res.data.jwt);
+      // setUser(JSON.parse(res.config.data).identifier);
+      notification.success({
+        message: "Successfully",
+      });
+    },
+    onError: () => {
+      notification.error({
+        message: "Error!",
+        description: `The username or password is incorrect`,
+      });
+    },
+  });
+
+  const onClickLogOut = () => mutate();
 
   const siderItems: MenuProps["items"] = React.useMemo(
     () => [

@@ -15,16 +15,16 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
 
   const onFinish = (values: ILoginInputs) => {
     mutate({
-      identifier: values.username,
+      email: values.email,
       password: values.password,
     });
   };
 
   const { mutate } = useMutation(AuthService.loginUser, {
     onSuccess: (res) => {
-      localStorage.setItem("user", res.config.data);
-      localStorage.setItem("Token", res.data.jwt);
-      setUser(JSON.parse(res.config.data).identifier);
+      // localStorage.setItem("user", res.config.data);
+      // localStorage.setItem("Token", res.data.jwt);
+      // setUser(JSON.parse(res.config.data).identifier);
       notification.success({
         message: "Successfully",
       });
@@ -51,9 +51,9 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
             autoComplete="off"
           >
             <Form.Item
-              label="Username"
-              name="username"
-              rules={[{ required: true, message: "Please input your username!" }]}
+              label="Email"
+              name="email"
+              rules={[{ required: true, message: "Please input your email!" }]}
             >
               <Input />
             </Form.Item>
