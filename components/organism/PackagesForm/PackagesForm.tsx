@@ -2,7 +2,7 @@ import React from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space, notification } from "antd";
 import { useMutation } from "react-query";
-import { PackagesService } from "@/api/offer/offer";
+import { PackagesService } from "@/api/offer";
 
 const PackagesForm: React.FC = () => {
   const [form] = Form.useForm();

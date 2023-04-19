@@ -22,6 +22,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
 
   const onFinish = (values: IRegisterInputs) => {
     mutate({
+      username: values.username,
       email: values.email,
       password: values.password,
     });
@@ -53,6 +54,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             validateMessages={validateMessages}
             autoComplete="off"
           >
+            <Form.Item name={"username"} label="Name" rules={[{ type: "string", required: true }]}>
+              <Input />
+            </Form.Item>
             <Form.Item name={"email"} label="Email" rules={[{ type: "email", required: true }]}>
               <Input />
             </Form.Item>

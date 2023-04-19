@@ -9,16 +9,10 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = React.useState<string>();
 
-  const onClickLogOut = () => {
-    localStorage.removeItem("Token");
-    localStorage.removeItem("user");
-    setUser(undefined);
-  };
-
   React.useEffect(() => {
     const name = localStorage.getItem("user");
     if (name) {
-      setUser(JSON.parse(name).identifier);
+      setUser(name);
     }
   }, []);
 
@@ -26,7 +20,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     () => ({
       user,
       setUser,
-      onClickLogOut,
     }),
     [user, setUser],
   );

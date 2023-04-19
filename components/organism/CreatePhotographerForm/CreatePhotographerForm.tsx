@@ -44,7 +44,7 @@ const CreatePhotographerForm: React.FC = () => {
     },
   };
 
-  const { data, isLoading } = useQuery("all-city", CitiesService.getCities);
+  const { data, isLoading } = useQuery("cities", CitiesService.getCities);
 
   React.useEffect(() => {
     if (!localStorage.getItem("Token")) Router.push("/");
@@ -112,28 +112,22 @@ const CreatePhotographerForm: React.FC = () => {
               <Input prefix="+373" placeholder="Phone number" />
             </Form.Item>
 
-            <Spin spinning={isLoading}>
+            <Spin spinning={false}>
               <Form.Item name={"city"} rules={[{ required: true }]}>
                 <Select
                   showSearch
                   placeholder="Search City"
                   optionFilterProp="children"
                   filterOption={(input, option) =>
-                    (option?.label ?? "").toLowerCase().includes(input.toLowerCase())
+                    (option?.label ?? "").toString().toLowerCase().includes(input.toLowerCase())
                   }
                   filterSort={(optionA, optionB) =>
                     (optionA?.label ?? "")
+                      .toString()
                       .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toLowerCase())
+                      .localeCompare((optionB?.label ?? "").toString().toLowerCase())
                   }
-                  options={
-                    data
-                      ? [...Object.keys(data.data[0].attributes.cities)].map((i) => ({
-                          value: i,
-                          label: i,
-                        }))
-                      : []
-                  }
+                  options={data}
                 />
               </Form.Item>
             </Spin>

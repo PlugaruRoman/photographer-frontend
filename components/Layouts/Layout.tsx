@@ -18,10 +18,9 @@ interface MainLayoutProps {
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
-  const { user } = useAuth();
+  const { user, setUser } = useAuth();
   const { pathname } = useRouter();
 
-  const [collapsed, setCollapsed] = React.useState(false);
   const [isModalOpenLogin, setIsModalOpenLogin] = React.useState(false);
   const [isModalOpenRegister, setIsModalOpenRegister] = React.useState(false);
 
@@ -42,23 +41,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   };
 
   const { mutate } = useMutation(AuthService.logoutUser, {
-    onSuccess: (res) => {
-      // localStorage.setItem("user", res.config.data);
-      // localStorage.setItem("Token", res.data.jwt);
-      // setUser(JSON.parse(res.config.data).identifier);
-      notification.success({
-        message: "Successfully",
-      });
-    },
-    onError: () => {
-      notification.error({
-        message: "Error!",
-        description: `The username or password is incorrect`,
-      });
+    onSuccess: () => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("Token");
+      setUser("");
     },
   });
 
-  const onClickLogOut = () => mutate();
+  const onClickLogOut = React.useCallback(() => mutate(), [mutate]);
 
   const siderItems: MenuProps["items"] = React.useMemo(
     () => [
@@ -125,15 +115,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   return (
     <Layout>
       {user && (
-        <Layout.Sider
-          className="main-layout"
-          collapsible
-          collapsed={collapsed}
-          onCollapse={(value) => setCollapsed(value)}
-        >
+        <Layout.Sider className="main-layout" collapsible>
           <Space size="middle" className="main-layout__user">
             <Avatar className="main-layout__avatar" icon={<UserOutlined />} />
-            <span className="main-layout__username">{!collapsed && user}</span>
+            <span className="main-layout__username">{user}</span>
           </Space>
           <Menu
             className="main-layout__menu"
@@ -157,10 +142,9 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <div>LOGO</div>
           <Menu
             mode="horizontal"
+            selectable={false}
             className="header-menu__right"
             items={itemRight}
-            selectedKeys={[pathname]}
-            activeKey={pathname ? pathname : ""}
           />
         </Header>
         {isModalOpenLogin && (
