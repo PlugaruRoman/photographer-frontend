@@ -1,14 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Avatar, Layout, Menu, MenuProps, Space, notification } from "antd";
+import { useMutation } from "react-query";
+import { Avatar, Layout, Menu, MenuProps, Space } from "antd";
 import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "@ant-design/icons";
-
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
 import RegisterModal from "../molecules/RegisterModal/RegisterModal";
 import { Auth, NavItems } from "@/types/enums";
-import { useMutation } from "react-query";
 import { AuthService } from "@/api/auth";
 
 const { Header, Content, Footer } = Layout;

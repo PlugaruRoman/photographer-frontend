@@ -22,20 +22,18 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
 
   const { mutate } = useMutation(AuthService.loginUser, {
     onSuccess: (res) => {
-      console.log(res);
-      localStorage.setItem("user", res.data.user.username);
+      localStorage.setItem("user", JSON.stringify(res.data.user));
       localStorage.setItem("Token", res.data.accessToken);
       setUser(res.data.user.username);
       notification.success({
         message: "Successfully",
       });
-
       handleCancel();
     },
-    onError: () => {
+    onError: ({ response }) => {
       notification.error({
         message: "Error!",
-        description: `The username or password is incorrect`,
+        description: response?.data?.message,
       });
     },
   });

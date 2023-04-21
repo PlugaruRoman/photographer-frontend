@@ -127,6 +127,7 @@ const CreatePhotographerForm: React.FC = () => {
                       .toLowerCase()
                       .localeCompare((optionB?.label ?? "").toString().toLowerCase())
                   }
+                  loading={isLoading}
                   options={data}
                 />
               </Form.Item>
@@ -147,7 +148,7 @@ const CreatePhotographerForm: React.FC = () => {
           </Col>
           <Col className="form-block">
             <Form.Item name={"facebook"} label={"Facebook"}>
-              <Input placeholder="https://www.facebook.com/user" />
+              <Input placeholder="www.facebook.com/user" />
             </Form.Item>
             <Form.Item name={"instagram"} label={"Instagram"}>
               <Input placeholder="www.instagram.com/user" />

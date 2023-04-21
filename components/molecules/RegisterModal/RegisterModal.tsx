@@ -13,6 +13,8 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   handleCancelRegister,
   isModalOpenRegister,
 }) => {
+  const [loading, setLoading] = React.useState(false);
+
   const validateMessages = {
     required: "${label} is required!",
     types: {
@@ -21,6 +23,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   };
 
   const onFinish = (values: IRegisterInputs) => {
+    setLoading(true);
     mutate({
       username: values.username,
       email: values.email,
@@ -34,11 +37,13 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
         message: "Successfully",
       });
       handleCancelRegister();
+      setLoading(false);
     },
     onError: (e: any) => {
       notification.error({
         message: e.message,
       });
+      setLoading(true);
     },
   });
 
@@ -76,7 +81,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             </Form.Item>
 
             <Form.Item wrapperCol={{ offset: 17, span: 16 }}>
-              <Button size="large" type="default" htmlType="submit">
+              <Button loading={loading} size="large" type="default" htmlType="submit">
                 Sign up
               </Button>
             </Form.Item>
