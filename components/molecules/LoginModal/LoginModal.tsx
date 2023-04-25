@@ -23,6 +23,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
   const { mutate } = useMutation(AuthService.loginUser, {
     onSuccess: (res) => {
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      localStorage.setItem("username", res.data.user.username);
       localStorage.setItem("Token", res.data.accessToken);
       setUser(res.data.user.username);
       notification.success({

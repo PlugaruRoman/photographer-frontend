@@ -10,7 +10,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [user, setUser] = React.useState<string>();
 
   React.useEffect(() => {
-    const name = localStorage.getItem("user");
+    const name = localStorage.getItem("username");
     if (name) {
       setUser(name);
     }

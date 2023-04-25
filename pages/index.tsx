@@ -15,7 +15,6 @@ const Home: React.FC = () => {
       </Head>
       <main>
         <MainCarousel />
-        <HomePageGallery />
       </main>
     </>
   );

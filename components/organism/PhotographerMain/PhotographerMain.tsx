@@ -16,9 +16,6 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
         <div className="photographer-info__name">{`Photographer ${user.firstname} ${user.lastname}`}</div>
         <div className="photographer-info__city">{`Moldova,${user.city}`}</div>
         <div className="photographer-info__about">{user.about}</div>
-        <div className="photographer-info__created">{`With us from date ${
-          user.createdAt.toString().split("T")[0]
-        }`}</div>
       </Space>
       <div className="photographer-info__phone">Phone number {`+373 ${user.phone}`}</div>
     </Space>

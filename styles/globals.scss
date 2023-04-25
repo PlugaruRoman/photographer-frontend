@@ -95,23 +95,6 @@ h6 {
   justify-content: center;
 }
 
-.ant-menu-item-selected {
-  color: #ffffff !important;
-}
-
-.ant-menu > .ant-menu-item:hover {
-  color: #ffffff !important;
-}
-
-.ant-menu > .ant-menu-item-selected::after {
-  border-bottom: 2px solid #ffffff !important;
-  border-bottom-color: #ffffff !important;
-}
-
-.ant-menu > .ant-menu-item:hover::after {
-  border-bottom: 2px solid #ffffff !important;
-  border-bottom-color: #ffffff !important;
-}
 .ant-modal {
   top: 35%;
 }
@@ -135,23 +118,8 @@ h6 {
   color: white;
 }
 
-.ant-menu-light .ant-menu-item-selected {
-  background-color: #70cf97;
-}
-
-.ant-layout .ant-layout-sider-trigger {
-  background: #70cf97;
-}
-.ant-menu-light.ant-menu-inline .ant-menu-item {
-  color: white;
-}
-
 .ant-modal .ant-modal-close:hover {
   color: #ea6042;
-}
-
-.ant-menu-light.ant-menu-inline-collapsed .ant-menu-item {
-  color: white;
 }
 
 .ant-btn.ant-btn-lg:hover {

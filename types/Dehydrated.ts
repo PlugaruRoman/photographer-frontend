@@ -5,22 +5,17 @@ export interface IDehydrated {
   queries: [
     {
       state: {
-        data: {
-          data: [
-            {
-              id: number;
-              attributes: IPhotographerCard;
-            },
-          ];
-          meta: {
-            pagination: {
-              page: number;
-              pageSize: number;
-              pageCount: number;
-              total: number;
-            };
+        data: IPhotographerCard[];
+
+        meta: {
+          pagination: {
+            page: number;
+            pageSize: number;
+            pageCount: number;
+            total: number;
           };
         };
+
         dataUpdateCount: number;
         dataUpdatedAt: number;
         error: null | any;
@@ -44,21 +39,7 @@ export interface IDehydratedSingle {
   queries: [
     {
       state: {
-        data: {
-          data: {
-            id: number;
-            attributes: IPhotographerCard;
-          };
-
-          meta: {
-            pagination: {
-              page: number;
-              pageSize: number;
-              pageCount: number;
-              total: number;
-            };
-          };
-        };
+        data: IPhotographerCard;
         dataUpdateCount: number;
         dataUpdatedAt: number;
         error: null | any;

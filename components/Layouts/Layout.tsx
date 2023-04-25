@@ -42,6 +42,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { mutate } = useMutation(AuthService.logoutUser, {
     onSuccess: () => {
       localStorage.removeItem("user");
+      localStorage.removeItem("username");
       localStorage.removeItem("Token");
       setUser("");
     },
@@ -112,15 +113,15 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   );
 
   return (
-    <Layout>
+    <Layout className="layout">
       {user && (
-        <Layout.Sider className="main-layout" collapsible>
-          <Space size="middle" className="main-layout__user">
-            <Avatar className="main-layout__avatar" icon={<UserOutlined />} />
-            <span className="main-layout__username">{user}</span>
+        <Layout.Sider className="layout-sider" collapsible>
+          <Space size="middle" className="layout-sider__user">
+            <Avatar className="layout-sider__user-avatar" icon={<UserOutlined />} />
+            <span className="layout-sider__user-username">{user}</span>
           </Space>
           <Menu
-            className="main-layout__menu"
+            className="layout-sider__menu"
             mode="inline"
             items={siderItems}
             selectedKeys={[pathname]}
