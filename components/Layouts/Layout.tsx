@@ -2,7 +2,7 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { Avatar, Layout, Menu, MenuProps, Space } from "antd";
+import { Avatar, Divider, Layout, Menu, MenuProps, Space } from "antd";
 import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
@@ -50,27 +50,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   const onClickLogOut = React.useCallback(() => mutate(), [mutate]);
 
-  const siderItems: MenuProps["items"] = React.useMemo(
-    () => [
-      {
-        key: NavItems.CREATE_PROFILE,
-        icon: <UserOutlined />,
-        label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
-      },
-      {
-        key: NavItems.UPLOAD_PHOTO,
-        icon: <VideoCameraOutlined />,
-        label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
-      },
-      {
-        key: NavItems.ADD_PACKAGES,
-        icon: <EditOutlined />,
-        label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
-      },
-    ],
-    [],
-  );
-
   const item = [
     {
       key: NavItems.HOME,
@@ -80,6 +59,29 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       key: NavItems.PHOTOGRAPHERS,
       label: <Link href={NavItems.PHOTOGRAPHERS}>Photographers</Link>,
     },
+    user
+      ? {
+          key: NavItems.MENU,
+          label: <div>Menu</div>,
+          children: [
+            {
+              key: NavItems.CREATE_PROFILE,
+              icon: <UserOutlined />,
+              label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
+            },
+            {
+              key: NavItems.UPLOAD_PHOTO,
+              icon: <VideoCameraOutlined />,
+              label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
+            },
+            {
+              key: NavItems.ADD_PACKAGES,
+              icon: <EditOutlined />,
+              label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
+            },
+          ],
+        }
+      : null,
   ];
 
   const itemRight = React.useMemo(
@@ -90,22 +92,25 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             label: <div onClick={showModalLogin}>{Auth.LOGIN}</div>,
           }
         : null,
-      user
-        ? null
-        : {
+      !user
+        ? {
             key: Auth.REGISTER,
             label: <div onClick={showModalRegister}>{Auth.REGISTER}</div>,
-          },
+          }
+        : null,
 
       user
         ? {
+            key: NavItems.USER,
+            icon: <UserOutlined />,
+            label: <span>{user}</span>,
+          }
+        : null,
+      user
+        ? {
             key: Auth.LOGOUT,
-            label: (
-              <Space onClick={onClickLogOut}>
-                <span>{Auth.LOGOUT}</span>
-                <LoginOutlined />
-              </Space>
-            ),
+            icon: <LoginOutlined onClick={onClickLogOut} />,
+            label: <span onClick={onClickLogOut}>{Auth.LOGOUT}</span>,
           }
         : null,
     ],
@@ -114,21 +119,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
 
   return (
     <Layout className="layout">
-      {user && (
-        <Layout.Sider className="layout-sider" collapsible>
-          <Space size="middle" className="layout-sider__user">
-            <Avatar className="layout-sider__user-avatar" icon={<UserOutlined />} />
-            <span className="layout-sider__user-username">{user}</span>
-          </Space>
-          <Menu
-            className="layout-sider__menu"
-            mode="inline"
-            items={siderItems}
-            selectedKeys={[pathname]}
-          />
-        </Layout.Sider>
-      )}
-
       <Layout>
         <Header className="header">
           <Menu

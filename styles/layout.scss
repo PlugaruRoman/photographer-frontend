@@ -1,32 +1,4 @@
 .layout {
-  &-sider.ant-layout-sider {
-    height: 100vh;
-    position: sticky;
-    left: 0;
-    top: 0;
-    bottom: 0;
-  }
-
-  &-sider {
-    &__user {
-      margin-left: 10px;
-      padding: 15px;
-
-      &-avatar {
-        background: #70cf97;
-        margin-right: 10px;
-      }
-
-      &-username {
-        color: #ffff;
-      }
-    }
-    &__menu {
-      background-color: #262b31;
-      color: #ffffff;
-    }
-  }
-
   .header.ant-layout-header {
     position: sticky;
     top: 0;
@@ -57,19 +29,7 @@
     color: white;
   }
 
-  .ant-layout-sider-trigger {
-    background-color: #ffffffff;
-    color: #262b31;
-  }
-  .ant-menu-light .ant-menu-item-selected {
-    color: #262b31;
-  }
   .ant-menu-title-content {
     color: #ffffff;
   }
 }
-
-// .ant-menu-item:not(.ant-menu-item-selected):hover {
-//   background-color: #ffffff !important;
-//   color: #ffffff;
-// }
