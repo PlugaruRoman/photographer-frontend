@@ -64,13 +64,12 @@
   .ant-menu-light .ant-menu-item-selected {
     color: #262b31;
   }
-  // .ant-menu-dark.ant-menu-horizontal > .ant-menu-item-selected {
-  //   background-color: inherit;
-  //   border-bottom: 2px solid #ffffff;
-  // }
+  .ant-menu-title-content {
+    color: #ffffff;
+  }
 }
 
-.ant-menu-item:not(.ant-menu-item-selected):hover {
-  background-color: #ffffff !important;
-  color: #ffffff;
-}
+// .ant-menu-item:not(.ant-menu-item-selected):hover {
+//   background-color: #ffffff !important;
+//   color: #ffffff;
+// }
