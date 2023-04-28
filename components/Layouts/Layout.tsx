@@ -2,8 +2,14 @@ import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useMutation } from "react-query";
-import { Avatar, Divider, Layout, Menu, MenuProps, Space } from "antd";
-import { UserOutlined, VideoCameraOutlined, LoginOutlined, EditOutlined } from "@ant-design/icons";
+import { Layout, Menu } from "antd";
+import {
+  UserOutlined,
+  VideoCameraOutlined,
+  LoginOutlined,
+  EditOutlined,
+  MenuOutlined,
+} from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
 import RegisterModal from "../molecules/RegisterModal/RegisterModal";
@@ -42,9 +48,8 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const { mutate } = useMutation(AuthService.logoutUser, {
     onSuccess: () => {
       localStorage.removeItem("user");
-      localStorage.removeItem("username");
       localStorage.removeItem("Token");
-      setUser("");
+      setUser(undefined);
     },
   });
 
@@ -59,29 +64,6 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       key: NavItems.PHOTOGRAPHERS,
       label: <Link href={NavItems.PHOTOGRAPHERS}>Photographers</Link>,
     },
-    user
-      ? {
-          key: NavItems.MENU,
-          label: <div>Menu</div>,
-          children: [
-            {
-              key: NavItems.CREATE_PROFILE,
-              icon: <UserOutlined />,
-              label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
-            },
-            {
-              key: NavItems.UPLOAD_PHOTO,
-              icon: <VideoCameraOutlined />,
-              label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
-            },
-            {
-              key: NavItems.ADD_PACKAGES,
-              icon: <EditOutlined />,
-              label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
-            },
-          ],
-        }
-      : null,
   ];
 
   const itemRight = React.useMemo(
@@ -102,15 +84,30 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       user
         ? {
             key: NavItems.USER,
-            icon: <UserOutlined />,
-            label: <span>{user}</span>,
-          }
-        : null,
-      user
-        ? {
-            key: Auth.LOGOUT,
-            icon: <LoginOutlined onClick={onClickLogOut} />,
-            label: <span onClick={onClickLogOut}>{Auth.LOGOUT}</span>,
+            icon: <MenuOutlined />,
+            label: <span>{user?.username}</span>,
+            children: [
+              {
+                key: NavItems.CREATE_PROFILE,
+                icon: <UserOutlined />,
+                label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
+              },
+              {
+                key: NavItems.UPLOAD_PHOTO,
+                icon: <VideoCameraOutlined />,
+                label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
+              },
+              {
+                key: NavItems.ADD_PACKAGES,
+                icon: <EditOutlined />,
+                label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
+              },
+              {
+                key: Auth.LOGOUT,
+                icon: <LoginOutlined onClick={onClickLogOut} />,
+                label: <span onClick={onClickLogOut}>{Auth.LOGOUT}</span>,
+              },
+            ],
           }
         : null,
     ],

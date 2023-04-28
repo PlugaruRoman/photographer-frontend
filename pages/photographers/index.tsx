@@ -5,6 +5,7 @@ import { PhotographersService } from "@/api/photographers";
 import { IDehydrated } from "@/types/Dehydrated";
 import { Card, Space } from "antd";
 import { GetServerSideProps } from "next";
+import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
 
 interface PhotographersProps {
   dehydratedState: IDehydrated;
@@ -23,7 +24,7 @@ const Photographers: React.FC<PhotographersProps> = ({ dehydratedState }) => {
         <Space size="large" direction="vertical">
           <h1 className="title">Picture Perfect: A Directory of Top Photographers</h1>
           {dehydratedState?.queries[0]?.state.data.map((user) => (
-            <Card key={user._id} />
+            <PhotographerCard user={user} key={user._id} />
           ))}
         </Space>
       </section>

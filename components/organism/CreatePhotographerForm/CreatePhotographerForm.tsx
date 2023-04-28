@@ -58,12 +58,13 @@ const CreatePhotographerForm: React.FC = () => {
         router.push("/photographers");
     },
     onError: (e: any) => {
+      console.log(e);
       notification.error({
         message: e.message,
       });
     },
   });
-
+  console.log(user);
   const onFinish = (values: IPhotographerForm) => {
     mutate({
       firstname: values.firstname,
@@ -76,7 +77,7 @@ const CreatePhotographerForm: React.FC = () => {
       facebook: values.facebook,
       instagram: values.instagram,
       web: values.web,
-      user: user,
+      user: user?.email,
       email: values.email,
     });
   };

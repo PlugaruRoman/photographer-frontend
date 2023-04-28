@@ -1,8 +1,9 @@
+import { User } from "@/types/User";
 import React from "react";
 
 export interface AuthContextProps {
-  user: string | undefined;
-  setUser: React.Dispatch<React.SetStateAction<string | undefined>>;
+  user: User | undefined;
+  setUser: React.Dispatch<React.SetStateAction<User | undefined>>;
 }
 
 export const AuthContext = React.createContext<AuthContextProps>({

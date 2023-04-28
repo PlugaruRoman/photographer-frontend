@@ -1,18 +1,20 @@
 import React from "react";
 
 import { AuthContext } from "./AuthContext";
+import { User } from "@/types/User";
 
 interface AuthProviderProps {
   children: React.ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [user, setUser] = React.useState<string>();
+  const [user, setUser] = React.useState<User>();
 
   React.useEffect(() => {
-    const name = localStorage.getItem("username");
-    if (name) {
-      setUser(name);
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      setUser(JSON.parse(user));
     }
   }, []);
 

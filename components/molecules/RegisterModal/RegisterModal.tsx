@@ -41,9 +41,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
     },
     onError: (e: any) => {
       notification.error({
-        message: e.message,
+        message: e.response.data.message,
       });
-      setLoading(true);
+      setLoading(false);
     },
   });
 
