@@ -1,12 +1,10 @@
-.edit-user__text {
-  color: #ffffff;
-  font-size: 15px;
-}
-
 .edit-user__progress {
-  width: 100%px;
+  width: 100%;
 }
-
+.edit-user__alert {
+  max-width: 1000px;
+  border-radius: 5px;
+}
 .form-block {
   background-color: #262b31;
   border-radius: 10px;

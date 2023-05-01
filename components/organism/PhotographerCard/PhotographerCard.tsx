@@ -1,6 +1,17 @@
 import { IPhotographerCard } from "@/types/Photographer";
-import { Card } from "antd";
+import { NavItems } from "@/types/enums";
+import { Avatar, Button, Card, Col, Row, Space, Tooltip } from "antd";
+import {
+  DollarOutlined,
+  FacebookOutlined,
+  InstagramOutlined,
+  PhoneOutlined,
+  ChromeOutlined,
+  UserOutlined,
+} from "@ant-design/icons";
+import Link from "next/link";
 import React, { useState } from "react";
+import PhoneModal from "@/components/molecules/PhoneModal/PhoneModal";
 
 const tabList = [
   {
@@ -22,37 +33,111 @@ interface PhotographerCardProps {
 }
 
 const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
+  const [phoneModal, setPhoneModal] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>("photographer");
 
   const onTabChange = (key: string) => {
     setActiveTabKey(key);
   };
 
+  const showModal = () => {
+    setPhoneModal(true);
+  };
+
+  const handleOk = () => {
+    setPhoneModal(false);
+  };
+
+  const handleCancel = () => {
+    setPhoneModal(false);
+  };
+
   const contentList: Record<string, React.ReactNode> = {
     photographer: (
-      <>
-        <p>{`${user.firstname} ${user.lastname}`}</p>
-        <p>{user.city}</p>
-        <p>{user.company}</p>
-        <p>{user.phone}</p>
-        <p>{user.price}</p>
-      </>
+      <Row>
+        <Col span={5}>
+          <Avatar shape="square" size={164} icon={<UserOutlined />} />
+        </Col>
+
+        <Col
+          style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
+          span={19}
+        >
+          <Row justify="space-between">
+            <Tooltip
+              open={true}
+              autoAdjustOverflow
+              color="#1b2026"
+              zIndex={1}
+              placement="rightTop"
+              className="photographer-card__name"
+              title={user.company}
+            >
+              <span className="photographer-card__company">{`${user.firstname} ${user.lastname}`}</span>
+            </Tooltip>
+            <Link target="_blank" href={"https://" + user.web}>
+              <Button icon={<ChromeOutlined />} size="large">
+                {user.web}
+              </Button>
+            </Link>
+          </Row>
+
+          <Row>
+            <div className="photographer-card__city">{user.city}</div>
+          </Row>
+
+          <Row justify="space-between">
+            <Space>
+              <DollarOutlined className="photographer-card__price" />
+              <div className="photographer-card__price">
+                {user.price} per hour{" "}
+                <span style={{ color: "#808080", fontSize: "15px" }}>minimum 2h</span>
+              </div>
+            </Space>
+            <Space className="photographer-card__right">
+              <Button size="large" onClick={showModal} icon={<PhoneOutlined />}>
+                call him
+              </Button>
+
+              <Link target="_blank" href={"https://" + user.facebook}>
+                <Button size="large" icon={<FacebookOutlined />}>
+                  facebook
+                </Button>
+              </Link>
+
+              <Link type="default" target="_blank" href={"https://" + user.instagram}>
+                <Button size="large" icon={<InstagramOutlined />}>
+                  instagram
+                </Button>
+              </Link>
+            </Space>
+          </Row>
+        </Col>
+      </Row>
     ),
     packages: <p>app content</p>,
     photo: <p>project content</p>,
   };
 
   return (
-    <Card
-      style={{ width: "100%", backgroundColor: "#262b31" }}
-      bodyStyle={{ color: "#ffffff" }}
-      tabList={tabList}
-      activeTabKey={activeTabKey}
-      tabBarExtraContent={<a href="#">More info about</a>}
-      onTabChange={onTabChange}
-    >
-      {contentList[activeTabKey]}
-    </Card>
+    <>
+      <PhoneModal
+        handleCancel={handleCancel}
+        handleOk={handleOk}
+        isModalOpen={phoneModal}
+        info={user}
+      />
+      <Card
+        className="photographer-card"
+        bodyStyle={{ color: "#ffffff" }}
+        tabList={tabList}
+        activeTabKey={activeTabKey}
+        // tabBarExtraContent={<Link href={NavItems.MY_PAGE + user.user}>More info about</Link>}
+        onTabChange={onTabChange}
+      >
+        {contentList[activeTabKey]}
+      </Card>
+    </>
   );
 };
 

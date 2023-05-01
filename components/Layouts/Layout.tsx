@@ -5,10 +5,11 @@ import { useMutation } from "react-query";
 import { Layout, Menu } from "antd";
 import {
   UserOutlined,
-  VideoCameraOutlined,
+  CameraOutlined,
   LoginOutlined,
-  EditOutlined,
+  UnorderedListOutlined,
   MenuOutlined,
+  PicLeftOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import LoginModal from "../molecules/LoginModal/LoginModal";
@@ -70,14 +71,15 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     () => [
       !user
         ? {
-            key: Auth.LOGIN,
-            label: <div onClick={showModalLogin}>{Auth.LOGIN}</div>,
-          }
-        : null,
-      !user
-        ? {
             key: Auth.REGISTER,
             label: <div onClick={showModalRegister}>{Auth.REGISTER}</div>,
+          }
+        : null,
+
+      !user
+        ? {
+            key: Auth.LOGIN,
+            label: <div onClick={showModalLogin}>{Auth.LOGIN}</div>,
           }
         : null,
 
@@ -88,18 +90,23 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             label: <span>{user?.username}</span>,
             children: [
               {
+                key: NavItems.MY_PAGE,
+                icon: <PicLeftOutlined />,
+                label: <Link href={NavItems.MY_PAGE + user.id}>My page</Link>,
+              },
+              {
                 key: NavItems.CREATE_PROFILE,
                 icon: <UserOutlined />,
                 label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
               },
               {
                 key: NavItems.UPLOAD_PHOTO,
-                icon: <VideoCameraOutlined />,
+                icon: <CameraOutlined />,
                 label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
               },
               {
                 key: NavItems.ADD_PACKAGES,
-                icon: <EditOutlined />,
+                icon: <UnorderedListOutlined />,
                 label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
               },
               {

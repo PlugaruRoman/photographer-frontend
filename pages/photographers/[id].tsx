@@ -1,20 +1,29 @@
 import React from "react";
 import Head from "next/head";
+
 import { QueryClient, dehydrate, useQuery } from "react-query";
 import { GetServerSidePropsContext } from "next";
 
 import { PhotographersService } from "@/api/photographers";
-import { IDehydratedSingle } from "@/types/Dehydrated";
+import { useRouter } from "next/router";
 import PersonalGallery from "@/components/organism/PersonalGallery/PersonalGallery";
 import PhotographerMain from "@/components/organism/PhotographerMain/PhotographerMain";
-import { Space } from "antd";
+import { Alert, Divider, Skeleton, Space, Spin } from "antd";
+import Link from "next/link";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
+import { NavItems } from "@/types/enums";
+import { spawn } from "child_process";
+import NoProfile from "@/components/molecules/NoProfile/NoProfile";
 
-interface PhotographerProps {
-  dehydratedState: IDehydratedSingle;
-}
+const Photographer: React.FC = () => {
+  const { query } = useRouter();
+  const { user } = useAuth();
 
-const Photographer: React.FC<PhotographerProps> = ({ dehydratedState }) => {
-  console.log(dehydratedState.queries[0].state.data);
+  const { data, isLoading } = useQuery(
+    ["profiles", query.id],
+    PhotographersService.getPhotographer,
+  );
+
   return (
     <>
       <Head>
@@ -23,8 +32,25 @@ const Photographer: React.FC<PhotographerProps> = ({ dehydratedState }) => {
 
       <section className="section">
         <Space direction="vertical" size="large">
-          <PhotographerMain user={dehydratedState.queries[0].state.data} />
-          {/* <PersonalGallery /> */}
+          <Skeleton
+            title
+            style={{ backgroundColor: "#262b31", width: "700px" }}
+            loading={isLoading}
+            active
+            avatar
+            paragraph={{ rows: 7 }}
+          >
+            {!data && !isLoading ? (
+              <Alert
+                message={`Dear ${user?.username}`}
+                description={<NoProfile />}
+                type="info"
+                showIcon
+              />
+            ) : (
+              <PhotographerMain user={data} />
+            )}
+          </Skeleton>
         </Space>
       </section>
     </>
@@ -32,16 +58,3 @@ const Photographer: React.FC<PhotographerProps> = ({ dehydratedState }) => {
 };
 
 export default Photographer;
-
-export const getServerSideProps = async (context: GetServerSidePropsContext) => {
-  const { id } = context.query;
-
-  const queryClient = new QueryClient();
-  await queryClient.fetchQuery(["photographer", id], PhotographersService.getPhotographer);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
-};

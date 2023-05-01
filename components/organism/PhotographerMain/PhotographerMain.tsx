@@ -13,11 +13,11 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
         <Avatar shape="square" size={200} icon={<UserOutlined />} />
       </Badge.Ribbon>
       <Space size="large" direction="vertical">
-        <div className="photographer-info__name">{`Photographer ${user.firstname} ${user.lastname}`}</div>
-        <div className="photographer-info__city">{`Moldova,${user.city}`}</div>
-        <div className="photographer-info__about">{user.about}</div>
+        <div className="photographer-info__name">{`Photographer ${user?.firstname} ${user?.lastname}`}</div>
+        <div className="photographer-info__city">{`Moldova,${user?.city}`}</div>
+        <div className="photographer-info__about">{user?.about}</div>
       </Space>
-      <div className="photographer-info__phone">Phone number {`+373 ${user.phone}`}</div>
+      <div className="photographer-info__phone">Phone number {`+373 ${user?.phone}`}</div>
     </Space>
   );
 };

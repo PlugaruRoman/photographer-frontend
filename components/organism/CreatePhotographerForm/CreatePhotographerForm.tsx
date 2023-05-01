@@ -1,7 +1,9 @@
 import React from "react";
 import Router, { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
+import Marquee from "react-fast-marquee";
 import {
+  Alert,
   Button,
   Col,
   Form,
@@ -10,6 +12,7 @@ import {
   Progress,
   Row,
   Select,
+  Space,
   Spin,
   notification,
 } from "antd";
@@ -58,13 +61,19 @@ const CreatePhotographerForm: React.FC = () => {
         router.push("/photographers");
     },
     onError: (e: any) => {
-      console.log(e);
-      notification.error({
-        message: e.message,
-      });
+      if (e?.response?.data?.message.includes("duplicate key error collection")) {
+        notification.error({
+          message:
+            "Sorry, a profile already exists on this account. Please log in with your existing profile or contact customer support if you need assistance.",
+        });
+      } else {
+        notification.error({
+          message: e.message,
+        });
+      }
     },
   });
-  console.log(user);
+
   const onFinish = (values: IPhotographerForm) => {
     mutate({
       firstname: values.firstname,
@@ -77,18 +86,29 @@ const CreatePhotographerForm: React.FC = () => {
       facebook: values.facebook,
       instagram: values.instagram,
       web: values.web,
-      user: user?.email,
+      user: user?.id,
       email: values.email,
     });
   };
 
   return (
     <>
-      <h3 className="edit-user__text">
-        <Progress className="edit-user__progress" percent={progress} />
-        It is not obligatory to fill in all fields. Take the opportunity to fill in as many fields
-        as possible and increase your chances of finding the right clients.
-      </h3>
+      <Space className="edit-user__progress" direction="vertical">
+        <Progress percent={progress} />
+        <Alert
+          className="edit-user__alert"
+          banner
+          closable
+          type="info"
+          message={
+            <Marquee pauseOnHover gradient={false}>
+              It is not obligatory to fill in all fields. Take the opportunity to fill in as many
+              fields as possible and increase your chances of finding the right clients.
+            </Marquee>
+          }
+        />
+      </Space>
+
       <Form
         name="edit-user"
         onValuesChange={onValuesChange}

@@ -6,6 +6,7 @@ export enum NavItems {
   CREATE_PROFILE = "/create-profile",
   UPLOAD_PHOTO = "/upload-photo",
   ADD_PACKAGES = "/add-packages",
+  MY_PAGE = "/photographers/",
 }
 
 export enum Auth {

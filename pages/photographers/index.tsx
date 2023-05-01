@@ -1,17 +1,14 @@
 import React from "react";
 import Head from "next/head";
-import { DehydratedState, QueryClient, dehydrate } from "react-query";
+import { useQuery } from "react-query";
 import { PhotographersService } from "@/api/photographers";
-import { IDehydrated } from "@/types/Dehydrated";
-import { Card, Space } from "antd";
-import { GetServerSideProps } from "next";
+import { Space } from "antd";
+
 import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
 
-interface PhotographersProps {
-  dehydratedState: IDehydrated;
-}
+const Photographers: React.FC = () => {
+  const { data, isLoading } = useQuery("profiles", PhotographersService.getPhotographers);
 
-const Photographers: React.FC<PhotographersProps> = ({ dehydratedState }) => {
   return (
     <>
       <Head>
@@ -21,28 +18,15 @@ const Photographers: React.FC<PhotographersProps> = ({ dehydratedState }) => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="section">
-        <Space size="large" direction="vertical">
+        <Space style={{ width: "1000px" }} size="large" direction="vertical">
           <h1 className="title">Picture Perfect: A Directory of Top Photographers</h1>
-          {dehydratedState?.queries[0]?.state.data.map((user) => (
+          {data?.map((user: any) => (
             <PhotographerCard user={user} key={user._id} />
           ))}
         </Space>
       </section>
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async (): Promise<{
-  props: { dehydratedState: DehydratedState };
-}> => {
-  const queryClient = new QueryClient();
-  await queryClient.fetchQuery(["photographers"], PhotographersService.getPhotographers);
-
-  return {
-    props: {
-      dehydratedState: dehydrate(queryClient),
-    },
-  };
 };
 
 export default Photographers;
