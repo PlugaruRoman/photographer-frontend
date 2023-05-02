@@ -10,7 +10,7 @@ export enum NavItems {
 }
 
 export enum Auth {
-  LOGIN = "Login",
-  REGISTER = "Register",
-  LOGOUT = "Logout",
+  LOGIN = "login",
+  REGISTER = "register",
+  LOGOUT = "logout",
 }

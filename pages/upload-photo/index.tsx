@@ -5,6 +5,8 @@ import { Space } from "antd";
 
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { UploadForm } from "@/components/organism/UploadForm/UploadForm";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const UploadPhoto: React.FC = () => {
   const { user } = useAuth();
@@ -29,6 +31,18 @@ const UploadPhoto: React.FC = () => {
       </section>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+        "en",
+        "ro",
+        "ru",
+      ])),
+    },
+  };
 };
 
 export default UploadPhoto;

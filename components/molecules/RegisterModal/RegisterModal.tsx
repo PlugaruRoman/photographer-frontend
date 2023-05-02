@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "react-query";
+import { useTranslation } from "next-i18next";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth";
 import { IRegisterInputs } from "@/types/Register";
@@ -13,6 +14,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   handleCancelRegister,
   isModalOpenRegister,
 }) => {
+  const { t } = useTranslation();
   const [loading, setLoading] = React.useState(false);
 
   const validateMessages = {
@@ -48,7 +50,12 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   });
 
   return (
-    <Modal title="Sign up" open={isModalOpenRegister} footer={null} onCancel={handleCancelRegister}>
+    <Modal
+      title={t("sign:sign_up_account")}
+      open={isModalOpenRegister}
+      footer={null}
+      onCancel={handleCancelRegister}
+    >
       <Row justify={"center"} align={"middle"}>
         <Col span={24}>
           <Form
@@ -59,14 +66,22 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
             validateMessages={validateMessages}
             autoComplete="off"
           >
-            <Form.Item name={"username"} label="Name" rules={[{ type: "string", required: true }]}>
-              <Input />
-            </Form.Item>
-            <Form.Item name={"email"} label="Email" rules={[{ type: "email", required: true }]}>
+            <Form.Item
+              name={"username"}
+              label={t("sign:name")}
+              rules={[{ type: "string", required: true }]}
+            >
               <Input />
             </Form.Item>
             <Form.Item
-              label="Password"
+              name={"email"}
+              label={t("sign:email")}
+              rules={[{ type: "email", required: true }]}
+            >
+              <Input />
+            </Form.Item>
+            <Form.Item
+              label={t("sign:password")}
               name={"password"}
               rules={[
                 {
@@ -80,9 +95,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
               <Input.Password />
             </Form.Item>
 
-            <Form.Item wrapperCol={{ offset: 17, span: 16 }}>
+            <Form.Item wrapperCol={{ offset: 12, span: 16 }}>
               <Button loading={loading} size="large" type="default" htmlType="submit">
-                Sign up
+                {t("layout:sign_up")}
               </Button>
             </Form.Item>
           </Form>

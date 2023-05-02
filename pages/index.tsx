@@ -1,10 +1,15 @@
 import React from "react";
 import Head from "next/head";
-
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import HomePageGallery from "@/components/organism/HomePageGallery/HomePageGallery";
 import MainCarousel from "@/components/organism/MainCarousel/MainCarousel";
+import { GetStaticProps } from "next";
 
-const Home: React.FC = () => {
+export interface HomePageProps {
+  props: any;
+}
+
+const Home: React.FC<HomePageProps> = () => {
   return (
     <>
       <Head>
@@ -18,6 +23,18 @@ const Home: React.FC = () => {
       </main>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+        "en",
+        "ro",
+        "ru",
+      ])),
+    },
+  };
 };
 
 export default Home;

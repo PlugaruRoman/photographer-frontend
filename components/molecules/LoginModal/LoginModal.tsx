@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "next-i18next";
 import { useMutation } from "react-query";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth";
@@ -11,6 +12,7 @@ interface LoginModalProps {
 }
 
 const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) => {
+  const { t } = useTranslation();
   const { setUser } = useAuth();
 
   const onFinish = (values: ILoginInputs) => {
@@ -39,7 +41,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
   });
 
   return (
-    <Modal title="Sign in" open={isModalOpen} footer={null} onCancel={handleCancel}>
+    <Modal title={t("sign:sign_in")} open={isModalOpen} footer={null} onCancel={handleCancel}>
       <Row justify={"center"} align={"middle"}>
         <Col span={24}>
           <Form
@@ -50,7 +52,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
             autoComplete="off"
           >
             <Form.Item
-              label="Email"
+              label={t("sign:email")}
               name="email"
               rules={[{ required: true, message: "Please input your email!" }]}
             >
@@ -58,7 +60,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
             </Form.Item>
 
             <Form.Item
-              label="Password"
+              label={t("sign:password")}
               name="password"
               rules={[{ required: true, message: "Please input your password!" }]}
             >
@@ -67,7 +69,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
 
             <Form.Item wrapperCol={{ offset: 17, span: 16 }}>
               <Button size="large" type="default" htmlType="submit">
-                Sign in
+                {t("layout:sign_in")}
               </Button>
             </Form.Item>
           </Form>

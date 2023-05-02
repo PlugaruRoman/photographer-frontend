@@ -1,5 +1,7 @@
 import React from "react";
 import Head from "next/head";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 import { PhotographersService } from "@/api/photographers";
 import { Space } from "antd";
@@ -27,6 +29,18 @@ const Photographers: React.FC = () => {
       </section>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+        "en",
+        "ro",
+        "ru",
+      ])),
+    },
+  };
 };
 
 export default Photographers;

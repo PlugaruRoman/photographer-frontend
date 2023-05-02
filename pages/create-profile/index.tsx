@@ -1,6 +1,8 @@
 import React from "react";
 import Head from "next/head";
 import Router from "next/router";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Space } from "antd";
 
 import { useAuth } from "@/contextes/AuthContext/useAuth";
@@ -29,6 +31,18 @@ const CreateProfile: React.FC = () => {
       </section>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+        "en",
+        "ro",
+        "ru",
+      ])),
+    },
+  };
 };
 
 export default CreateProfile;

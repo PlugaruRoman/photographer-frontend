@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { AppProps } from "next/app";
+import { appWithTranslation } from "next-i18next";
 import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
 import { ConfigProvider } from "antd";
 import { MainLayout } from "@/components/Layouts/Layout";
@@ -37,4 +38,4 @@ const App = ({ Component, pageProps }: AppProps) => {
   );
 };
 
-export default App;
+export default appWithTranslation(App);

@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 
 import { QueryClient, dehydrate, useQuery } from "react-query";
-import { GetServerSidePropsContext } from "next";
+import { GetServerSidePropsContext, GetStaticProps } from "next";
 
 import { PhotographersService } from "@/api/photographers";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { NavItems } from "@/types/enums";
 import { spawn } from "child_process";
 import NoProfile from "@/components/molecules/NoProfile/NoProfile";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Photographer: React.FC = () => {
   const { query } = useRouter();
@@ -55,6 +56,18 @@ const Photographer: React.FC = () => {
       </section>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+        "en",
+        "ro",
+        "ru",
+      ])),
+    },
+  };
 };
 
 export default Photographer;

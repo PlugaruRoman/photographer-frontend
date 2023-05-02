@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useCallback, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { useMutation } from "react-query";
-import { Layout, Menu } from "antd";
+import { Layout, Menu, Select } from "antd";
 import {
   UserOutlined,
   CameraOutlined,
@@ -24,8 +25,9 @@ interface MainLayoutProps {
 }
 
 export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+  const { t } = useTranslation("layout");
   const { user, setUser } = useAuth();
-  const { pathname } = useRouter();
+  const router = useRouter();
 
   const [isModalOpenLogin, setIsModalOpenLogin] = React.useState(false);
   const [isModalOpenRegister, setIsModalOpenRegister] = React.useState(false);
@@ -46,6 +48,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     setIsModalOpenRegister(false);
   };
 
+  const onChangeLanguage = useMemo(
+    () => (l: string) => {
+      const { pathname, asPath, query } = router;
+      router.push({ pathname, query }, asPath, { locale: l });
+    },
+    [router],
+  );
+
   const { mutate } = useMutation(AuthService.logoutUser, {
     onSuccess: () => {
       localStorage.removeItem("user");
@@ -59,11 +69,11 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const item = [
     {
       key: NavItems.HOME,
-      label: <Link href={NavItems.HOME}>Home</Link>,
+      label: <Link href={NavItems.HOME}>{t("layout:home")}</Link>,
     },
     {
       key: NavItems.PHOTOGRAPHERS,
-      label: <Link href={NavItems.PHOTOGRAPHERS}>Photographers</Link>,
+      label: <Link href={NavItems.PHOTOGRAPHERS}>{t("layout:photographers")}</Link>,
     },
   ];
 
@@ -72,14 +82,14 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
       !user
         ? {
             key: Auth.REGISTER,
-            label: <div onClick={showModalRegister}>{Auth.REGISTER}</div>,
+            label: <div onClick={showModalRegister}>{t("layout:sign_up")}</div>,
           }
         : null,
 
       !user
         ? {
             key: Auth.LOGIN,
-            label: <div onClick={showModalLogin}>{Auth.LOGIN}</div>,
+            label: <div onClick={showModalLogin}>{t("layout:sign_in")}</div>,
           }
         : null,
 
@@ -92,33 +102,43 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               {
                 key: NavItems.MY_PAGE,
                 icon: <PicLeftOutlined />,
-                label: <Link href={NavItems.MY_PAGE + user.id}>My page</Link>,
+                label: <Link href={NavItems.MY_PAGE + user.id}>{t("layout:my_page")}</Link>,
               },
               {
                 key: NavItems.CREATE_PROFILE,
                 icon: <UserOutlined />,
-                label: <Link href={NavItems.CREATE_PROFILE}>Create profile</Link>,
+                label: <Link href={NavItems.CREATE_PROFILE}>{t("layout:create_profile")}</Link>,
               },
               {
                 key: NavItems.UPLOAD_PHOTO,
                 icon: <CameraOutlined />,
-                label: <Link href={NavItems.UPLOAD_PHOTO}>Upload photo</Link>,
+                label: <Link href={NavItems.UPLOAD_PHOTO}>{t("layout:upload_photo")}</Link>,
               },
               {
                 key: NavItems.ADD_PACKAGES,
                 icon: <UnorderedListOutlined />,
-                label: <Link href={NavItems.ADD_PACKAGES}>Add packages</Link>,
+                label: <Link href={NavItems.ADD_PACKAGES}>{t("layout:add_packages")}</Link>,
               },
               {
                 key: Auth.LOGOUT,
                 icon: <LoginOutlined onClick={onClickLogOut} />,
-                label: <span onClick={onClickLogOut}>{Auth.LOGOUT}</span>,
+                label: <span onClick={onClickLogOut}>{t("layout:logout")}</span>,
               },
             ],
           }
         : null,
+      {
+        key: "language",
+        label: (
+          <Select
+            onChange={onChangeLanguage}
+            defaultValue={router.locale}
+            options={router.locales?.map((local) => ({ value: local, label: local }))}
+          />
+        ),
+      },
     ],
-    [user, onClickLogOut],
+    [user, onClickLogOut, router, t, onChangeLanguage],
   );
 
   return (
@@ -127,10 +147,10 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         <Header className="header">
           <Menu
             className="header-menu"
-            selectedKeys={[pathname]}
+            selectedKeys={[router.pathname]}
             mode="horizontal"
             items={item}
-            activeKey={pathname}
+            activeKey={router.pathname}
           />
 
           <div>LOGO</div>
@@ -150,6 +170,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
             isModalOpenRegister={isModalOpenRegister}
           />
         )}
+
         <Content>{children}</Content>
         <Footer className="footer">Ant Design ©2023 Created by Ant UED</Footer>
       </Layout>

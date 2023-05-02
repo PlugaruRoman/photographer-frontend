@@ -5,6 +5,8 @@ import { Space } from "antd";
 
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import PackagesForm from "@/components/organism/PackagesForm/PackagesForm";
+import { GetStaticProps } from "next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const AddPackages: React.FC = () => {
   const { user } = useAuth();
@@ -28,6 +30,18 @@ const AddPackages: React.FC = () => {
       </section>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+        "en",
+        "ro",
+        "ru",
+      ])),
+    },
+  };
 };
 
 export default AddPackages;
