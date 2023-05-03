@@ -23,6 +23,7 @@ export interface IPhotographerForm {
   city: string;
   company: string;
   price: number;
+  hour: number;
   about: string;
   facebook: string;
   instagram: string;

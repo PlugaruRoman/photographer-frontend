@@ -30,7 +30,7 @@ const CreatePhotographerForm: React.FC = () => {
   const onValuesChange = (_: any, allValues: any) => {
     const numInputs = Object.values(allValues).length;
     const numFilledInputs = Object.values(allValues).filter(
-      (value) => value !== undefined && value !== "",
+      (value) => value !== undefined && value !== "" && value !== null,
     ).length;
     const newProgress = Math.floor((numFilledInputs / numInputs) * 100);
     setProgress(newProgress);
@@ -81,6 +81,7 @@ const CreatePhotographerForm: React.FC = () => {
       company: values.company,
       city: values.city,
       price: values.price,
+      hour: values.hour,
       about: values.about,
       phone: values.phone,
       facebook: values.facebook,
@@ -159,11 +160,16 @@ const CreatePhotographerForm: React.FC = () => {
               <Input />
             </Form.Item>
 
-            <Form.Item name={"price"} label="Price per hour">
-              <InputNumber prefix="$" />
-            </Form.Item>
+            <Space>
+              <Form.Item name={"price"} label="Price per hour">
+                <InputNumber prefix="$" />
+              </Form.Item>
+              <Form.Item name={"hour"} label="minimal">
+                <InputNumber placeholder="hour" />
+              </Form.Item>
+            </Space>
 
-            <Form.Item name={"about"} label="About me info">
+            <Form.Item name={"about"} label="Info about me">
               <Input.TextArea rows={6} />
             </Form.Item>
           </Col>
@@ -171,12 +177,19 @@ const CreatePhotographerForm: React.FC = () => {
             <Form.Item name={"facebook"} label={"Facebook"}>
               <Input placeholder="www.facebook.com/user" />
             </Form.Item>
+
             <Form.Item name={"instagram"} label={"Instagram"}>
               <Input placeholder="www.instagram.com/user" />
             </Form.Item>
-            <Form.Item name={"web"} label={"web"}>
+
+            <Form.Item name={"twitter"} label={"twitter"}>
               <Input placeholder="www.user-website.com" />
             </Form.Item>
+
+            <Form.Item name={"web"} label={"web"}>
+              <Input placeholder="twitter.com/user" />
+            </Form.Item>
+
             <Button className="form-block__button" size="large" type="default" htmlType="submit">
               Submit
             </Button>

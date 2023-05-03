@@ -2,7 +2,7 @@ import React from "react";
 import Head from "next/head";
 
 import { QueryClient, dehydrate, useQuery } from "react-query";
-import { GetServerSidePropsContext, GetStaticProps } from "next";
+import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticProps } from "next";
 
 import { PhotographersService } from "@/api/photographers";
 import { useRouter } from "next/router";
@@ -58,7 +58,7 @@ const Photographer: React.FC = () => {
   );
 };
 
-export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
+export async function getServerSideProps({ locale }: { locale: string }) {
   return {
     props: {
       ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
@@ -68,6 +68,6 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
       ])),
     },
   };
-};
+}
 
 export default Photographer;

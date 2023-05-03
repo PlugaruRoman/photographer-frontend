@@ -1,5 +1,6 @@
 import { IPhotographerCard } from "@/types/Photographer";
 import { NavItems } from "@/types/enums";
+import { useTranslation } from "next-i18next";
 import { Avatar, Button, Card, Col, Row, Space, Tooltip } from "antd";
 import {
   DollarOutlined,
@@ -13,26 +14,12 @@ import Link from "next/link";
 import React, { useState } from "react";
 import PhoneModal from "@/components/molecules/PhoneModal/PhoneModal";
 
-const tabList = [
-  {
-    key: "photographer",
-    tab: "Photographer",
-  },
-  {
-    key: "packages",
-    tab: "Packages",
-  },
-  {
-    key: "photo",
-    tab: "Photo",
-  },
-];
-
 interface PhotographerCardProps {
   user: IPhotographerCard;
 }
 
 const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
+  const { t } = useTranslation();
   const [phoneModal, setPhoneModal] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>("photographer");
 
@@ -90,13 +77,15 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
             <Space>
               <DollarOutlined className="photographer-card__price" />
               <div className="photographer-card__price">
-                {user.price} per hour{" "}
-                <span style={{ color: "#808080", fontSize: "15px" }}>minimum 2h</span>
+                {user.price + " " + t("photographers:per_hour")}{" "}
+                <span style={{ color: "#808080", fontSize: "15px" }}>
+                  {t("photographers:minimum")} 2 {t("photographers:hs")}
+                </span>
               </div>
             </Space>
             <Space className="photographer-card__right">
               <Button size="large" onClick={showModal} icon={<PhoneOutlined />}>
-                call him
+                {t("photographers:call")}
               </Button>
 
               <Link target="_blank" href={"https://" + user.facebook}>
@@ -119,6 +108,21 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
     photo: <p>project content</p>,
   };
 
+  const tabList = [
+    {
+      key: "photographer",
+      tab: t("photographers:photographer"),
+    },
+    {
+      key: "packages",
+      tab: t("photographers:packages"),
+    },
+    {
+      key: "photo",
+      tab: t("photographers:photos"),
+    },
+  ];
+
   return (
     <>
       <PhoneModal
@@ -132,7 +136,9 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
         bodyStyle={{ color: "#ffffff" }}
         tabList={tabList}
         activeTabKey={activeTabKey}
-        // tabBarExtraContent={<Link href={NavItems.MY_PAGE + user.user}>More info about</Link>}
+        tabBarExtraContent={
+          <Link href={NavItems.MY_PAGE + user.user}>{t("photographers:more_info")}</Link>
+        }
         onTabChange={onTabChange}
       >
         {contentList[activeTabKey]}
