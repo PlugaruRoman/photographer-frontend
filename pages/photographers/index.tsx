@@ -7,6 +7,7 @@ import { PhotographersService } from "@/api/photographers";
 import { Space } from "antd";
 
 import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
+import { t } from "i18next";
 
 const Photographers: React.FC = () => {
   const { data, isLoading } = useQuery("profiles", PhotographersService.getPhotographers);
@@ -21,7 +22,7 @@ const Photographers: React.FC = () => {
       </Head>
       <section className="section">
         <Space style={{ width: "1000px" }} size="large" direction="vertical">
-          <h1 className="title">Picture Perfect: A Directory of Top Photographers</h1>
+          <h1 className="title">{t("photographers:photographer_msg")}</h1>
           {data?.map((user: any) => (
             <PhotographerCard user={user} key={user._id} />
           ))}

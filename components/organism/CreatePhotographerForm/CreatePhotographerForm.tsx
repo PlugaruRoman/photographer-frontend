@@ -1,6 +1,7 @@
 import React from "react";
 import Router, { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
+import { useTranslation } from "next-i18next";
 import Marquee from "react-fast-marquee";
 import {
   Alert,
@@ -24,6 +25,7 @@ import { IPhotographerForm } from "@/types/Photographer";
 
 const CreatePhotographerForm: React.FC = () => {
   const [progress, setProgress] = React.useState(0);
+  const { t } = useTranslation();
   const router = useRouter();
   const { user } = useAuth();
 
@@ -103,8 +105,7 @@ const CreatePhotographerForm: React.FC = () => {
           type="info"
           message={
             <Marquee pauseOnHover gradient={false}>
-              It is not obligatory to fill in all fields. Take the opportunity to fill in as many
-              fields as possible and increase your chances of finding the right clients.
+              {t("form:information")}
             </Marquee>
           }
         />
@@ -119,26 +120,26 @@ const CreatePhotographerForm: React.FC = () => {
         <Row wrap justify="space-between">
           <Col className="form-block">
             <Form.Item name={"firstname"} rules={[{ required: true }]}>
-              <Input placeholder="First name" />
+              <Input placeholder={t("form:first_name") || "first name"} />
             </Form.Item>
 
             <Form.Item name={"lastname"} rules={[{ required: true }]}>
-              <Input placeholder="Last name" />
+              <Input placeholder={t("form:last_name") || "last name"} />
             </Form.Item>
 
             <Form.Item name={"email"} rules={[{ required: true }]}>
-              <Input placeholder="email" />
+              <Input placeholder={t("form:email") || "email"} />
             </Form.Item>
 
             <Form.Item name={"phone"}>
-              <Input prefix="+373" placeholder="Phone number" />
+              <Input prefix="+373" placeholder={t("form:phone") || "phone"} />
             </Form.Item>
 
             <Spin spinning={false}>
               <Form.Item name={"city"} rules={[{ required: true }]}>
                 <Select
                   showSearch
-                  placeholder="Search City"
+                  placeholder={t("form:search_city") || "select city"}
                   optionFilterProp="children"
                   filterOption={(input, option) =>
                     (option?.label ?? "").toString().toLowerCase().includes(input.toLowerCase())
@@ -156,20 +157,20 @@ const CreatePhotographerForm: React.FC = () => {
             </Spin>
           </Col>
           <Col className="form-block">
-            <Form.Item name={"company"} label="Studio">
+            <Form.Item name={"company"} label={t("form:studio")}>
               <Input />
             </Form.Item>
 
             <Space>
-              <Form.Item name={"price"} label="Price per hour">
+              <Form.Item name={"price"} label={t("form:per_hour")}>
                 <InputNumber prefix="$" />
               </Form.Item>
-              <Form.Item name={"hour"} label="minimal">
+              <Form.Item name={"hour"} label={t("form:minimal")}>
                 <InputNumber placeholder="hour" />
               </Form.Item>
             </Space>
 
-            <Form.Item name={"about"} label="Info about me">
+            <Form.Item name={"about"} label={t("form:about_me")}>
               <Input.TextArea rows={6} />
             </Form.Item>
           </Col>
@@ -191,7 +192,7 @@ const CreatePhotographerForm: React.FC = () => {
             </Form.Item>
 
             <Button className="form-block__button" size="large" type="default" htmlType="submit">
-              Submit
+              {t("form:submit")}
             </Button>
           </Col>
         </Row>

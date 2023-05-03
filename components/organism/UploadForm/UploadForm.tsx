@@ -1,5 +1,6 @@
 import React from "react";
 import { useMutation } from "react-query";
+import { useTranslation } from "next-i18next";
 import { Button, Form, Image, Modal, Spin, Upload, notification } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
@@ -9,6 +10,8 @@ import { UploadButton } from "./molecules/UploadButton/UploadButton";
 import { getBase64 } from "@/utils/getbase";
 
 export const UploadForm: React.FC = () => {
+  const { t } = useTranslation();
+
   const [previewOpen, setPreviewOpen] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState("");
   const [previewTitle, setPreviewTitle] = React.useState("");
@@ -71,7 +74,7 @@ export const UploadForm: React.FC = () => {
           </Modal>
         </Form.Item>
         <Button type="default" size="large" htmlType="submit">
-          Submit
+          {t("upload:submit")}
         </Button>
       </Form>
     </Spin>
