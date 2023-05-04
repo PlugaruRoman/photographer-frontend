@@ -172,7 +172,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
         )}
 
         <Content>{children}</Content>
-        <Footer className="footer">Ant Design ©2023 Created by Ant UED</Footer>
+        <Footer className="footer">Moments-app ©2023 Created by RP</Footer>
       </Layout>
     </Layout>
   );
