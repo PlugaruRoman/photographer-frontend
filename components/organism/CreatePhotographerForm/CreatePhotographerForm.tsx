@@ -39,13 +39,9 @@ const CreatePhotographerForm: React.FC = () => {
   };
 
   const validateMessages = {
-    required: "${label} is required!",
+    required: t("notification:required"),
     types: {
-      email: "${label} is not a valid email!",
-      number: "${label} is not a valid number!",
-    },
-    number: {
-      range: "${label} must be between ${min} and ${max}",
+      email: t("notification:valid_mail"),
     },
   };
 
@@ -58,15 +54,14 @@ const CreatePhotographerForm: React.FC = () => {
   const { mutate } = useMutation(PhotographersService.createPhotographer, {
     onSuccess: () => {
       notification.success({
-        message: "Successfully",
+        message: t("notification:success"),
       }),
         router.push("/photographers");
     },
     onError: (e: any) => {
       if (e?.response?.data?.message.includes("duplicate key error collection")) {
         notification.error({
-          message:
-            "Sorry, a profile already exists on this account. Please log in with your existing profile or contact customer support if you need assistance.",
+          message: t("notification:mail_exist"),
         });
       } else {
         notification.error({
@@ -127,7 +122,7 @@ const CreatePhotographerForm: React.FC = () => {
               <Input placeholder={t("form:last_name") || "last name"} />
             </Form.Item>
 
-            <Form.Item name={"email"} rules={[{ required: true }]}>
+            <Form.Item name={"email"} rules={[{ type: "email", required: true }]}>
               <Input placeholder={t("form:email") || "email"} />
             </Form.Item>
 
@@ -163,10 +158,10 @@ const CreatePhotographerForm: React.FC = () => {
 
             <Space>
               <Form.Item name={"price"} label={t("form:per_hour")}>
-                <InputNumber prefix="$" />
+                <InputNumber min={0} prefix="$" />
               </Form.Item>
               <Form.Item name={"hour"} label={t("form:minimal")}>
-                <InputNumber placeholder="hour" />
+                <InputNumber min={0} placeholder="hour" />
               </Form.Item>
             </Space>
 
@@ -178,19 +173,16 @@ const CreatePhotographerForm: React.FC = () => {
             <Form.Item name={"facebook"} label={"Facebook"}>
               <Input placeholder="www.facebook.com/user" />
             </Form.Item>
-
             <Form.Item name={"instagram"} label={"Instagram"}>
               <Input placeholder="www.instagram.com/user" />
             </Form.Item>
-
             <Form.Item name={"twitter"} label={"twitter"}>
-              <Input placeholder="www.user-website.com" />
-            </Form.Item>
-
-            <Form.Item name={"web"} label={"web"}>
               <Input placeholder="twitter.com/user" />
             </Form.Item>
 
+            <Form.Item name={"web"} label={"web"}>
+              <Input placeholder="www.user-website.com" />
+            </Form.Item>
             <Button className="form-block__button" size="large" type="default" htmlType="submit">
               {t("form:submit")}
             </Button>

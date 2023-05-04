@@ -79,7 +79,8 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
               <div className="photographer-card__price">
                 {user.price + " " + t("photographers:per_hour")}{" "}
                 <span style={{ color: "#808080", fontSize: "15px" }}>
-                  {t("photographers:minimum")} 2 {t("photographers:hs")}
+                  {t("photographers:minimum")} {user.hour}{" "}
+                  {user.hour > 1 ? t("photographers:hs") : t("photographers:h")}
                 </span>
               </div>
             </Space>

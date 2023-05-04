@@ -18,9 +18,9 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   const [loading, setLoading] = React.useState(false);
 
   const validateMessages = {
-    required: "${label} is required!",
+    required: t("notification:required"),
     types: {
-      email: "${label} is not a valid email!",
+      email: t("notification:valid_mail"),
     },
   };
 
@@ -36,7 +36,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
   const { mutate } = useMutation(AuthService.createUser, {
     onSuccess: () => {
       notification.success({
-        message: "Successfully",
+        message: t("notification:success"),
       });
       handleCancelRegister();
       setLoading(false);
@@ -87,19 +87,19 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
                 {
                   required: true,
                   pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,24}$/,
-                  message:
-                    "Password must contain at least one lowercase letter, one uppercase letter, one digit, and be 8-24 characters long",
+                  message: <>{t("notification:password")}</>,
                 },
               ]}
             >
               <Input.Password />
             </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 12, span: 16 }}>
-              <Button loading={loading} size="large" type="default" htmlType="submit">
-                {t("layout:sign_up")}
-              </Button>
-            </Form.Item>
+            <Row justify="end">
+              <Form.Item>
+                <Button loading={loading} size="large" type="default" htmlType="submit">
+                  {t("layout:sign_up")}
+                </Button>
+              </Form.Item>
+            </Row>
           </Form>
         </Col>
       </Row>

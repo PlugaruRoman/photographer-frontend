@@ -1,6 +1,6 @@
 import React from "react";
 import Head from "next/head";
-
+import { useTranslation } from "next-i18next";
 import { QueryClient, dehydrate, useQuery } from "react-query";
 import { GetServerSidePropsContext, GetServerSidePropsResult, GetStaticProps } from "next";
 
@@ -17,6 +17,7 @@ import NoProfile from "@/components/molecules/NoProfile/NoProfile";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 
 const Photographer: React.FC = () => {
+  const { t } = useTranslation();
   const { query } = useRouter();
   const { user } = useAuth();
 
@@ -43,7 +44,7 @@ const Photographer: React.FC = () => {
           >
             {!data && !isLoading ? (
               <Alert
-                message={`Dear ${user?.username}`}
+                message={`${t("main:dear")} ${user?.username}`}
                 description={<NoProfile />}
                 type="info"
                 showIcon
@@ -61,11 +62,12 @@ const Photographer: React.FC = () => {
 export async function getServerSideProps({ locale }: { locale: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
-        "en",
-        "ro",
-        "ru",
-      ])),
+      ...(await serverSideTranslations(
+        locale,
+        ["common", "home", "layout", "main", "notification"],
+        null,
+        ["en", "ro", "ru"],
+      )),
     },
   };
 }

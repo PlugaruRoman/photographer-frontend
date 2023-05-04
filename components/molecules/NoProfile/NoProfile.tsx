@@ -1,22 +1,18 @@
+import { useTranslation } from "next-i18next";
 import { NavItems } from "@/types/enums";
 import Link from "next/link";
 
 const NoProfile: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <>
       <p style={{ paddingTop: "20px" }}>
-        We have noticed that you have not yet created a page on our platform. If you wish to do so,
-        we kindly invite you to follow this
-        <Link href={NavItems.CREATE_PROFILE}> Link</Link> to start the page creation process.
+        {t("main:msg_one")}
+        <Link href={NavItems.CREATE_PROFILE}> {t("main:link")}</Link> {t("main:msg_four")}
       </p>
-      <p style={{ paddingTop: "20px" }}>
-        If you encounter any issues or require any assistance in creating your page, please do not
-        hesitate to contact us. We are always here to support you and help you succeed.
-      </p>
-      <p style={{ paddingTop: "20px" }}>
-        Thank you for choosing our platform, and we look forward to seeing your page.
-      </p>
-      <p style={{ paddingTop: "20px" }}>Best regards,</p>
+      <p style={{ paddingTop: "20px" }}>{t("main:msg_two")}</p>
+      <p style={{ paddingTop: "20px" }}>{t("main:msg_three")}</p>
+      <p style={{ paddingTop: "20px" }}>{t("main:regards")}</p>
       <p>Moments-App</p>
     </>
   );

@@ -39,11 +39,12 @@ const UploadPhoto: React.FC = () => {
 export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "layout", "upload"], null, [
-        "en",
-        "ro",
-        "ru",
-      ])),
+      ...(await serverSideTranslations(
+        locale,
+        ["common", "layout", "upload", "notification"],
+        null,
+        ["en", "ro", "ru"],
+      )),
     },
   };
 };

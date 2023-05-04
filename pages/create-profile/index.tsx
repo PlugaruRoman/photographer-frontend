@@ -38,11 +38,12 @@ const CreateProfile: React.FC = () => {
 export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign", "form"], null, [
-        "en",
-        "ro",
-        "ru",
-      ])),
+      ...(await serverSideTranslations(
+        locale,
+        ["common", "home", "layout", "sign", "form", "notification"],
+        null,
+        ["en", "ro", "ru"],
+      )),
     },
   };
 };

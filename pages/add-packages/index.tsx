@@ -35,7 +35,7 @@ const AddPackages: React.FC = () => {
 export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
+      ...(await serverSideTranslations(locale, ["common", "home", "layout", "notification"], null, [
         "en",
         "ro",
         "ru",

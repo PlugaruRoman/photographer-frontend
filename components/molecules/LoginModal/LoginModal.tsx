@@ -15,6 +15,13 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
   const { t } = useTranslation();
   const { setUser } = useAuth();
 
+  const validateMessages = {
+    required: t("notification:required"),
+    types: {
+      email: t("notification:valid_mail"),
+    },
+  };
+
   const onFinish = (values: ILoginInputs) => {
     mutate({
       email: values.email,
@@ -28,7 +35,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
       localStorage.setItem("Token", res.data.accessToken);
       setUser(res.data.user);
       notification.success({
-        message: "Successfully",
+        message: t("notification:success"),
       });
       handleCancel();
     },
@@ -50,28 +57,26 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
             wrapperCol={{ span: 16 }}
             onFinish={onFinish}
             autoComplete="off"
+            validateMessages={validateMessages}
           >
             <Form.Item
               label={t("sign:email")}
               name="email"
-              rules={[{ required: true, message: "Please input your email!" }]}
+              rules={[{ type: "email", required: true }]}
             >
               <Input />
             </Form.Item>
 
-            <Form.Item
-              label={t("sign:password")}
-              name="password"
-              rules={[{ required: true, message: "Please input your password!" }]}
-            >
+            <Form.Item label={t("sign:password")} name="password" rules={[{ required: true }]}>
               <Input.Password />
             </Form.Item>
-
-            <Form.Item wrapperCol={{ offset: 17, span: 16 }}>
-              <Button size="large" type="default" htmlType="submit">
-                {t("layout:sign_in")}
-              </Button>
-            </Form.Item>
+            <Row justify="end">
+              <Form.Item>
+                <Button size="large" type="default" htmlType="submit">
+                  {t("layout:sign_in")}
+                </Button>
+              </Form.Item>
+            </Row>
           </Form>
         </Col>
       </Row>

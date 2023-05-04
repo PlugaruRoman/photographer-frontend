@@ -28,11 +28,12 @@ const Home: React.FC<HomePageProps> = () => {
 export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common", "home", "layout", "sign"], null, [
-        "en",
-        "ro",
-        "ru",
-      ])),
+      ...(await serverSideTranslations(
+        locale,
+        ["common", "home", "layout", "sign", "notification"],
+        null,
+        ["en", "ro", "ru"],
+      )),
     },
   };
 };
