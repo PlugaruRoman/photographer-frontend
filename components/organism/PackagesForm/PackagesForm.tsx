@@ -2,10 +2,13 @@ import React from "react";
 import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Space, notification } from "antd";
 import { useMutation } from "react-query";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { PackagesService } from "@/api/offer";
+import { PackagesForm } from "@/types/Packages";
 
 const PackagesForm: React.FC = () => {
   const [form] = Form.useForm();
+  const { user } = useAuth();
 
   const { mutate } = useMutation(PackagesService.createPackage, {
     onSuccess: () => {
@@ -21,16 +24,10 @@ const PackagesForm: React.FC = () => {
     },
   });
 
-  const onFinish = (values: any) => {
+  const onFinish = (value: PackagesForm) => {
     mutate({
-      package: values.packages[0]?.package,
-      package1: values.packages[1]?.package,
-      package2: values.packages[2]?.package,
-      package3: values.packages[3]?.package,
-      package4: values.packages[4]?.package,
-      package5: values.packages[5]?.package,
-      package6: values.packages[6]?.package,
-      package7: values.packages[7]?.package,
+      value: value.packages,
+      user: user?.id,
     });
   };
 
@@ -50,8 +47,8 @@ const PackagesForm: React.FC = () => {
                 <Form.Item
                   style={{ width: "500px" }}
                   {...restField}
-                  name={[name, "package"]}
-                  rules={[{ required: true, message: "Missing first name" }]}
+                  name={[name]}
+                  rules={[{ required: true }]}
                 >
                   <Input placeholder="Package" />
                 </Form.Item>

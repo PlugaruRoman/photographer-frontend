@@ -13,6 +13,8 @@ import {
 import Link from "next/link";
 import React, { useState } from "react";
 import PhoneModal from "@/components/molecules/PhoneModal/PhoneModal";
+import { useQuery } from "react-query";
+import { PackagesService } from "@/api/offer";
 
 interface PhotographerCardProps {
   user: IPhotographerCard;
@@ -22,6 +24,8 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
   const { t } = useTranslation();
   const [phoneModal, setPhoneModal] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>("photographer");
+
+  const { data, isLoading } = useQuery(["packages", user.user], PackagesService.getPackage);
 
   const onTabChange = (key: string) => {
     setActiveTabKey(key);
@@ -105,7 +109,7 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
         </Col>
       </Row>
     ),
-    packages: <p>app content</p>,
+    packages: data?.value?.map((a: any, i: number) => <p key={i}>{a}</p>),
     photo: <p>project content</p>,
   };
 
