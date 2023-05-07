@@ -33,10 +33,10 @@ const Photographer: React.FC = () => {
       </Head>
 
       <section className="section">
-        <Space direction="vertical" size="large">
+        <Space className="photographer-main-content" direction="vertical" size="large">
           <Skeleton
             title
-            style={{ backgroundColor: "#262b31", width: "700px" }}
+            className="photographer-main-skeleton"
             loading={isLoading}
             active
             avatar
@@ -64,7 +64,7 @@ export async function getServerSideProps({ locale }: { locale: string }) {
     props: {
       ...(await serverSideTranslations(
         locale,
-        ["common", "home", "layout", "main", "notification"],
+        ["common", "home", "layout", "main", "notification", "sign"],
         null,
         ["en", "ro", "ru"],
       )),

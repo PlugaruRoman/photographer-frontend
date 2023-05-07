@@ -15,7 +15,7 @@ export const UploadForm: React.FC = () => {
   const [previewOpen, setPreviewOpen] = React.useState(false);
   const [previewImage, setPreviewImage] = React.useState("");
   const [previewTitle, setPreviewTitle] = React.useState("");
-  const [fileList, setFileList] = React.useState<UploadFile[]>([]);
+  const [fileList, setFileList] = React.useState<UploadFile>();
 
   const handleCancel = () => setPreviewOpen(false);
 
@@ -28,26 +28,21 @@ export const UploadForm: React.FC = () => {
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1));
   };
 
-  const handleChange: UploadProps["onChange"] = ({ fileList: newFileList }) =>
-    setFileList(newFileList);
+  const handleChange: UploadProps["onChange"] = (data) => console.log(data);
 
   const onFinish = () => {
     const formData = new FormData();
-    fileList.forEach((file) => {
-      formData.append("files", file.originFileObj as RcFile);
-      formData.append("ref", "myContentType");
-      formData.append("field", "photo");
-    });
+    formData.append("avatar", fileList!.originFileObj as RcFile);
 
     mutate(formData);
   };
 
   const { mutate, isLoading } = useMutation(UploadService.uploadPhoto, {
-    onSuccess: () => {
+    onSuccess: (res) => {
+      console.log(res);
       notification.success({
         message: "Successfully",
       });
-      setFileList([]);
     },
     onError: (e: any) => {
       notification.error({
@@ -55,24 +50,24 @@ export const UploadForm: React.FC = () => {
       });
     },
   });
-
+  console.log(fileList);
   return (
     <Spin tip="Loading..." spinning={isLoading} size="large">
       <Form name="upload-photo" onFinish={onFinish}>
-        <Form.Item>
-          <Upload
-            action="http://localhost:3000/"
-            listType="picture-card"
-            fileList={fileList}
-            onPreview={handlePreview}
-            onChange={handleChange}
-          >
-            {fileList.length >= 12 ? null : <UploadButton />}
-          </Upload>
-          <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-            <Image alt="image" width={470} placeholder="blur" height={300} src={previewImage} />
-          </Modal>
-        </Form.Item>
+        <Upload
+          name="avatar"
+          action={`${process.env.NEXT_PUBLIC_FS_URL}/api/upload`}
+          listType="picture-card"
+          onPreview={handlePreview}
+          onChange={handleChange}
+          maxCount={5}
+          multiple={true}
+        >
+          <UploadButton />
+        </Upload>
+        <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+          <Image alt="image" width={470} placeholder="blur" height={300} src={previewImage} />
+        </Modal>
         <Button type="default" size="large" htmlType="submit">
           {t("upload:submit")}
         </Button>

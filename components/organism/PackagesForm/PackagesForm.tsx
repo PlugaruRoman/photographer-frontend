@@ -5,8 +5,13 @@ import { useMutation } from "react-query";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { PackagesService } from "@/api/offer";
 import { PackagesForm } from "@/types/Packages";
+import { $Object } from "@/types/Object";
 
-const PackagesForm: React.FC = () => {
+export interface PackagesFormProps {
+  packages: $Object[];
+}
+
+const PackagesForm: React.FC<PackagesFormProps> = () => {
   const [form] = Form.useForm();
   const { user } = useAuth();
 
@@ -24,7 +29,7 @@ const PackagesForm: React.FC = () => {
     },
   });
 
-  const onFinish = (value: PackagesForm) => {
+  const onFinish = (value: PackagesFormProps) => {
     mutate({
       value: value.packages,
       user: user?.id,

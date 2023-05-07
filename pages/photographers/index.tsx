@@ -22,7 +22,7 @@ const Photographers: React.FC = () => {
       </Head>
       <section className="section">
         <Space style={{ width: "1000px" }} size="large" direction="vertical">
-          <h1 className="title">{t("photographers:photographer_msg")}</h1>
+          <h2 className="title">{t("photographers:photographer_msg")}</h2>
           {data?.map((user: any) => (
             <PhotographerCard user={user} key={user._id} />
           ))}

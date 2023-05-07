@@ -47,7 +47,11 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
     photographer: (
       <Row>
         <Col span={5}>
-          <Avatar shape="square" size={164} icon={<UserOutlined />} />
+          <Avatar
+            shape="square"
+            src={process.env.NEXT_PUBLIC_FS_URL + "/" + user.avatar}
+            size={164}
+          />
         </Col>
 
         <Col

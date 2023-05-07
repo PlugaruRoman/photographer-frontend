@@ -1,14 +1,18 @@
-.photographer-info__name {
-  color: #ffffff;
-}
-.photographer-info__city {
-  color: #ffffff;
-}
+.photographer-main-content {
+  width: 1200px;
+  .photographer-info {
+    color: #ffffff;
+    &__name {
+      font-size: 25px;
+    }
+    &__city {
+      font-size: 18px;
+      color: #d8d8d8;
+    }
+  }
 
-.photographer-info__about {
-  color: #ffffff;
-}
-
-.photographer-info__phone {
-  color: #ffffff;
+  .photographer-main-skeleton {
+    background-color: #262b31;
+    width: 100%;
+  }
 }

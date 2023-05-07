@@ -1,4 +1,4 @@
-export interface Results<T> {
+export interface IResults<T> {
   count: number;
   current_page: number;
   per_page: number;

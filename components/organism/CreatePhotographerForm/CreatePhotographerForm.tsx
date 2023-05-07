@@ -15,9 +15,11 @@ import {
   Select,
   Space,
   Spin,
+  Upload,
+  UploadProps,
   notification,
 } from "antd";
-
+import { UploadOutlined } from "@ant-design/icons";
 import { PhotographersService } from "@/api/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { CitiesService } from "@/api/cities";
@@ -25,9 +27,14 @@ import { IPhotographerForm } from "@/types/Photographer";
 
 const CreatePhotographerForm: React.FC = () => {
   const [progress, setProgress] = React.useState(0);
+
   const { t } = useTranslation();
   const router = useRouter();
   const { user } = useAuth();
+  const [form] = Form.useForm();
+
+  const handleChange: UploadProps["onChange"] = ({ file }) =>
+    form.setFieldsValue({ avatar: file?.response?.url });
 
   const onValuesChange = (_: any, allValues: any) => {
     const numInputs = Object.values(allValues).length;
@@ -86,6 +93,7 @@ const CreatePhotographerForm: React.FC = () => {
       web: values.web,
       user: user?.id,
       email: values.email,
+      avatar: values.avatar,
     });
   };
 
@@ -107,6 +115,7 @@ const CreatePhotographerForm: React.FC = () => {
       </Space>
 
       <Form
+        form={form}
         name="edit-user"
         onValuesChange={onValuesChange}
         onFinish={onFinish}
@@ -168,6 +177,18 @@ const CreatePhotographerForm: React.FC = () => {
             <Form.Item name={"about"} label={t("form:about_me")}>
               <Input.TextArea rows={6} />
             </Form.Item>
+            <Form.Item name={"avatar"} label={"avatar"}></Form.Item>
+            <Upload
+              name="avatar"
+              action={`${process.env.NEXT_PUBLIC_FS_URL}/api/upload`}
+              listType="text"
+              onChange={handleChange}
+              maxCount={1}
+            >
+              <Button size="large" icon={<UploadOutlined />}>
+                Click to Upload
+              </Button>
+            </Upload>
           </Col>
           <Col className="form-block">
             <Form.Item name={"facebook"} label={"Facebook"}>
