@@ -1,5 +1,5 @@
-import { IPhotographerCard } from "@/types/Photographer";
-import { NavItems } from "@/types/enums";
+import React, { useState } from "react";
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { Avatar, Button, Card, Col, Row, Space, Tooltip } from "antd";
 import {
@@ -10,11 +10,12 @@ import {
   ChromeOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import Link from "next/link";
-import React, { useState } from "react";
+
 import PhoneModal from "@/components/molecules/PhoneModal/PhoneModal";
-import { useQuery } from "react-query";
-import { PackagesService } from "@/api/offer";
+import { HasProps } from "@/components/molecules/HasProps/HasProps";
+import { Packages } from "./atoms/Packages";
+import { IPhotographerCard } from "@/types/Photographer";
+import { NavItems } from "@/types/enums";
 
 interface PhotographerCardProps {
   user: IPhotographerCard;
@@ -25,21 +26,19 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
   const [phoneModal, setPhoneModal] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>("photographer");
 
-  const { data, isLoading } = useQuery(["packages", user.user], PackagesService.getPackage);
-
-  const onTabChange = (key: string) => {
+  const onChangeTab = (key: string) => {
     setActiveTabKey(key);
   };
 
-  const showModal = () => {
+  const onShowModal = () => {
     setPhoneModal(true);
   };
 
-  const handleOk = () => {
+  const onClickOk = () => {
     setPhoneModal(false);
   };
 
-  const handleCancel = () => {
+  const onClickCancel = () => {
     setPhoneModal(false);
   };
 
@@ -49,18 +48,17 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
         <Col span={5}>
           <Avatar
             shape="square"
+            alt="avatar"
             src={process.env.NEXT_PUBLIC_FS_URL + "/" + user.avatar}
+            icon={!user.avatar ? <UserOutlined /> : null}
             size={164}
           />
         </Col>
 
-        <Col
-          style={{ display: "flex", flexDirection: "column", justifyContent: "space-between" }}
-          span={19}
-        >
+        <Col className="photographer-card__content" span={19}>
           <Row justify="space-between">
             <Tooltip
-              open={true}
+              open={!!user.company}
               autoAdjustOverflow
               color="#1b2026"
               zIndex={1}
@@ -70,50 +68,67 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
             >
               <span className="photographer-card__company">{`${user.firstname} ${user.lastname}`}</span>
             </Tooltip>
-            <Link target="_blank" href={"https://" + user.web}>
-              <Button icon={<ChromeOutlined />} size="large">
-                {user.web}
-              </Button>
-            </Link>
+
+            <HasProps condition={!!user.web}>
+              <Link target="_blank" href={"https://" + user.web}>
+                <Button icon={<ChromeOutlined />} size="large">
+                  {user.web}
+                </Button>
+              </Link>
+            </HasProps>
           </Row>
 
           <Row>
-            <div className="photographer-card__city">{user.city}</div>
+            <HasProps condition={!!user.city}>
+              <div className="photographer-card__city">{user.city}</div>
+            </HasProps>
           </Row>
 
           <Row justify="space-between">
-            <Space>
-              <DollarOutlined className="photographer-card__price" />
-              <div className="photographer-card__price">
-                {user.price + " " + t("photographers:per_hour")}{" "}
-                <span style={{ color: "#808080", fontSize: "15px" }}>
-                  {t("photographers:minimum")} {user.hour}{" "}
-                  {user.hour > 1 ? t("photographers:hs") : t("photographers:h")}
-                </span>
-              </div>
-            </Space>
+            <HasProps condition={!!user.price}>
+              <Space size="small">
+                <DollarOutlined className="photographer-card__price" />
+                <Space size="small" className="photographer-card__price">
+                  {user.price} {t("photographers:per_hour")}
+                  <HasProps condition={!!user.hour}>
+                    <Space size="small" className="photographer-card__price-hour">
+                      {t("photographers:minimum")}
+                      {user.hour}
+                      {user.hour > 1 ? t("photographers:hs") : t("photographers:h")}
+                    </Space>
+                  </HasProps>
+                </Space>
+              </Space>
+            </HasProps>
+
             <Space className="photographer-card__right">
-              <Button size="large" onClick={showModal} icon={<PhoneOutlined />}>
-                {t("photographers:call")}
-              </Button>
-
-              <Link target="_blank" href={"https://" + user.facebook}>
-                <Button size="large" icon={<FacebookOutlined />}>
-                  facebook
+              <HasProps condition={!!user.phone}>
+                <Button size="large" onClick={onShowModal} icon={<PhoneOutlined />}>
+                  {t("photographers:call")}
                 </Button>
-              </Link>
+              </HasProps>
 
-              <Link type="default" target="_blank" href={"https://" + user.instagram}>
-                <Button size="large" icon={<InstagramOutlined />}>
-                  instagram
-                </Button>
-              </Link>
+              <HasProps condition={!!user.facebook}>
+                <Link target="_blank" href={"https://" + user.facebook}>
+                  <Button size="large" icon={<FacebookOutlined />}>
+                    {t("photographers:facebook")}
+                  </Button>
+                </Link>
+              </HasProps>
+
+              <HasProps condition={!!user.instagram}>
+                <Link target="_blank" href={"https://" + user.instagram}>
+                  <Button size="large" icon={<InstagramOutlined />}>
+                    {t("photographers:instagram")}
+                  </Button>
+                </Link>
+              </HasProps>
             </Space>
           </Row>
         </Col>
       </Row>
     ),
-    packages: data?.value?.map((a: any, i: number) => <p key={i}>{a}</p>),
+    packages: <Packages user={user.user} />,
     photo: <p>project content</p>,
   };
 
@@ -135,8 +150,8 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
   return (
     <>
       <PhoneModal
-        handleCancel={handleCancel}
-        handleOk={handleOk}
+        handleCancel={onClickCancel}
+        handleOk={onClickOk}
         isModalOpen={phoneModal}
         info={user}
       />
@@ -148,7 +163,7 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
         tabBarExtraContent={
           <Link href={NavItems.MY_PAGE + user.user}>{t("photographers:more_info")}</Link>
         }
-        onTabChange={onTabChange}
+        onTabChange={onChangeTab}
       >
         {contentList[activeTabKey]}
       </Card>

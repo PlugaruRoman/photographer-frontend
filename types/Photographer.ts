@@ -35,4 +35,5 @@ export interface IPhotographerForm {
   twitter: string;
   web: string;
   avatar: string;
+  _id: string;
 }

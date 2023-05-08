@@ -28,13 +28,14 @@ export const UploadForm: React.FC = () => {
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf("/") + 1));
   };
 
-  const handleChange: UploadProps["onChange"] = (data) => console.log(data);
+  const handleChange: UploadProps["onChange"] = async ({ file }) => {
+    const base64 = await getBase64(file.originFileObj as RcFile);
+  };
 
   const onFinish = () => {
-    const formData = new FormData();
-    formData.append("avatar", fileList!.originFileObj as RcFile);
-
-    mutate(formData);
+    // const formData = new FormData();
+    // formData.append("avatar", fileList!.originFileObj as RcFile);
+    // mutate(formData);
   };
 
   const { mutate, isLoading } = useMutation(UploadService.uploadPhoto, {

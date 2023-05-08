@@ -7,9 +7,10 @@ import { PhotographersService } from "@/api/photographers";
 import { Space } from "antd";
 
 import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
-import { t } from "i18next";
+import { useTranslation } from "next-i18next";
 
 const Photographers: React.FC = () => {
+  const { t } = useTranslation("photographers");
   const { data, isLoading } = useQuery("profiles", PhotographersService.getPhotographers);
 
   return (

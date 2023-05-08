@@ -128,6 +128,24 @@ h6 {
   box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
 }
 
+.ant-btn.ant-btn-lg.ant-btn-dangerous {
+  color: #000000;
+  border-color: #d9d9d9;
+  &:hover {
+    color: #ea6042;
+    border-color: #ea6042;
+    box-shadow: 0 2px 0 rgb(0 0 0 / 2%);
+  }
+}
+
+.ant-btn.ant-btn-sm {
+  color: #000000;
+  border-color: #d9d9d9;
+  &:hover {
+    border-color: #70cf97;
+    color: #70cf97;
+  }
+}
 /* width */
 ::-webkit-scrollbar {
   width: 10px;

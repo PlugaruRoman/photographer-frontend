@@ -7,6 +7,7 @@ import { useAuth } from "@/contextes/AuthContext/useAuth";
 import PackagesForm from "@/components/organism/PackagesForm/PackagesForm";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { PackagesExample } from "@/components/organism/PackagesExample/PackagesExample";
 
 const AddPackages: React.FC = () => {
   const { user } = useAuth();
@@ -23,8 +24,9 @@ const AddPackages: React.FC = () => {
 
       <section className="section">
         {user && (
-          <Space direction="vertical" align="center" size="large">
+          <Space direction="horizontal" align="baseline" size="large">
             <PackagesForm />
+            <PackagesExample />
           </Space>
         )}
       </section>

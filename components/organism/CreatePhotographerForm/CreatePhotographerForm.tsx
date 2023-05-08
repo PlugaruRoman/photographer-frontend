@@ -27,6 +27,7 @@ import { IPhotographerForm } from "@/types/Photographer";
 
 const CreatePhotographerForm: React.FC = () => {
   const [progress, setProgress] = React.useState(0);
+  const [updateId, setUpdateId] = React.useState("");
 
   const { t } = useTranslation();
   const router = useRouter();
@@ -53,12 +54,35 @@ const CreatePhotographerForm: React.FC = () => {
   };
 
   const { data, isLoading } = useQuery("cities", CitiesService.getCities);
+  console.log(user?.id);
+  useQuery(["photograph", user?.id], PhotographersService.getPhotographer, {
+    enabled: !!user?.id,
+    onSuccess: (data) => {
+      form.setFieldsValue({
+        firstname: data?.firstname,
+        lastname: data?.lastname,
+        company: data?.company,
+        city: data?.city,
+        price: data?.price,
+        hour: data?.hour,
+        about: data?.about,
+        phone: data?.phone,
+        facebook: data?.facebook,
+        instagram: data?.instagram,
+        web: data?.web,
+        user: data?.id,
+        email: data?.email,
+        avatar: data?.avatar,
+      });
+      setUpdateId(data._id);
+    },
+  });
 
   React.useEffect(() => {
     if (!localStorage.getItem("Token")) Router.push("/");
   }, [user]);
 
-  const { mutate } = useMutation(PhotographersService.createPhotographer, {
+  const { mutate } = useMutation(PhotographersService.updatePhotographer, {
     onSuccess: () => {
       notification.success({
         message: t("notification:success"),
@@ -80,6 +104,8 @@ const CreatePhotographerForm: React.FC = () => {
 
   const onFinish = (values: IPhotographerForm) => {
     mutate({
+      id: updateId,
+      _id: updateId,
       firstname: values.firstname,
       lastname: values.lastname,
       company: values.company,
@@ -140,7 +166,7 @@ const CreatePhotographerForm: React.FC = () => {
             </Form.Item>
 
             <Spin spinning={false}>
-              <Form.Item name={"city"} rules={[{ required: true }]}>
+              <Form.Item name={"city"}>
                 <Select
                   showSearch
                   placeholder={t("form:search_city") || "select city"}

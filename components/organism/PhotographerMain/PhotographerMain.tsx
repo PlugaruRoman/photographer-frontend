@@ -1,17 +1,45 @@
 import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Badge, Col, Row, Space, Tooltip } from "antd";
+import { Avatar, Badge, Button, Col, Popconfirm, Row, Space, Tooltip, notification } from "antd";
 import { IPhotographerCard } from "@/types/Photographer";
+import { useTranslation } from "next-i18next";
 import { calcAge } from "@/utils/calcDate";
 import React from "react";
+import { useMutation } from "react-query";
+import { PhotographersService } from "@/api/photographers";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
+import { HasProps } from "@/components/molecules/HasProps/HasProps";
+import { useRouter } from "next/router";
 
 interface PhotographerMainProps {
   user: IPhotographerCard;
 }
 
 const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
-  const createdAt = React.useMemo(() => {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { user: profile } = useAuth();
+
+  const withUs = React.useMemo(() => {
     return calcAge(user.createdAt);
   }, [user]);
+
+  const confirm = () => {
+    mutate(user._id);
+  };
+
+  const { mutate } = useMutation(PhotographersService.deletePhotographer, {
+    onSuccess: () => {
+      router.push("/photographers");
+      notification.success({
+        message: t("notification:success"),
+      });
+    },
+    onError: (e: any) => {
+      notification.error({
+        message: e.response.data.message,
+      });
+    },
+  });
 
   return (
     <Row className="photographer-info" gutter={[26, 15]}>
@@ -20,7 +48,7 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
           <Avatar
             shape="square"
             size={200}
-            src={process.env.NEXT_PUBLIC_FS_URL + "/" + user.avatar}
+            src={process.env.NEXT_PUBLIC_FS_URL + "/" + user.avatar || <UserOutlined />}
           />
         </Badge.Ribbon>
       </Col>
@@ -40,7 +68,7 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
           <div className="photographer-info__city">{`Moldova,${user?.city}`}</div>
           <div className="photographer-info__about">{user?.about}</div>
           <div className="photographer-info__created">
-            With us {createdAt ? `${Object.values(createdAt)} ${Object.keys(createdAt)}` : ""}
+            With us {withUs ? `${Object.values(withUs)} ${Object.keys(withUs)}` : ""}
           </div>
           <div className="photographer-info__visited">visited {user?.viewsCount}</div>
 
@@ -57,6 +85,21 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
         <div className="photographer-info__web">web {user?.web}</div>
         <div className="photographer-info__twitter">twitter {user?.twitter}</div>
       </Col>
+
+      <HasProps condition={profile?.id === user.user}>
+        <Popconfirm
+          placement="topRight"
+          title={"Are you sure to delete this profile?"}
+          description={"Delete the profile"}
+          onConfirm={confirm}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button danger size="large">
+            Delete Profile
+          </Button>
+        </Popconfirm>
+      </HasProps>
     </Row>
   );
 };
