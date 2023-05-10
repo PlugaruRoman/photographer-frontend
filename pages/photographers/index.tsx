@@ -12,7 +12,7 @@ import { useTranslation } from "next-i18next";
 const Photographers: React.FC = () => {
   const { t } = useTranslation("photographers");
   const { data, isLoading } = useQuery("profiles", PhotographersService.getPhotographers);
-
+  console.log(data);
   return (
     <>
       <Head>
@@ -24,7 +24,7 @@ const Photographers: React.FC = () => {
       <section className="section">
         <Space style={{ width: "1000px" }} size="large" direction="vertical">
           <h2 className="title">{t("photographers:photographer_msg")}</h2>
-          {data?.map((user: any) => (
+          {data?.profiles.map((user: any) => (
             <PhotographerCard user={user} key={user._id} />
           ))}
         </Space>

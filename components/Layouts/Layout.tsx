@@ -107,11 +107,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
               {
                 key: NavItems.CREATE_PROFILE,
                 icon: <UserOutlined />,
-                label: (
-                  <Link href={NavItems.CREATE_PROFILE}>
-                    {user.profile ? "Update profile" : t("layout:create_profile")}
-                  </Link>
-                ),
+                label: <Link href={NavItems.CREATE_PROFILE}>{t("layout:create_profile")}</Link>,
               },
               {
                 key: NavItems.UPLOAD_PHOTO,

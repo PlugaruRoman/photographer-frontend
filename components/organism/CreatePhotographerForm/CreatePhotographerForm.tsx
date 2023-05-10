@@ -25,6 +25,8 @@ import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { CitiesService } from "@/api/cities";
 import { IPhotographerForm } from "@/types/Photographer";
 
+const URL = process.env.NEXT_PUBLIC_FS_URL;
+
 const CreatePhotographerForm: React.FC = () => {
   const [progress, setProgress] = React.useState(0);
   const [updateId, setUpdateId] = React.useState("");
@@ -54,7 +56,7 @@ const CreatePhotographerForm: React.FC = () => {
   };
 
   const { data, isLoading } = useQuery("cities", CitiesService.getCities);
-  console.log(user?.id);
+
   useQuery(["photograph", user?.id], PhotographersService.getPhotographer, {
     enabled: !!user?.id,
     onSuccess: (data) => {
@@ -72,9 +74,10 @@ const CreatePhotographerForm: React.FC = () => {
         web: data?.web,
         user: data?.id,
         email: data?.email,
+        twitter: data?.twitter,
         avatar: data?.avatar,
       });
-      setUpdateId(data._id);
+      setUpdateId(data?._id);
     },
   });
 
@@ -82,44 +85,47 @@ const CreatePhotographerForm: React.FC = () => {
     if (!localStorage.getItem("Token")) Router.push("/");
   }, [user]);
 
-  const { mutate } = useMutation(PhotographersService.updatePhotographer, {
-    onSuccess: () => {
-      notification.success({
-        message: t("notification:success"),
-      }),
-        router.push("/photographers");
+  const { mutate } = useMutation(
+    updateId ? PhotographersService.updatePhotographer : PhotographersService.createPhotographer,
+    {
+      onSuccess: () => {
+        notification.success({
+          message: t("notification:success"),
+        }),
+          router.push("/photographers");
+      },
+      onError: (e: any) => {
+        if (e?.response?.data?.message.includes("duplicate key error collection")) {
+          notification.error({
+            message: t("notification:mail_exist"),
+          });
+        } else {
+          notification.error({
+            message: e.message,
+          });
+        }
+      },
     },
-    onError: (e: any) => {
-      if (e?.response?.data?.message.includes("duplicate key error collection")) {
-        notification.error({
-          message: t("notification:mail_exist"),
-        });
-      } else {
-        notification.error({
-          message: e.message,
-        });
-      }
-    },
-  });
+  );
 
   const onFinish = (values: IPhotographerForm) => {
     mutate({
-      id: updateId,
       _id: updateId,
-      firstname: values.firstname,
-      lastname: values.lastname,
-      company: values.company,
-      city: values.city,
-      price: values.price,
-      hour: values.hour,
-      about: values.about,
-      phone: values.phone,
-      facebook: values.facebook,
-      instagram: values.instagram,
-      web: values.web,
+      firstname: values?.firstname,
+      lastname: values?.lastname,
+      company: values?.company,
+      city: values?.city,
+      price: values?.price,
+      hour: values?.hour,
+      about: values?.about,
+      phone: values?.phone,
+      facebook: values?.facebook,
+      instagram: values?.instagram,
+      web: values?.web,
+      twitter: values?.twitter,
       user: user?.id,
-      email: values.email,
-      avatar: values.avatar,
+      email: values?.email,
+      avatar: values?.avatar,
     });
   };
 
@@ -145,28 +151,33 @@ const CreatePhotographerForm: React.FC = () => {
         name="edit-user"
         onValuesChange={onValuesChange}
         onFinish={onFinish}
+        layout="vertical"
         validateMessages={validateMessages}
       >
-        <Row wrap justify="space-between">
+        <Row justify="space-between">
           <Col className="form-block">
-            <Form.Item name={"firstname"} rules={[{ required: true }]}>
+            <Form.Item name={"firstname"} label={t("form:first_name")} rules={[{ required: true }]}>
               <Input placeholder={t("form:first_name") || "first name"} />
             </Form.Item>
 
-            <Form.Item name={"lastname"} rules={[{ required: true }]}>
+            <Form.Item name={"lastname"} label={t("form:last_name")} rules={[{ required: true }]}>
               <Input placeholder={t("form:last_name") || "last name"} />
             </Form.Item>
 
-            <Form.Item name={"email"} rules={[{ type: "email", required: true }]}>
+            <Form.Item
+              name={"email"}
+              label={t("form:email")}
+              rules={[{ type: "email", required: true }]}
+            >
               <Input placeholder={t("form:email") || "email"} />
             </Form.Item>
 
-            <Form.Item name={"phone"}>
+            <Form.Item label={t("form:phone")} name={"phone"}>
               <Input prefix="+373" placeholder={t("form:phone") || "phone"} />
             </Form.Item>
 
             <Spin spinning={false}>
-              <Form.Item name={"city"}>
+              <Form.Item label={t("form:search_city")} name={"city"}>
                 <Select
                   showSearch
                   placeholder={t("form:search_city") || "select city"}
@@ -201,33 +212,50 @@ const CreatePhotographerForm: React.FC = () => {
             </Space>
 
             <Form.Item name={"about"} label={t("form:about_me")}>
-              <Input.TextArea rows={6} />
+              <Input.TextArea rows={3} />
             </Form.Item>
-            <Form.Item name={"avatar"} label={"avatar"}></Form.Item>
-            <Upload
-              name="avatar"
-              action={`${process.env.NEXT_PUBLIC_FS_URL}/api/upload`}
-              listType="text"
-              onChange={handleChange}
-              maxCount={1}
-            >
-              <Button size="large" icon={<UploadOutlined />}>
-                Click to Upload
-              </Button>
-            </Upload>
+            <Form.Item name={"avatar"} label={t("form:avatar")}>
+              <Upload
+                name="avatar"
+                action={`${URL}/api/upload`}
+                listType="text"
+                onChange={handleChange}
+                maxCount={1}
+              >
+                <Button size="large" icon={<UploadOutlined />}>
+                  {t("form:upload_btn")}
+                </Button>
+              </Upload>
+            </Form.Item>
           </Col>
           <Col className="form-block">
-            <Form.Item name={"facebook"} label={"Facebook"}>
+            <Form.Item
+              name={"facebook"}
+              label={t("form:facebook")}
+              rules={[{ type: "url", warningOnly: true }]}
+            >
               <Input placeholder="www.facebook.com/user" />
             </Form.Item>
-            <Form.Item name={"instagram"} label={"Instagram"}>
+            <Form.Item
+              name={"instagram"}
+              label={t("form:instagram")}
+              rules={[{ type: "url", warningOnly: true }]}
+            >
               <Input placeholder="www.instagram.com/user" />
             </Form.Item>
-            <Form.Item name={"twitter"} label={"twitter"}>
+            <Form.Item
+              name={"twitter"}
+              label={t("form:twitter")}
+              rules={[{ type: "url", warningOnly: true }]}
+            >
               <Input placeholder="twitter.com/user" />
             </Form.Item>
 
-            <Form.Item name={"web"} label={"web"}>
+            <Form.Item
+              name={"web"}
+              label={t("form:web")}
+              rules={[{ type: "url", warningOnly: true }]}
+            >
               <Input placeholder="www.user-website.com" />
             </Form.Item>
             <Button className="form-block__button" size="large" type="default" htmlType="submit">
