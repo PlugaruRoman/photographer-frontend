@@ -1,22 +1,19 @@
-import { $Object } from "@/types/Object";
+import { CitiesService } from "@/api/cities";
 import { Button, Input, Select, Space } from "antd";
-import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
+import { useQuery } from "react-query";
 
-type FiltersProps = {
-  loadingCity: boolean;
-  cities: $Object[];
-};
-
-export const Filters = ({ loadingCity, cities }: FiltersProps) => {
+export const Filters = () => {
   const router = useRouter();
 
-  const filterSearch = ({ search, city, price }: any) => {
+  const { data, isLoading } = useQuery(["cities"], CitiesService.getCities);
+
+  const filterSearch = ({ search, city, sort }: any) => {
     const { query } = router;
 
     if (search) query.search = search;
     if (city) query.city = city;
-    if (price) query.price = price;
+    if (sort) query.sort = sort;
 
     router.push({ pathname: router.pathname, query: query });
   };
@@ -30,13 +27,13 @@ export const Filters = ({ loadingCity, cities }: FiltersProps) => {
   };
 
   const onSortPrice = (e: string) => {
-    filterSearch({ price: e });
+    filterSearch({ sort: e });
   };
 
   const onClickClear = () => {
     router.push({ pathname: router.pathname });
   };
-  console.log(router?.query?.search);
+
   return (
     <Space>
       <Input.Search
@@ -60,9 +57,9 @@ export const Filters = ({ loadingCity, cities }: FiltersProps) => {
             .toLowerCase()
             .localeCompare((optionB?.label ?? "").toString().toLowerCase())
         }
-        loading={loadingCity}
+        loading={isLoading}
         onChange={onChangeCity}
-        options={cities}
+        options={data}
       />
       <Select
         size="large"
@@ -71,7 +68,7 @@ export const Filters = ({ loadingCity, cities }: FiltersProps) => {
         onChange={onSortPrice}
         options={[
           { value: "asc", label: "asc" },
-          { value: "desc", label: "desc" },
+          { value: "price", label: "desc" },
         ]}
       />
       <Button onClick={onClickClear} size="large">

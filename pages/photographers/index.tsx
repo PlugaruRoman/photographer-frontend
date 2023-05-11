@@ -5,12 +5,11 @@ import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 import { PhotographersService } from "@/api/photographers";
-import { Select, Space, Input, Pagination, Row } from "antd";
+import { Space, Pagination, Row } from "antd";
 
 import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
 import { useTranslation } from "next-i18next";
-import { CitiesService } from "@/api/cities";
-import { Properties } from "@/types/Object";
+
 import { Filters } from "@/components/organism/Filters/Filters";
 
 const Photographers: React.FC = () => {
@@ -22,11 +21,16 @@ const Photographers: React.FC = () => {
     ["profiles", filters],
     PhotographersService.getPhotographers,
   );
-  const { data: cities, isLoading: loadingCity } = useQuery(["cities"], CitiesService.getCities);
 
-  const onChangePaginationSize = (current: number, size: number) => {
-    setFilters({ page: current, limit: size });
-  };
+  React.useEffect(() => {
+    setFilters({
+      page: router?.query?.page,
+      limit: router?.query?.limit,
+      search: router?.query?.search,
+      city: router?.query?.city,
+      sort: router?.query?.sort,
+    });
+  }, [router.query]);
 
   const onChangePageSize = (current: number, size: number) => {
     const { query } = router;
@@ -34,10 +38,11 @@ const Photographers: React.FC = () => {
     if (current) query.page = current.toString();
     if (size) query.limit = size.toString();
 
+    setFilters({ page: query.page, limit: query.limit });
+
     router.push({ pathname: router.pathname, query: query });
   };
 
-  console.log(filters);
   return (
     <>
       <Head>
@@ -49,7 +54,7 @@ const Photographers: React.FC = () => {
       <section className="section">
         <Space style={{ width: "1000px" }} size="large" direction="vertical">
           <h2 className="title">{t("photographers:photographer_msg")}</h2>
-          <Filters loadingCity={loadingCity} cities={cities} />
+          <Filters />
           {data?.profiles.map((user: any) => (
             <PhotographerCard user={user} key={user._id} />
           ))}
