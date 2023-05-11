@@ -1,18 +1,43 @@
 import React from "react";
 import Head from "next/head";
 import { GetStaticProps } from "next";
+import { useRouter } from "next/router";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
 import { PhotographersService } from "@/api/photographers";
-import { Space } from "antd";
+import { Select, Space, Input, Pagination, Row } from "antd";
 
 import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
 import { useTranslation } from "next-i18next";
+import { CitiesService } from "@/api/cities";
+import { Properties } from "@/types/Object";
+import { Filters } from "@/components/organism/Filters/Filters";
 
 const Photographers: React.FC = () => {
-  const { t } = useTranslation("photographers");
-  const { data, isLoading } = useQuery("profiles", PhotographersService.getPhotographers);
-  console.log(data);
+  const router = useRouter();
+  const { t } = useTranslation();
+  const [filters, setFilters] = React.useState<any>({ page: 1, limit: 10 });
+
+  const { data, isLoading } = useQuery(
+    ["profiles", filters],
+    PhotographersService.getPhotographers,
+  );
+  const { data: cities, isLoading: loadingCity } = useQuery(["cities"], CitiesService.getCities);
+
+  const onChangePaginationSize = (current: number, size: number) => {
+    setFilters({ page: current, limit: size });
+  };
+
+  const onChangePageSize = (current: number, size: number) => {
+    const { query } = router;
+
+    if (current) query.page = current.toString();
+    if (size) query.limit = size.toString();
+
+    router.push({ pathname: router.pathname, query: query });
+  };
+
+  console.log(filters);
   return (
     <>
       <Head>
@@ -24,9 +49,20 @@ const Photographers: React.FC = () => {
       <section className="section">
         <Space style={{ width: "1000px" }} size="large" direction="vertical">
           <h2 className="title">{t("photographers:photographer_msg")}</h2>
+          <Filters loadingCity={loadingCity} cities={cities} />
           {data?.profiles.map((user: any) => (
             <PhotographerCard user={user} key={user._id} />
           ))}
+          <Row justify="end">
+            <Pagination
+              showSizeChanger
+              onChange={onChangePageSize}
+              total={data?.total}
+              showTotal={(total) => `Total ${total} photographers`}
+              defaultPageSize={filters.limit}
+              defaultCurrent={filters.page}
+            />
+          </Row>
         </Space>
       </section>
     </>
@@ -38,7 +74,7 @@ export const getStaticProps: GetStaticProps<any> = async ({ locale }: any) => {
     props: {
       ...(await serverSideTranslations(
         locale,
-        ["common", "home", "layout", "sign", "photographers", "notification"],
+        ["common", "home", "layout", "sign", "photographers", "notification", "form"],
         null,
         ["en", "ro", "ru"],
       )),

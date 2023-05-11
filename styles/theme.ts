@@ -28,9 +28,6 @@ export const theme: $Object = {
   },
 
   components: {
-    Table: {
-      colorFillAlter: "#ececec",
-    },
     Layout: { colorBgHeader: "#262b31" },
   },
 };

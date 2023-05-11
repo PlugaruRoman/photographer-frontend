@@ -177,7 +177,7 @@ const CreatePhotographerForm: React.FC = () => {
             </Form.Item>
 
             <Spin spinning={false}>
-              <Form.Item label={t("form:search_city")} name={"city"}>
+              <Form.Item label={t("form:search_city")} name={"city"} rules={[{ required: true }]}>
                 <Select
                   showSearch
                   placeholder={t("form:search_city") || "select city"}
