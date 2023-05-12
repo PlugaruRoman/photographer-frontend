@@ -1,30 +1,29 @@
-import { UserOutlined } from "@ant-design/icons";
-import { Avatar, Badge, Button, Col, Popconfirm, Row, Space, Tooltip, notification } from "antd";
-import { IPhotographerCard } from "@/types/Photographer";
-import { useTranslation } from "next-i18next";
-import { calcAge } from "@/utils/calcDate";
 import React from "react";
 import { useMutation } from "react-query";
-import { PhotographersService } from "@/api/photographers";
+import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { Avatar, Badge, Button, Col, Popconfirm, Row, Space, Tooltip, notification } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { HasProps } from "@/components/molecules/HasProps/HasProps";
-import { useRouter } from "next/router";
-
+import { calcAge } from "@/utils/calc";
+import { PhotographersService } from "@/api/photographers";
+import { IPhotographerCard } from "@/types/photographer";
 interface PhotographerMainProps {
-  user: IPhotographerCard;
+  user?: IPhotographerCard;
 }
 
-const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
+const PhotographerMain = ({ user }: PhotographerMainProps) => {
   const { t } = useTranslation();
   const router = useRouter();
   const { user: profile } = useAuth();
 
   const withUs = React.useMemo(() => {
-    return calcAge(user.createdAt);
+    if (user?.createdAt) return calcAge(user.createdAt);
   }, [user]);
 
   const confirm = () => {
-    mutate(user._id);
+    if (user?._id) mutate(user._id);
   };
 
   const { mutate } = useMutation(PhotographersService.deletePhotographer, {
@@ -48,22 +47,22 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
           <Avatar
             shape="square"
             size={200}
-            src={process.env.NEXT_PUBLIC_FS_URL + "/" + user.avatar || <UserOutlined />}
+            src={process.env.NEXT_PUBLIC_FS_URL + "/" + user?.avatar || <UserOutlined />}
           />
         </Badge.Ribbon>
       </Col>
       <Col span={8}>
         <Space size="large" direction="vertical">
           <Tooltip
-            open={true}
+            open={!!user?.company}
             autoAdjustOverflow
             color="#262b31"
             zIndex={1}
             placement="rightTop"
             className="photographer-card__name"
-            title={user.company}
+            title={user?.company}
           >
-            <span className="photographer-info__name">{`${user.firstname} ${user.lastname}`}</span>
+            <span className="photographer-info__name">{`${user?.firstname} ${user?.lastname}`}</span>
           </Tooltip>
           <div className="photographer-info__city">{`Moldova,${user?.city}`}</div>
           <div className="photographer-info__about">{user?.about}</div>
@@ -86,7 +85,7 @@ const PhotographerMain: React.FC<PhotographerMainProps> = ({ user }) => {
         <div className="photographer-info__twitter">twitter {user?.twitter}</div>
       </Col>
 
-      <HasProps condition={profile?.id === user.user}>
+      <HasProps condition={profile?.id === user?.user}>
         <Popconfirm
           placement="topRight"
           title={"Are you sure to delete this profile?"}

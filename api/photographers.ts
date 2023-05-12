@@ -1,6 +1,6 @@
-import { stringifyUrl } from "@/utils/stringifyUrl";
+import { stringifyUrl } from "@/utils/stringify";
 import { axios } from "./api";
-import { $Object } from "@/types/Object";
+import { $Object } from "@/types/properties";
 
 export const PhotographersService = {
   getPhotographers: async ({ queryKey: [, params] }: $Object): Promise<any> =>

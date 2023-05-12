@@ -14,14 +14,14 @@ import {
 import PhoneModal from "@/components/molecules/PhoneModal/PhoneModal";
 import { HasProps } from "@/components/molecules/HasProps/HasProps";
 import { Packages } from "./atoms/Packages";
-import { IPhotographerCard } from "@/types/Photographer";
+import { IPhotographerCard } from "@/types/photographer";
 import { NavItems } from "@/types/enums";
 
 interface PhotographerCardProps {
   user: IPhotographerCard;
 }
 
-const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
+const PhotographerCard = ({ user }: PhotographerCardProps) => {
   const { t } = useTranslation();
   const [phoneModal, setPhoneModal] = useState(false);
   const [activeTabKey, setActiveTabKey] = useState<string>("photographer");
@@ -94,8 +94,12 @@ const PhotographerCard: React.FC<PhotographerCardProps> = ({ user }) => {
                     <HasProps condition={!!user.hour}>
                       <Space size="small" className="photographer-card__price-hour">
                         {t("photographers:minimum")}
-                        {user.hour}
-                        {user.hour > 1 ? t("photographers:hs") : t("photographers:h")}
+                        {user?.hour}
+                        {user?.hour
+                          ? user?.hour
+                          : 1 > 1
+                          ? t("photographers:hs")
+                          : t("photographers:h")}
                       </Space>
                     </HasProps>
                   </Space>

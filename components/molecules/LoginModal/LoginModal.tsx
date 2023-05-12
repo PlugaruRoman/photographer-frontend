@@ -4,7 +4,8 @@ import { useMutation } from "react-query";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-import { ILoginInputs } from "@/types/Login";
+
+import { Properties } from "@/types/properties";
 
 interface LoginModalProps {
   handleCancel: any;
@@ -22,7 +23,7 @@ const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) =>
     },
   };
 
-  const onFinish = (values: ILoginInputs) => {
+  const onFinish = (values: Properties) => {
     mutate({
       email: values.email,
       password: values.password,

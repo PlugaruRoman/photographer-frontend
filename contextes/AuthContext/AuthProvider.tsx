@@ -1,7 +1,7 @@
 import React from "react";
 
 import { AuthContext } from "./AuthContext";
-import { IUser } from "@/types/User";
+import { IUser } from "@/types/user";
 
 interface AuthProviderProps {
   children: React.ReactNode;

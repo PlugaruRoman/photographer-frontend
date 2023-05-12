@@ -3,23 +3,22 @@ export interface IPhotographerCard {
   firstname: string;
   lastname: string;
   email: string;
-  phone: string;
+  phone?: string;
   city: string;
-  company: string;
-  price: number;
-  hour: number;
-  about: string;
-  facebook: string;
-  instagram: string;
-  web: string;
-  twitter: string;
+  company?: string;
+  price?: number;
+  hour?: number;
+  about?: string;
+  facebook?: string;
+  instagram?: string;
+  web?: string;
   user: string;
-  avatar: string;
-  createdAt: string;
+  twitter?: string;
   viewsCount: number;
-  __v: number;
+  avatar?: string;
+  createdAt: string;
+  updatedAt?: string;
 }
-
 export interface IPhotographerForm {
   firstname: string;
   lastname: string;
@@ -34,6 +33,6 @@ export interface IPhotographerForm {
   instagram: string;
   twitter: string;
   web: string;
-  avatar: string;
+  avatar?: string;
   _id: string;
 }

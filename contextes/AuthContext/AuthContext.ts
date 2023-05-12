@@ -1,4 +1,4 @@
-import { IUser } from "@/types/User";
+import { IUser } from "@/types/user";
 import React from "react";
 
 export interface AuthContextProps {

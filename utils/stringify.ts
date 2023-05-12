@@ -1,4 +1,4 @@
-import { Properties } from "@/types/Object";
+import { Properties } from "@/types/properties";
 import { default as queryString } from "query-string";
 
 export const stringifyUrl = (url: string, query: Properties = {}): string =>

@@ -4,7 +4,7 @@ import { Button, Form, Input, Space, notification } from "antd";
 import { useMutation } from "react-query";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { PackagesService } from "@/api/offer";
-import { $Object } from "@/types/Object";
+import { $Object } from "@/types/properties";
 
 const PackagesForm: React.FC = () => {
   const [form] = Form.useForm();

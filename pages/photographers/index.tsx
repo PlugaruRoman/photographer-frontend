@@ -1,47 +1,40 @@
 import React from "react";
-import Head from "next/head";
 import { GetStaticProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { useQuery } from "react-query";
-import { PhotographersService } from "@/api/photographers";
-import { Space, Pagination, Row } from "antd";
+import { Space, Spin } from "antd";
 
 import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
-import { useTranslation } from "next-i18next";
-
 import { Filters } from "@/components/organism/Filters/Filters";
+import { MainPagination } from "@/components/organism/MainPagination/MainPagination";
+import { PhotographersService } from "@/api/photographers";
+import { IResult } from "@/types/result";
+import { defaultFilters } from "@/utils/filters";
+import { IPhotographerCard } from "@/types/photographer";
 
-const Photographers: React.FC = () => {
+const Photographers = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const [filters, setFilters] = React.useState<any>({ page: 1, limit: 10 });
+  const [filters, setFilters] = React.useState(defaultFilters);
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading } = useQuery<IResult<IPhotographerCard>>(
     ["profiles", filters],
     PhotographersService.getPhotographers,
   );
 
   React.useEffect(() => {
-    setFilters({
-      page: router?.query?.page,
-      limit: router?.query?.limit,
-      search: router?.query?.search,
-      city: router?.query?.city,
-      sort: router?.query?.sort,
-    });
-  }, [router.query]);
-
-  const onChangePageSize = (current: number, size: number) => {
     const { query } = router;
-
-    if (current) query.page = current.toString();
-    if (size) query.limit = size.toString();
-
-    setFilters({ page: query.page, limit: query.limit });
-
-    router.push({ pathname: router.pathname, query: query });
-  };
+    setFilters({
+      page: query?.page,
+      limit: query?.limit,
+      search: query?.search,
+      city: query?.city,
+      sort: query?.sort,
+    });
+  }, [router]);
 
   return (
     <>
@@ -55,19 +48,12 @@ const Photographers: React.FC = () => {
         <Space style={{ width: "1000px" }} size="large" direction="vertical">
           <h2 className="title">{t("photographers:photographer_msg")}</h2>
           <Filters />
-          {data?.profiles.map((user: any) => (
-            <PhotographerCard user={user} key={user._id} />
-          ))}
-          <Row justify="end">
-            <Pagination
-              showSizeChanger
-              onChange={onChangePageSize}
-              total={data?.total}
-              showTotal={(total) => `Total ${total} photographers`}
-              defaultPageSize={filters.limit}
-              defaultCurrent={filters.page}
-            />
-          </Row>
+          <Spin size="large" spinning={isLoading}>
+            {data?.profiles.map((user) => (
+              <PhotographerCard user={user} key={user._id} />
+            ))}
+          </Spin>
+          <MainPagination total={data?.total} page={filters?.page} limit={filters?.limit} />
         </Space>
       </section>
     </>

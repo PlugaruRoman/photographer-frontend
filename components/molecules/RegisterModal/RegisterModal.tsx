@@ -3,7 +3,8 @@ import { useMutation } from "react-query";
 import { useTranslation } from "next-i18next";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth";
-import { IRegisterInputs } from "@/types/Register";
+
+import { Properties } from "@/types/properties";
 
 interface RegisterModalProps {
   handleCancelRegister: any;
@@ -24,7 +25,7 @@ const RegisterModal: React.FC<RegisterModalProps> = ({
     },
   };
 
-  const onFinish = (values: IRegisterInputs) => {
+  const onFinish = (values: Properties) => {
     setLoading(true);
     mutate({
       username: values.username,

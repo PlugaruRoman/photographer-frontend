@@ -23,7 +23,7 @@ import { UploadOutlined } from "@ant-design/icons";
 import { PhotographersService } from "@/api/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { CitiesService } from "@/api/cities";
-import { IPhotographerForm } from "@/types/Photographer";
+import { IPhotographerForm } from "@/types/photographer";
 
 const URL = process.env.NEXT_PUBLIC_FS_URL;
 

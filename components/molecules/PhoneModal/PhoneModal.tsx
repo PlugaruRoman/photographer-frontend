@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, Modal, Space } from "antd";
-import { IPhotographerCard } from "@/types/Photographer";
+import { IPhotographerCard } from "@/types/photographer";
 
 interface PhoneModalProps {
   info: IPhotographerCard;

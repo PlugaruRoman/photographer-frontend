@@ -1,4 +1,4 @@
-import { $Object } from "@/types/Object";
+import { $Object } from "@/types/properties";
 import { axios } from "./api";
 
 export const AuthService = {

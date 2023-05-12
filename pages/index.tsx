@@ -1,15 +1,9 @@
-import React from "react";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import HomePageGallery from "@/components/organism/HomePageGallery/HomePageGallery";
 import MainCarousel from "@/components/organism/MainCarousel/MainCarousel";
-import { GetStaticProps } from "next";
 
-export interface HomePageProps {
-  props: any;
-}
-
-const Home: React.FC<HomePageProps> = () => {
+const Home = () => {
   return (
     <>
       <Head>
