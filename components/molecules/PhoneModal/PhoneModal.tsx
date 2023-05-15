@@ -1,4 +1,3 @@
-import React from "react";
 import { Button, Modal, Space } from "antd";
 import { IPhotographerCard } from "@/types/photographer";
 
@@ -9,7 +8,7 @@ interface PhoneModalProps {
   handleCancel: () => void;
 }
 
-const PhoneModal: React.FC<PhoneModalProps> = ({ info, handleOk, isModalOpen, handleCancel }) => {
+const PhoneModal = ({ info, handleOk, isModalOpen, handleCancel }: PhoneModalProps) => {
   return (
     <>
       <Modal
@@ -36,8 +35,11 @@ const PhoneModal: React.FC<PhoneModalProps> = ({ info, handleOk, isModalOpen, ha
         onOk={handleOk}
       >
         <Space size={"large"} direction="vertical">
-          <p>{info.city}</p>
-          <p>+373{info.phone}</p>
+          <p>{info.country}</p>
+          <Space>
+            {info.prefix}
+            {info.phone}
+          </Space>
           <p>Let the photographer know you found it on</p>
           <p>You can also send a private message to the photographer</p>
         </Space>

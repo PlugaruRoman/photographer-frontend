@@ -1,9 +1,8 @@
-import React from "react";
+import { useState } from "react";
 import { useMutation } from "react-query";
 import { useTranslation } from "next-i18next";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth";
-
 import { Properties } from "@/types/properties";
 
 interface RegisterModalProps {
@@ -11,12 +10,9 @@ interface RegisterModalProps {
   isModalOpenRegister: any;
 }
 
-const RegisterModal: React.FC<RegisterModalProps> = ({
-  handleCancelRegister,
-  isModalOpenRegister,
-}) => {
+const RegisterModal = ({ handleCancelRegister, isModalOpenRegister }: RegisterModalProps) => {
   const { t } = useTranslation();
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(false);
 
   const validateMessages = {
     required: t("notification:required"),

@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -24,13 +24,13 @@ interface MainLayoutProps {
   children: JSX.Element;
 }
 
-export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
+export const MainLayout = ({ children }: MainLayoutProps) => {
   const { t } = useTranslation("layout");
   const { user, setUser } = useAuth();
   const router = useRouter();
 
-  const [isModalOpenLogin, setIsModalOpenLogin] = React.useState(false);
-  const [isModalOpenRegister, setIsModalOpenRegister] = React.useState(false);
+  const [isModalOpenLogin, setIsModalOpenLogin] = useState(false);
+  const [isModalOpenRegister, setIsModalOpenRegister] = useState(false);
 
   const showModalLogin = () => {
     setIsModalOpenLogin(true);
@@ -64,7 +64,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     },
   });
 
-  const onClickLogOut = React.useCallback(() => mutate(), [mutate]);
+  const onClickLogOut = useCallback(() => mutate(), [mutate]);
 
   const item = [
     {
@@ -77,7 +77,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
     },
   ];
 
-  const itemRight = React.useMemo(
+  const itemRight = useMemo(
     () => [
       !user
         ? {
@@ -133,7 +133,7 @@ export const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
           <Select
             onChange={onChangeLanguage}
             defaultValue={router.locale}
-            options={router.locales?.map((local) => ({ value: local, label: local }))}
+            options={router.locales?.map((local: any) => ({ value: local, label: local }))}
           />
         ),
       },

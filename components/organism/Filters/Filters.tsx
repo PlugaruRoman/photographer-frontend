@@ -1,4 +1,4 @@
-import { CitiesService } from "@/api/cities";
+import { CountryService } from "@/api/country";
 import { Button, Input, Select, Space } from "antd";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
@@ -6,13 +6,13 @@ import { useQuery } from "react-query";
 export const Filters = () => {
   const router = useRouter();
 
-  const { data, isLoading } = useQuery(["cities"], CitiesService.getCities);
+  const { data, isLoading } = useQuery(["country"], CountryService.getCountries);
 
-  const filterSearch = ({ search, city, sort }: any) => {
+  const filterSearch = ({ search, country, sort }: any) => {
     const { query } = router;
 
     if (search) query.search = search;
-    if (city) query.city = city;
+    if (country) query.country = country;
     if (sort) query.sort = sort;
 
     router.push({ pathname: router.pathname, query: query });
@@ -22,8 +22,8 @@ export const Filters = () => {
     filterSearch({ search: value });
   };
 
-  const onChangeCity = (e: string) => {
-    filterSearch({ city: e });
+  const onChangeCountry = (e: string) => {
+    filterSearch({ country: e });
   };
 
   const onSortPrice = (e: string) => {
@@ -45,8 +45,8 @@ export const Filters = () => {
       <Select
         size="large"
         showSearch
-        value={router?.query?.city?.toString()}
-        placeholder={"sort by city"}
+        value={router?.query?.country?.toString()}
+        placeholder={"sort by country"}
         optionFilterProp="children"
         filterOption={(input, option) =>
           (option?.label ?? "").toString().toLowerCase().includes(input.toLowerCase())
@@ -58,7 +58,7 @@ export const Filters = () => {
             .localeCompare((optionB?.label ?? "").toString().toLowerCase())
         }
         loading={isLoading}
-        onChange={onChangeCity}
+        onChange={onChangeCountry}
         options={data}
       />
       <Select

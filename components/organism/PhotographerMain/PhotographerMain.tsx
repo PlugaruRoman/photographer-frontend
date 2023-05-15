@@ -1,4 +1,4 @@
-import React from "react";
+import { useMemo } from "react";
 import { useMutation } from "react-query";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
@@ -18,7 +18,7 @@ const PhotographerMain = ({ user }: PhotographerMainProps) => {
   const router = useRouter();
   const { user: profile } = useAuth();
 
-  const withUs = React.useMemo(() => {
+  const withUs = useMemo(() => {
     if (user?.createdAt) return calcAge(user.createdAt);
   }, [user]);
 
@@ -64,7 +64,7 @@ const PhotographerMain = ({ user }: PhotographerMainProps) => {
           >
             <span className="photographer-info__name">{`${user?.firstname} ${user?.lastname}`}</span>
           </Tooltip>
-          <div className="photographer-info__city">{`Moldova,${user?.city}`}</div>
+          <div className="photographer-info__country">{`Moldova,${user?.country}`}</div>
           <div className="photographer-info__about">{user?.about}</div>
           <div className="photographer-info__created">
             With us {withUs ? `${Object.values(withUs)} ${Object.keys(withUs)}` : ""}

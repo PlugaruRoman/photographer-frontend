@@ -3,8 +3,9 @@ export interface IPhotographerCard {
   firstname: string;
   lastname: string;
   email: string;
+  prefix?: string;
   phone?: string;
-  city: string;
+  country: string;
   company?: string;
   price?: number;
   hour?: number;
@@ -23,8 +24,9 @@ export interface IPhotographerForm {
   firstname: string;
   lastname: string;
   email: string;
+  prefix: string;
   phone: string;
-  city: string;
+  country: string;
   company: string;
   price: number;
   hour: number;

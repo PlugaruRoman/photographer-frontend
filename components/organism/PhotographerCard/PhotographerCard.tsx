@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { Avatar, Button, Card, Col, Row, Space, Tooltip } from "antd";
@@ -42,7 +42,7 @@ const PhotographerCard = ({ user }: PhotographerCardProps) => {
     setPhoneModal(false);
   };
 
-  const contentList: Record<string, React.ReactNode> = React.useMemo(
+  const contentList: Record<string, React.ReactNode> = useMemo(
     () => ({
       photographer: (
         <Row>
@@ -80,8 +80,8 @@ const PhotographerCard = ({ user }: PhotographerCardProps) => {
             </Row>
 
             <Row>
-              <HasProps condition={!!user.city}>
-                <div className="photographer-card__city">{user.city}</div>
+              <HasProps condition={!!user.country}>
+                <div className="photographer-card__country">{user.country}</div>
               </HasProps>
             </Row>
 

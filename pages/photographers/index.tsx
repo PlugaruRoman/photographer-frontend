@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import { GetStaticProps } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -18,20 +18,20 @@ import { IPhotographerCard } from "@/types/photographer";
 const Photographers = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const [filters, setFilters] = React.useState(defaultFilters);
+  const [filters, setFilters] = useState(defaultFilters);
 
   const { data, isLoading } = useQuery<IResult<IPhotographerCard>>(
     ["profiles", filters],
     PhotographersService.getPhotographers,
   );
 
-  React.useEffect(() => {
+  useEffect(() => {
     const { query } = router;
     setFilters({
       page: query?.page,
       limit: query?.limit,
       search: query?.search,
-      city: query?.city,
+      country: query?.country,
       sort: query?.sort,
     });
   }, [router]);

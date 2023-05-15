@@ -1,4 +1,4 @@
-import React from "react";
+import { useState, useEffect } from "react";
 import Router, { useRouter } from "next/router";
 import { useMutation, useQuery } from "react-query";
 import { useTranslation } from "next-i18next";
@@ -22,14 +22,16 @@ import {
 import { UploadOutlined } from "@ant-design/icons";
 import { PhotographersService } from "@/api/photographers";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-import { CitiesService } from "@/api/cities";
+import { CountryService } from "@/api/country";
 import { IPhotographerForm } from "@/types/photographer";
+import { ICountry } from "@/types/country";
+import { onSearchFilter, onSortFilter } from "@/utils/search";
 
 const URL = process.env.NEXT_PUBLIC_FS_URL;
 
-const CreatePhotographerForm: React.FC = () => {
-  const [progress, setProgress] = React.useState(0);
-  const [updateId, setUpdateId] = React.useState("");
+const CreatePhotographerForm = () => {
+  const [progress, setProgress] = useState(0);
+  const [updateId, setUpdateId] = useState("");
 
   const { t } = useTranslation();
   const router = useRouter();
@@ -38,6 +40,12 @@ const CreatePhotographerForm: React.FC = () => {
 
   const handleChange: UploadProps["onChange"] = ({ file }) =>
     form.setFieldsValue({ avatar: file?.response?.url });
+
+  const onChangeCountry = (_: string, option: ICountry | ICountry[]): void => {
+    if (!Array.isArray(option)) {
+      form.setFieldsValue({ prefix: option.phone });
+    }
+  };
 
   const onValuesChange = (_: any, allValues: any) => {
     const numInputs = Object.values(allValues).length;
@@ -52,10 +60,11 @@ const CreatePhotographerForm: React.FC = () => {
     required: t("notification:required"),
     types: {
       email: t("notification:valid_mail"),
+      string: t("notification:only_numbers"),
     },
   };
 
-  const { data, isLoading } = useQuery("cities", CitiesService.getCities);
+  const { data, isLoading } = useQuery(["countries"], CountryService.getCountries);
 
   useQuery(["photograph", user?.id], PhotographersService.getPhotographer, {
     enabled: !!user?.id,
@@ -64,10 +73,11 @@ const CreatePhotographerForm: React.FC = () => {
         firstname: data?.firstname,
         lastname: data?.lastname,
         company: data?.company,
-        city: data?.city,
+        country: data?.country,
         price: data?.price,
         hour: data?.hour,
         about: data?.about,
+        prefix: data?.prefix,
         phone: data?.phone,
         facebook: data?.facebook,
         instagram: data?.instagram,
@@ -81,7 +91,7 @@ const CreatePhotographerForm: React.FC = () => {
     },
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!localStorage.getItem("Token")) Router.push("/");
   }, [user]);
 
@@ -114,10 +124,11 @@ const CreatePhotographerForm: React.FC = () => {
       firstname: values?.firstname,
       lastname: values?.lastname,
       company: values?.company,
-      city: values?.city,
+      country: values?.country,
       price: values?.price,
       hour: values?.hour,
       about: values?.about,
+      prefix: values?.prefix,
       phone: values?.phone,
       facebook: values?.facebook,
       instagram: values?.instagram,
@@ -156,11 +167,11 @@ const CreatePhotographerForm: React.FC = () => {
       >
         <Row justify="space-between">
           <Col className="form-block">
-            <Form.Item name={"firstname"} label={t("form:first_name")} rules={[{ required: true }]}>
+            <Form.Item name={"firstname"} label={t("form:first_name")} required>
               <Input placeholder={t("form:first_name") || "first name"} />
             </Form.Item>
 
-            <Form.Item name={"lastname"} label={t("form:last_name")} rules={[{ required: true }]}>
+            <Form.Item name={"lastname"} label={t("form:last_name")} required>
               <Input placeholder={t("form:last_name") || "last name"} />
             </Form.Item>
 
@@ -172,30 +183,34 @@ const CreatePhotographerForm: React.FC = () => {
               <Input placeholder={t("form:email") || "email"} />
             </Form.Item>
 
-            <Form.Item label={t("form:phone")} name={"phone"}>
-              <Input prefix="+373" placeholder={t("form:phone") || "phone"} />
-            </Form.Item>
-
-            <Spin spinning={false}>
-              <Form.Item label={t("form:search_city")} name={"city"} rules={[{ required: true }]}>
+            <Spin spinning={isLoading}>
+              <Form.Item label={t("form:search_country")} name={"country"} required>
                 <Select
                   showSearch
-                  placeholder={t("form:search_city") || "select city"}
+                  onChange={onChangeCountry}
+                  placeholder={t("form:search_country") || "select country"}
                   optionFilterProp="children"
-                  filterOption={(input, option) =>
-                    (option?.label ?? "").toString().toLowerCase().includes(input.toLowerCase())
-                  }
-                  filterSort={(optionA, optionB) =>
-                    (optionA?.label ?? "")
-                      .toString()
-                      .toLowerCase()
-                      .localeCompare((optionB?.label ?? "").toString().toLowerCase())
-                  }
+                  filterOption={onSearchFilter}
+                  filterSort={onSortFilter}
                   loading={isLoading}
                   options={data}
                 />
               </Form.Item>
             </Spin>
+
+            <Space.Compact>
+              <Form.Item label={t("form:phone")} required name="prefix">
+                <Input readOnly />
+              </Form.Item>
+
+              <Form.Item
+                label={t("form:number")}
+                name={"phone"}
+                rules={[{ type: "string", pattern: /^[0-9]+$/ }]}
+              >
+                <Input style={{ width: "240px" }} placeholder={t("form:phone") || "phone"} />
+              </Form.Item>
+            </Space.Compact>
           </Col>
           <Col className="form-block">
             <Form.Item name={"company"} label={t("form:studio")}>
@@ -204,16 +219,18 @@ const CreatePhotographerForm: React.FC = () => {
 
             <Space>
               <Form.Item name={"price"} label={t("form:per_hour")}>
-                <InputNumber min={0} prefix="$" />
+                <InputNumber step={0} style={{ width: "100%" }} min={0} prefix="$" />
               </Form.Item>
+
               <Form.Item name={"hour"} label={t("form:minimal")}>
-                <InputNumber min={0} placeholder="hour" />
+                <InputNumber style={{ width: "100%" }} min={0} placeholder="hour" />
               </Form.Item>
             </Space>
 
             <Form.Item name={"about"} label={t("form:about_me")}>
               <Input.TextArea rows={3} />
             </Form.Item>
+
             <Form.Item name={"avatar"} label={t("form:avatar")}>
               <Upload
                 name="avatar"
