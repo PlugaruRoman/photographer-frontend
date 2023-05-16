@@ -1,5 +1,6 @@
 import { useMemo, useState, useCallback } from "react";
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { useMutation } from "react-query";
@@ -13,10 +14,11 @@ import {
   PicLeftOutlined,
 } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-import LoginModal from "../molecules/LoginModal/LoginModal";
-import RegisterModal from "../molecules/RegisterModal/RegisterModal";
 import { Auth, NavItems } from "@/types/enums";
 import { AuthService } from "@/api/auth";
+
+const LoginModal = dynamic(() => import("../molecules/LoginModal/LoginModal"));
+const RegisterModal = dynamic(() => import("../molecules/RegisterModal/RegisterModal"));
 
 const { Header, Content, Footer } = Layout;
 

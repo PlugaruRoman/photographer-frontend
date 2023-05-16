@@ -1,7 +1,9 @@
 import { GetStaticProps } from "next";
 import Head from "next/head";
+import dynamic from "next/dynamic";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import MainCarousel from "@/components/organism/MainCarousel/MainCarousel";
+
+const MainCarousel = dynamic(() => import("@/components/organism/MainCarousel/MainCarousel"));
 
 const Home = () => {
   return (

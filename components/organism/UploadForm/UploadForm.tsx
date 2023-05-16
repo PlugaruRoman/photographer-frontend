@@ -1,13 +1,16 @@
 import React from "react";
 import { useMutation } from "react-query";
 import { useTranslation } from "next-i18next";
+import dynamic from "next/dynamic";
 import { Button, Form, Image, Modal, Spin, Upload, notification } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
-
 import { UploadService } from "@/api/upload";
-import { UploadButton } from "./molecules/UploadButton/UploadButton";
 import { getBase64 } from "@/utils/getbase";
+
+const UploadButton = dynamic(() =>
+  import("./molecules/UploadButton/UploadButton").then((module) => module.UploadButton),
+);
 
 export const UploadForm: React.FC = () => {
   const { t } = useTranslation();

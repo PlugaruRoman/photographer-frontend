@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { NavItems } from "@/types/enums";
-import Link from "next/link";
 
-const NoProfile: React.FC = () => {
+const NoProfile = () => {
   const { t } = useTranslation();
   return (
     <>

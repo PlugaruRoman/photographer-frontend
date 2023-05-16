@@ -5,9 +5,12 @@ import { useTranslation } from "next-i18next";
 import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import { Space } from "antd";
-
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-import CreatePhotographerForm from "@/components/organism/CreatePhotographerForm/CreatePhotographerForm";
+import dynamic from "next/dynamic";
+
+const CreatePhotographerForm = dynamic(
+  () => import("@/components/organism/CreatePhotographerForm/CreatePhotographerForm"),
+);
 
 const CreateProfile: React.FC = () => {
   const { t } = useTranslation();

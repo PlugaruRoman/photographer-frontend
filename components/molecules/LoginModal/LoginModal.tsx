@@ -1,10 +1,8 @@
-import React from "react";
-import { useTranslation } from "next-i18next";
 import { useMutation } from "react-query";
+import { useTranslation } from "next-i18next";
 import { Button, Col, Form, Input, Modal, Row, notification } from "antd";
 import { AuthService } from "@/api/auth";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-
 import { Properties } from "@/types/properties";
 
 interface LoginModalProps {
@@ -12,7 +10,7 @@ interface LoginModalProps {
   isModalOpen: any;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ handleCancel, isModalOpen }) => {
+const LoginModal = ({ handleCancel, isModalOpen }: LoginModalProps) => {
   const { t } = useTranslation();
   const { setUser } = useAuth();
 

@@ -1,19 +1,28 @@
 import { useState, useEffect } from "react";
+import { useQuery } from "react-query";
 import { GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { useQuery } from "react-query";
 import { Space, Spin } from "antd";
-
-import PhotographerCard from "@/components/organism/PhotographerCard/PhotographerCard";
-import { Filters } from "@/components/organism/Filters/Filters";
-import { MainPagination } from "@/components/organism/MainPagination/MainPagination";
 import { PhotographersService } from "@/api/photographers";
 import { IResult } from "@/types/result";
 import { defaultFilters } from "@/utils/filters";
 import { IPhotographerCard } from "@/types/photographer";
+
+const PhotographerCard = dynamic(
+  () => import("@/components/organism/PhotographerCard/PhotographerCard"),
+);
+const Filters = dynamic(() =>
+  import("@/components/organism/Filters/Filters").then((module) => module.Filters),
+);
+const MainPagination = dynamic(() =>
+  import("@/components/organism/MainPagination/MainPagination").then(
+    (module) => module.MainPagination,
+  ),
+);
 
 const Photographers = () => {
   const router = useRouter();

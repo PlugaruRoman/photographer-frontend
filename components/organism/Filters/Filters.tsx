@@ -1,7 +1,7 @@
-import { CountryService } from "@/api/country";
-import { Button, Input, Select, Space } from "antd";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
+import { Button, Input, Select, Space } from "antd";
+import { CountryService } from "@/api/country";
 
 export const Filters = () => {
   const router = useRouter();

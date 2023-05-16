@@ -1,11 +1,10 @@
-import React from "react";
 import { useQuery } from "react-query";
 import { Space, Image, Segmented } from "antd";
 
 import { PhotographersService } from "@/api/photographers";
 import { SegmentedValue } from "antd/es/segmented";
 
-const PersonalGallery: React.FC = () => {
+const PersonalGallery = () => {
   const { data, isLoading } = useQuery("theme-photo", PhotographersService.getCardPhoto);
   const [segmented, setSegmented] = React.useState("Couples");
 

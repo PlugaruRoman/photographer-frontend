@@ -1,12 +1,11 @@
-import React from "react";
-import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Form, Input, Space, notification } from "antd";
 import { useMutation } from "react-query";
+import { Button, Form, Input, Space, notification } from "antd";
+import { MinusCircleOutlined, PlusOutlined } from "@ant-design/icons";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
 import { PackagesService } from "@/api/offer";
 import { $Object } from "@/types/properties";
 
-const PackagesForm: React.FC = () => {
+const PackagesForm = () => {
   const [form] = Form.useForm();
   const { user } = useAuth();
 

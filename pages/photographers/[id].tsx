@@ -1,15 +1,19 @@
 import React from "react";
 import { useQuery } from "react-query";
-import Head from "next/head";
-import { useTranslation } from "next-i18next";
 import { useRouter } from "next/router";
-import { Alert, Skeleton, Space } from "antd";
+import Head from "next/head";
+import dynamic from "next/dynamic";
+import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import PhotographerMain from "@/components/organism/PhotographerMain/PhotographerMain";
+import { Alert, Skeleton, Space } from "antd";
 import { useAuth } from "@/contextes/AuthContext/useAuth";
-import NoProfile from "@/components/molecules/NoProfile/NoProfile";
 import { PhotographersService } from "@/api/photographers";
 import { IPhotographerCard } from "@/types/photographer";
+
+const PhotographerMain = dynamic(
+  () => import("@/components/organism/PhotographerMain/PhotographerMain"),
+);
+const NoProfile = dynamic(() => import("@/components/molecules/NoProfile/NoProfile"));
 
 const Photographer = () => {
   const { t } = useTranslation();

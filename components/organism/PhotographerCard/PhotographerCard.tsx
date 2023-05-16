@@ -1,6 +1,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useTranslation } from "next-i18next";
+import dynamic from "next/dynamic";
 import { Avatar, Button, Card, Col, Row, Space, Tooltip } from "antd";
 import {
   DollarOutlined,
@@ -10,12 +11,14 @@ import {
   ChromeOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-
-import PhoneModal from "@/components/molecules/PhoneModal/PhoneModal";
-import { HasProps } from "@/components/molecules/HasProps/HasProps";
-import { Packages } from "./atoms/Packages";
 import { IPhotographerCard } from "@/types/photographer";
 import { NavItems } from "@/types/enums";
+
+const PhoneModal = dynamic(() => import("@/components/molecules/PhoneModal/PhoneModal"));
+const HasProps = dynamic(() =>
+  import("@/components/molecules/HasProps/HasProps").then((module) => module.HasProps),
+);
+const Packages = dynamic(() => import("./atoms/Packages").then((module) => module.Packages));
 
 interface PhotographerCardProps {
   user: IPhotographerCard;

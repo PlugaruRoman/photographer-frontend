@@ -1,13 +1,16 @@
 import React from "react";
+import { GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import Head from "next/head";
 import Router from "next/router";
 import { useTranslation } from "next-i18next";
-import { Space } from "antd";
-
-import { useAuth } from "@/contextes/AuthContext/useAuth";
-import { UploadForm } from "@/components/organism/UploadForm/UploadForm";
-import { GetStaticProps } from "next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
+import { Space } from "antd";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
+
+const UploadForm = dynamic(() =>
+  import("@/components/organism/UploadForm/UploadForm").then((module) => module.UploadForm),
+);
 
 const UploadPhoto: React.FC = () => {
   const { t } = useTranslation();

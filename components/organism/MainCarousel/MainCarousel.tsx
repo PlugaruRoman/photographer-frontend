@@ -9,7 +9,7 @@ import imageTwo from "../../../public/imageTwo.jpeg";
 import imageThree from "../../../public/imageThree.jpeg";
 import imageFour from "../../../public/imageFour.jpeg";
 
-const MainCarousel: React.FC = () => {
+const MainCarousel = () => {
   const { t } = useTranslation();
   const images = [imageOne, imageTwo, imageThree, imageFour];
 

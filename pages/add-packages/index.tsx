@@ -1,13 +1,18 @@
 import React from "react";
+import { GetStaticProps } from "next";
 import Head from "next/head";
 import Router from "next/router";
-import { Space } from "antd";
-
-import { useAuth } from "@/contextes/AuthContext/useAuth";
-import PackagesForm from "@/components/organism/PackagesForm/PackagesForm";
-import { GetStaticProps } from "next";
+import dynamic from "next/dynamic";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { PackagesExample } from "@/components/organism/PackagesExample/PackagesExample";
+import { Space } from "antd";
+import { useAuth } from "@/contextes/AuthContext/useAuth";
+
+const PackagesForm = dynamic(() => import("@/components/organism/PackagesForm/PackagesForm"));
+const PackagesExample = dynamic(() =>
+  import("@/components/organism/PackagesExample/PackagesExample").then(
+    (module) => module.PackagesExample,
+  ),
+);
 
 const AddPackages: React.FC = () => {
   const { user } = useAuth();
