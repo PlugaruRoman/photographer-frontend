@@ -4,14 +4,17 @@ import Link from "next/link";
 import { useTranslation } from "next-i18next";
 import { Button, Carousel, Space } from "antd";
 
-import imageOne from "../../../public/imageOne.jpeg";
-import imageTwo from "../../../public/imageTwo.jpeg";
-import imageThree from "../../../public/imageThree.jpeg";
-import imageFour from "../../../public/imageFour.jpeg";
+import one from "../../../public/one.jpeg";
+import two from "../../../public/two.jpeg";
+import three from "../../../public/three.jpeg";
+import four from "../../../public/four.jpeg";
+import five from "../../../public/five.jpeg";
+
+import ten from "../../../public/ten.jpeg";
 
 const MainCarousel = () => {
   const { t } = useTranslation();
-  const images = [imageOne, imageTwo, imageThree, imageFour];
+  const images = [one, two, three, four, five, ten];
 
   return (
     <>

@@ -68,7 +68,7 @@ export const Filters = () => {
         onChange={onSortPrice}
         options={[
           { value: "asc", label: "asc" },
-          { value: "price", label: "desc" },
+          { value: "desc", label: "desc" },
         ]}
       />
       <Button onClick={onClickClear} size="large">

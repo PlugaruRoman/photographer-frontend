@@ -11,6 +11,7 @@ import { PhotographersService } from "@/api/photographers";
 import { IResult } from "@/types/result";
 import { defaultFilters } from "@/utils/filters";
 import { IPhotographerCard } from "@/types/photographer";
+import { LeftFilters } from "@/components/organism/Filters/LeftFilters";
 
 const PhotographerCard = dynamic(
   () => import("@/components/organism/PhotographerCard/PhotographerCard"),
@@ -27,6 +28,7 @@ const MainPagination = dynamic(() =>
 const Photographers = () => {
   const router = useRouter();
   const { t } = useTranslation();
+
   const [filters, setFilters] = useState(defaultFilters);
 
   const { data, isLoading } = useQuery<IResult<IPhotographerCard>>(
@@ -41,7 +43,7 @@ const Photographers = () => {
       limit: query?.limit,
       search: query?.search,
       country: query?.country,
-      sort: query?.sort,
+      sort: query?.sort ? `price,${query.sort}` : query?.sort,
     });
   }, [router]);
 
@@ -53,16 +55,21 @@ const Photographers = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section className="section">
-        <Space style={{ width: "1000px" }} size="large" direction="vertical">
-          <h2 className="title">{t("photographers:photographer_msg")}</h2>
-          <Filters />
-          <Spin size="large" spinning={isLoading}>
-            {data?.profiles.map((user) => (
-              <PhotographerCard user={user} key={user._id} />
-            ))}
-          </Spin>
-          <MainPagination total={data?.total} page={filters?.page} limit={filters?.limit} />
+      <section>
+        <Space align="baseline">
+          <LeftFilters />
+          <Space align="center" size="large" direction="vertical">
+            <h2 className="title">{t("photographers:photographer_msg")}</h2>
+            <Filters />
+
+            <Space direction="vertical" size="large">
+              {data?.profiles.map((user) => (
+                <PhotographerCard user={user} key={user._id} />
+              ))}
+            </Space>
+
+            <MainPagination total={data?.total} page={filters?.page} limit={filters?.limit} />
+          </Space>
         </Space>
       </section>
     </>

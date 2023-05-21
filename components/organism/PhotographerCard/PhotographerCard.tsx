@@ -64,7 +64,6 @@ const PhotographerCard = ({ user }: PhotographerCardProps) => {
               <Tooltip
                 open={!!user.company}
                 autoAdjustOverflow
-                color="#1b2026"
                 zIndex={1}
                 placement="rightTop"
                 className="photographer-card__name"
@@ -97,12 +96,9 @@ const PhotographerCard = ({ user }: PhotographerCardProps) => {
                     <HasProps condition={!!user.hour}>
                       <Space size="small" className="photographer-card__price-hour">
                         {t("photographers:minimum")}
-                        {user?.hour}
-                        {user?.hour
-                          ? user?.hour
-                          : 1 > 1
-                          ? t("photographers:hs")
-                          : t("photographers:h")}
+                        {user?.hour && user?.hour > 1
+                          ? `${user?.hour}  ${t("photographers:hs")}`
+                          : `${user?.hour} ${t("photographers:h")}`}
                       </Space>
                     </HasProps>
                   </Space>
@@ -168,8 +164,8 @@ const PhotographerCard = ({ user }: PhotographerCardProps) => {
       />
       <Card
         className="photographer-card"
-        bodyStyle={{ color: "#ffffff" }}
         tabList={tabList}
+        bordered={false}
         activeTabKey={activeTabKey}
         tabBarExtraContent={
           <Link href={NavItems.MY_PAGE + user.user}>{t("photographers:more_info")}</Link>

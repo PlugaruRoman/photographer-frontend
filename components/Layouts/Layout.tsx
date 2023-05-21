@@ -148,6 +148,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
       <Layout>
         <Header className="header">
           <Menu
+            theme="light"
             className="header-menu"
             selectedKeys={[router.pathname]}
             mode="horizontal"
@@ -157,6 +158,7 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
 
           <div>LOGO</div>
           <Menu
+            theme="light"
             mode="horizontal"
             selectable={false}
             className="header-menu__right"

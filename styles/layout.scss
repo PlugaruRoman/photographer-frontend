@@ -6,36 +6,25 @@
     width: 100%;
     display: flex;
     justify-content: space-between;
-    background: #262b31;
+    box-shadow: 0 -6px 10px 5px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
   }
 
   .header-menu.ant-menu {
     width: 100%;
-    color: #d9d9d9;
-    background: #262b31;
   }
   .header-menu__right.ant-menu {
     width: 100%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
-    color: #d9d9d9;
-    background: #262b31;
+  }
+
+  .ant-layout-content {
+    padding: 30px 10px 30px 10px;
   }
 
   .footer.ant-layout-footer {
     text-align: center;
-    background-color: #262b31;
-    color: white;
   }
-
-  .ant-menu-title-content {
-    color: #ffffff;
-  }
-  .ant-menu-light .ant-menu-submenu-title:hover {
-    color: #ffffff !important;
-  }
-}
-.ant-menu-light .ant-menu-item-selected {
-  color: #000000 !important;
 }

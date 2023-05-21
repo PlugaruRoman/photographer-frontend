@@ -5,29 +5,29 @@ export const theme: $Object = {
     fontFamily: "Montserrat, sans-serif",
     fontSize: 14,
 
-    colorPrimary: "#ffffff",
-    colorPrimaryHover: "#ffffff",
-    colorPrimaryActive: "#ffffff",
+    colorPrimary: "#70CF97",
+    colorPrimaryHover: "#70CF97",
+    colorPrimaryActive: "red",
 
     colorPrimaryBg: "#ffffff",
-    colorPrimaryBgHover: "#ffffff",
+    colorPrimaryBgHover: "red",
 
-    colorPrimaryBorder: "#ffffff",
-    colorPrimaryBorderHover: "#ffffff",
+    colorPrimaryBorder: "red",
+    colorPrimaryBorderHover: "red",
 
     colorPrimaryText: "red",
     colorPrimaryTextHover: "red",
     colorPrimaryTextActive: "red",
 
-    colorSuccess: "#1b7c17",
-    colorInfo: "#2d75ee",
-    colorError: "#d11d34",
+    colorSuccess: "#70CF97",
+    colorInfo: "#407BFF",
+    colorError: "#EA6042",
     colorWarning: "#f69808",
 
-    colorBgLayout: "#262b31",
+    colorBgLayout: "#ffffff",
   },
 
   components: {
-    Layout: { colorBgHeader: "#262b31" },
+    Layout: { colorBgHeader: "#ffffff" },
   },
 };
