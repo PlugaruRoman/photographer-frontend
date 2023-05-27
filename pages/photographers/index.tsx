@@ -6,7 +6,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "next-i18next";
 import { serverSideTranslations } from "next-i18next/serverSideTranslations";
-import { Space, Spin } from "antd";
+import { Space } from "antd";
 import { PhotographersService } from "@/api/photographers";
 import { IResult } from "@/types/result";
 import { defaultFilters } from "@/utils/filters";
@@ -55,7 +55,7 @@ const Photographers = () => {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <section>
+      <section className="content">
         <Space align="baseline">
           <LeftFilters />
           <Space align="center" size="large" direction="vertical">
