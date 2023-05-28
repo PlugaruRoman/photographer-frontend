@@ -56,19 +56,25 @@ const Photographers = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <section className="content">
-        <Space align="baseline">
-          <LeftFilters />
-          <Space align="center" size="large" direction="vertical">
-            <h2 className="title">{t("photographers:photographer_msg")}</h2>
-            <Filters />
+        <Space
+          direction="vertical"
+          style={{ alignItems: "center", width: "100%" }}
+          align="baseline"
+        >
+          <h2 className="title">{t("photographers:photographer_msg")}</h2>
+          <Space align="baseline">
+            <LeftFilters />
+            <Space size="large" direction="vertical">
+              <Filters />
 
-            <Space direction="vertical" size="large">
-              {data?.profiles.map((user) => (
-                <PhotographerCard user={user} key={user._id} />
-              ))}
+              <Space direction="vertical" size="large">
+                {data?.profiles.map((user) => (
+                  <PhotographerCard user={user} key={user._id} />
+                ))}
+              </Space>
+
+              <MainPagination total={data?.total} page={filters?.page} limit={filters?.limit} />
             </Space>
-
-            <MainPagination total={data?.total} page={filters?.page} limit={filters?.limit} />
           </Space>
         </Space>
       </section>
